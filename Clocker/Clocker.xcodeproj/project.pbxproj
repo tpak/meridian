@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35C11E2124873A550031F18C /* VersionUpdateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C11E2024873A550031F18C /* VersionUpdateHandler.swift */; };
+		35C11E2224873A660031F18C /* VersionUpdateHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C11E2324873A660031F18C /* VersionUpdateHandlerTests.swift */; };
 		3508CC942599FFEC000E3530 /* MenubarTitleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3508CC932599FFEC000E3530 /* MenubarTitleProvider.swift */; };
 		3508CC9A259A0001000E3530 /* StatusItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3508CC99259A0001000E3530 /* StatusItemView.swift */; };
 		3508CC9F259A000E000E3530 /* StatusItemHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3508CC9E259A000E000E3530 /* StatusItemHandler.swift */; };
@@ -121,8 +123,6 @@
 		9AA522C323415BDD00C9E005 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AA522C123415BDD00C9E005 /* InfoPlist.strings */; };
 		9AB6F1562259CF3900A44663 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6F1552259CF3900A44663 /* CalendarViewController.swift */; };
 		9AB6F1582259CFFC00A44663 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6F1572259CFFC00A44663 /* AboutViewController.swift */; };
-		9AB6F15D2259D08300A44663 /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6F15A2259D08300A44663 /* iVersion.m */; };
-		9AB6F15E2259D08300A44663 /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AB6F15C2259D08300A44663 /* iVersion.bundle */; };
 		9AB6F1612259D1B000A44663 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6F15F2259D1B000A44663 /* PreferencesViewController.swift */; };
 		9AB6F1622259D1B000A44663 /* PreferencesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6F1602259D1B000A44663 /* PreferencesDataSource.swift */; };
 		9AB6F1642259D1B900A44663 /* ParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6F1632259D1B800A44663 /* ParentViewController.swift */; };
@@ -381,9 +381,6 @@
 		9AA522D723416E6000C9E005 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9AB6F1552259CF3900A44663 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		9AB6F1572259CFFC00A44663 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		9AB6F15A2259D08300A44663 /* iVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersion.m; sourceTree = "<group>"; };
-		9AB6F15B2259D08300A44663 /* iVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVersion.h; sourceTree = "<group>"; };
-		9AB6F15C2259D08300A44663 /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
 		9AB6F15F2259D1B000A44663 /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		9AB6F1602259D1B000A44663 /* PreferencesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesDataSource.swift; sourceTree = "<group>"; };
 		9AB6F1632259D1B800A44663 /* ParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentViewController.swift; sourceTree = "<group>"; };
@@ -398,6 +395,7 @@
 		9AFCC7FC1FD668FF00509B9C /* ClockerHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClockerHelper.entitlements; sourceTree = "<group>"; };
 		C20839C721515C1E00C86589 /* ClockerUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClockerUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C20839C921515C1E00C86589 /* ClockerUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockerUnitTests.swift; sourceTree = "<group>"; };
+		35C11E2324873A660031F18C /* VersionUpdateHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionUpdateHandlerTests.swift; sourceTree = "<group>"; };
 		C20839CB21515C1F00C86589 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C213713220B4FD920024D5A4 /* ClockerUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClockerUITests-Bridging-Header.h"; sourceTree = "<group>"; };
 		C213713320B4FD920024D5A4 /* FloatingWindowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingWindowTests.swift; sourceTree = "<group>"; };
@@ -481,7 +479,6 @@
 		35C36EB522595834002FA5C6 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				9AB6F1592259D05100A44663 /* iVersion */,
 				35C36EFC225961BC002FA5C6 /* Date Additions */,
 				35C36EFA2259616B002FA5C6 /* Solar.swift */,
 			);
@@ -727,16 +724,6 @@
 			path = About;
 			sourceTree = "<group>";
 		};
-		9AB6F1592259D05100A44663 /* iVersion */ = {
-			isa = PBXGroup;
-			children = (
-				9AB6F15C2259D08300A44663 /* iVersion.bundle */,
-				9AB6F15B2259D08300A44663 /* iVersion.h */,
-				9AB6F15A2259D08300A44663 /* iVersion.m */,
-			);
-			path = iVersion;
-			sourceTree = "<group>";
-		};
 		9AB6F1652259D1FC00A44663 /* Permissions */ = {
 			isa = PBXGroup;
 			children = (
@@ -795,6 +782,7 @@
 				35D23E3627F27E2E00C6DD55 /* ReviewControllerTests.swift */,
 				35621CFB27F66C1900926D5C /* SearchDataSourceTests.swift */,
 				35BD9A562807580800077443 /* EventInfoTests.swift */,
+				35C11E2324873A660031F18C /* VersionUpdateHandlerTests.swift */,
 			);
 			path = ClockerUnitTests;
 			sourceTree = "<group>";
@@ -1111,7 +1099,6 @@
 			files = (
 				9A13BAEA1CA88A76007C6CBE /* Localizable.strings in Resources */,
 				357391882507277500D30819 /* HourMarkerViewItem.xib in Resources */,
-				9AB6F15E2259D08300A44663 /* iVersion.bundle in Resources */,
 				9A13BAE01CA882FA007C6CBE /* InfoPlist.strings in Resources */,
 				35C36F912259EAF4002FA5C6 /* Preferences.storyboard in Resources */,
 				9AB89E031CE97A4900EC8EB1 /* Media.xcassets in Resources */,
@@ -1152,6 +1139,7 @@
 				35621CFC27F66C1900926D5C /* SearchDataSourceTests.swift in Sources */,
 				35584D1827F0B019006E3EAD /* DateFormatterManagerTests.swift in Sources */,
 				C20839CA21515C1E00C86589 /* ClockerUnitTests.swift in Sources */,
+				35C11E2224873A660031F18C /* VersionUpdateHandlerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1178,7 +1166,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AB6F15D2259D08300A44663 /* iVersion.m in Sources */,
 				35C36EF622595F14002FA5C6 /* OnboardingController.swift in Sources */,
 				9AB6F1622259D1B000A44663 /* PreferencesDataSource.swift in Sources */,
 				3508CC9A259A0001000E3530 /* StatusItemView.swift in Sources */,
@@ -1252,6 +1239,7 @@
 				35C36F592259DD8A002FA5C6 /* TimezoneCellView.swift in Sources */,
 				35C36F15225961DA002FA5C6 /* TimeChunk.swift in Sources */,
 				35C36F482259D892002FA5C6 /* NetworkManager.swift in Sources */,
+				35C11E2124873A550031F18C /* VersionUpdateHandler.swift in Sources */,
 				9A8605AE1BEC148400A810A4 /* main.m in Sources */,
 				3579765E2680208C009DDA6E /* ParentPanelController+ModernSlider.swift in Sources */,
 			);
