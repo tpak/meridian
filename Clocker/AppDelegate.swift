@@ -3,8 +3,6 @@
 import Cocoa
 import CoreLoggerKit
 import CoreModelKit
-import FirebaseCore
-import FirebaseCrashlytics
 
 open class AppDelegate: NSObject, NSApplicationDelegate {
     private lazy var floatingWindow = FloatingWindowController.shared()
@@ -47,7 +45,6 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         ReviewController.applicationDidLaunch(UserDefaults.standard)
 
         #if RELEASE
-            FirebaseApp.configure()
             checkIfRunFromApplicationsFolder()
         #endif
     }
@@ -119,7 +116,6 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         statusBarHandler = StatusItemHandler(with: DataStore.shared())
 
         if ProcessInfo.processInfo.arguments.contains(UserDefaultKeys.testingLaunchArgument) {
-            FirebaseApp.configure()
             ReviewController.setPreviewMode(true)
         }
 

@@ -23,7 +23,6 @@ class AboutViewController: ParentViewController {
     @IBOutlet var versionField: NSTextField!
 
     private var themeDidChangeNotification: NSObjectProtocol?
-    private var feedbackWindow: AppFeedbackWindowController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,11 +120,8 @@ class AboutViewController: ParentViewController {
     }
 
     @IBAction func reportIssue(_: Any) {
-        feedbackWindow = AppFeedbackWindowController.sharedWindow
-        feedbackWindow?.appFeedbackWindowDelegate = self
-        feedbackWindow?.showWindow(nil)
-        NSApp.activate(ignoringOtherApps: true)
-        view.window?.orderOut(nil)
+        guard let gitHubIssuesURL = URL(string: "https://github.com/nickhumbir/clocker/issues") else { return }
+        NSWorkspace.shared.open(gitHubIssuesURL)
 
         if let countryCode = Locale.autoupdatingCurrent.regionCode {
             let custom: [String: Any] = ["Country": countryCode]
@@ -154,12 +150,3 @@ class AboutViewController: ParentViewController {
     }
 }
 
-extension AboutViewController: AppFeedbackWindowControllerDelegate {
-    func appFeedbackWindowWillClose() {
-        feedbackWindow = nil
-    }
-
-    func appFeedbackWindoEntryPoint() -> String {
-        return "about_view_controller"
-    }
-}
