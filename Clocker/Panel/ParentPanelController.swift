@@ -35,8 +35,6 @@ class ParentPanelController: NSWindowController {
     
     var datasource: TimezoneDataSource?
     
-    private var feedbackWindow: AppFeedbackWindowController?
-    
     private var notePopover: NotesPopover?
     
     private lazy var oneWindow: OneWindowController? = {
@@ -824,10 +822,9 @@ class ParentPanelController: NSWindowController {
         } else if sender.title == PanelConstants.yesWithQuestionMark {
             ReviewController.prompted()
             updateReviewView()
-            feedbackWindow = AppFeedbackWindowController.shared()
-            feedbackWindow?.appFeedbackWindowDelegate = self
-            feedbackWindow?.showWindow(nil)
-            NSApp.activate(ignoringOtherApps: true)
+            if let url = URL(string: "https://github.com/nickhumbir/clocker/issues") {
+                NSWorkspace.shared.open(url)
+            }
         } else {
             updateReviewView()
             ReviewController.prompt()
@@ -909,12 +906,9 @@ class ParentPanelController: NSWindowController {
     }
     
     @objc func reportIssue() {
-        feedbackWindow = AppFeedbackWindowController.shared()
-        feedbackWindow?.appFeedbackWindowDelegate = self
-        feedbackWindow?.showWindow(nil)
-        NSApp.activate(ignoringOtherApps: true)
-        window?.orderOut(nil)
-        
+        guard let url = URL(string: "https://github.com/nickhumbir/clocker/issues") else { return }
+        NSWorkspace.shared.open(url)
+
         if let countryCode = Locale.autoupdatingCurrent.regionCode {
             let custom: [String: Any] = ["Country": countryCode]
             Logger.log(object: custom, for: "Report Issue Opened")
@@ -1077,12 +1071,3 @@ extension ParentPanelController: NSSharingServicePickerDelegate {
     }
 }
 
-extension ParentPanelController: AppFeedbackWindowControllerDelegate {
-    func appFeedbackWindowWillClose() {
-        feedbackWindow = nil
-    }
-    
-    func appFeedbackWindoEntryPoint() -> String {
-        return "parent_panel_controller"
-    }
-}
