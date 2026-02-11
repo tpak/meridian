@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+# Git pre-commit hook that runs SwiftLint on staged Swift files.
+# Install by running: git config core.hooksPath .githooks
+
+set -o pipefail
+
+# Find swiftlint binary
+find_swiftlint() {
+    if command -v swiftlint >/dev/null 2>&1; then
+        command -v swiftlint
+        return 0
+    fi
+
+    local paths=(
+        "/opt/homebrew/bin/swiftlint"
+        "/usr/local/bin/swiftlint"
+        "$HOME/.mint/bin/swiftlint"
+    )
+
+    for path in "${paths[@]}"; do
+        if [ -x "$path" ]; then
+            echo "$path"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+SWIFTLINT=$(find_swiftlint)
+
+if [ $? -ne 0 ] || [ -z "$SWIFTLINT" ]; then
+    echo "warning: SwiftLint not found. Install it with 'brew install swiftlint'."
+    echo "warning: Skipping lint check. Commit will proceed."
+    exit 0
+fi
+
+# Collect staged Swift files (Added, Copied, Modified, Renamed)
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR -- '*.swift')
+
+if [ -z "$STAGED_FILES" ]; then
+    exit 0
+fi
+
+PASS=true
+LINT_OUTPUT=""
+
+while IFS= read -r file; do
+    if [ -f "$file" ]; then
+        OUTPUT=$("$SWIFTLINT" lint --strict --quiet "$file" 2>&1)
+        if [ $? -ne 0 ]; then
+            LINT_OUTPUT+="$OUTPUT"$'\n'
+            PASS=false
+        fi
+    fi
+done <<< "$STAGED_FILES"
+
+if ! $PASS; then
+    echo "SwiftLint errors found in staged files:"
+    echo ""
+    echo "$LINT_OUTPUT"
+    echo "Commit aborted. Fix the above issues or use --no-verify to skip."
+    exit 1
+fi
+
+exit 0
