@@ -3,16 +3,12 @@
 import Cocoa
 import CoreLoggerKit
 import CoreModelKit
-import FirebaseCore
-import FirebaseCrashlytics
 
 open class AppDelegate: NSObject, NSApplicationDelegate {
     private lazy var floatingWindow = FloatingWindowController.shared()
     internal lazy var panelController = PanelController(windowNibName: .panel)
     private var statusBarHandler: StatusItemHandler!
-    
-    // TODO: Replace iVersion with this!
-//    private let versionUpdateHandler: VersionUpdateHandler = VersionUpdateHandler(with: DataStore.shared())
+    private let versionUpdateHandler = VersionUpdateHandler()
 
     override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change _: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
         if let path = keyPath, path == PreferencesConstants.hotKeyPathIdentifier {
@@ -47,14 +43,12 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         ReviewController.applicationDidLaunch(UserDefaults.standard)
 
         #if RELEASE
-            FirebaseApp.configure()
             checkIfRunFromApplicationsFolder()
         #endif
     }
   
     public func applicationWillFinishLaunching(_: Notification) {
-        iVersion.sharedInstance().useAllAvailableLanguages = true
-        iVersion.sharedInstance().verboseLogging = false
+        // iVersion removed; update checks happen via VersionUpdateHandler in continueUsually()
     }
 
     public func applicationDockMenu(_: NSApplication) -> NSMenu? {
@@ -119,7 +113,6 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         statusBarHandler = StatusItemHandler(with: DataStore.shared())
 
         if ProcessInfo.processInfo.arguments.contains(UserDefaultKeys.testingLaunchArgument) {
-            FirebaseApp.configure()
             ReviewController.setPreviewMode(true)
         }
 
@@ -137,6 +130,9 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         } else if let displayMode = defaults.object(forKey: UserDefaultKeys.showAppInForeground) as? Int, displayMode == 1 {
             showFloatingWindow()
         }
+
+        // Check for app updates via GitHub Releases
+        versionUpdateHandler.checkForUpdatesIfNeeded()
     }
 
     // Should we have a dock icon or just stay in the menubar?
