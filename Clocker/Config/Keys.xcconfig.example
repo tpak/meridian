@@ -1,0 +1,5 @@
+// Keys.xcconfig.example
+// Copy this file to Keys.xcconfig and fill in your API keys.
+// Keys.xcconfig is gitignored and will not be committed.
+
+GEOCODING_API_KEY = YOUR_API_KEY_HERE

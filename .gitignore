@@ -7,3 +7,4 @@ Clocker/Clocker.xcodeproj/xcuserdata/abhishek_banthia.xcuserdatad/xcdebugger/Bre
 *.xcuserstate
 .DS_Store
 Clocker/Internal/Keys.plist
+Clocker/Config/Keys.xcconfig

@@ -264,7 +264,8 @@
 		352AF499232E07B400D96FA7 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3531F7C026936C6E00DF0111 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3531F7EA26936D8800DF0111 /* Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
-		3531F7F42693882300DF0111 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = Internal/Keys.plist; sourceTree = "<group>"; };
+		5747DB580D0D0364EF5F2987 /* Keys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Keys.xcconfig; sourceTree = "<group>"; };
+		7AC5DD949FB4CE9E923F51A9 /* Keys.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Keys.xcconfig.example; sourceTree = "<group>"; };
 		3531F7FC26938D7600DF0111 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = Frameworks/Firebase/GoogleUtilities.framework; sourceTree = "<group>"; };
 		3531F7FD26938D7700DF0111 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreDiagnostics.framework; path = Frameworks/Firebase/FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
 		3531F7FE26938D7700DF0111 /* FirebaseDatabase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseDatabase.framework; path = Frameworks/Firebase/FirebaseDatabase.framework; sourceTree = "<group>"; };
@@ -849,12 +850,13 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
-		9AEF66812693A6270036142F /* Recovered References */ = {
+		0FFD4E5500230A093490D808 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				3531F7F42693882300DF0111 /* Keys.plist */,
+				5747DB580D0D0364EF5F2987 /* Keys.xcconfig */,
+				7AC5DD949FB4CE9E923F51A9 /* Keys.xcconfig.example */,
 			);
-			name = "Recovered References";
+			path = Config;
 			sourceTree = "<group>";
 		};
 		C2021B89219F30960036C247 /* Onboarding */ = {
@@ -936,7 +938,7 @@
 				3531F7EA26936D8800DF0111 /* Firebase.h */,
 				3531F7C026936C6E00DF0111 /* GoogleService-Info.plist */,
 				DD4F7C0513C30F9F00825C6E /* Products */,
-				9AEF66812693A6270036142F /* Recovered References */,
+				0FFD4E5500230A093490D808 /* Config */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1505,6 +1507,7 @@
 
 /* Begin XCBuildConfiguration section */
 		9A5B1A8B1BECDB5B00A77C68 /* Distribution */ = {
+			baseConfigurationReference = 5747DB580D0D0364EF5F2987 /* Keys.xcconfig */;
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2028,6 +2031,7 @@
 			name = Distribution;
 		};
 		DD4F7C2013C30F9F00825C6E /* Debug */ = {
+			baseConfigurationReference = 5747DB580D0D0364EF5F2987 /* Keys.xcconfig */;
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2082,6 +2086,7 @@
 			name = Debug;
 		};
 		DD4F7C2113C30F9F00825C6E /* Release */ = {
+			baseConfigurationReference = 5747DB580D0D0364EF5F2987 /* Keys.xcconfig */;
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;

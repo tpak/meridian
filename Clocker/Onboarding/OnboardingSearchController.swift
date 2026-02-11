@@ -26,9 +26,8 @@ class OnboardingSearchController: NSViewController {
     private var themeDidChangeNotification: NSObjectProtocol?
 
     private var geocodingKey: String = {
-        guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
-              let dictionary = NSDictionary(contentsOfFile: path),
-              let apiKey = dictionary["GeocodingKey"] as? String
+        guard let apiKey = Bundle.main.infoDictionary?["GeocodingKey"] as? String,
+              !apiKey.isEmpty
         else {
             assertionFailure("Unable to find the API key")
             return ""
