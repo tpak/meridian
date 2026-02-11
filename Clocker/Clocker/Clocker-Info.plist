@@ -49,5 +49,7 @@
 	<true/>
 	<key>RequestsOpenAccess</key>
 	<string>YES</string>
+	<key>GeocodingKey</key>
+	<string>$(GEOCODING_API_KEY)</string>
 </dict>
 </plist>

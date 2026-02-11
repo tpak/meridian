@@ -8,3 +8,4 @@ Clocker/Clocker.xcodeproj/xcuserdata/abhishek_banthia.xcuserdatad/xcdebugger/Bre
 .DS_Store
 Clocker/Internal/Keys.plist
 .claude/settings.local.json
+Clocker/Config/Keys.xcconfig
