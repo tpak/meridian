@@ -39,7 +39,6 @@ class ThemerTests: XCTestCase {
         let expectedResetSliderImage: String
     }
 
-    @available(macOS 10.14, *)
     func testSettingTheme() {
         // Set to some random number should set to 0
         let subject = Themer(index: 124)
@@ -66,11 +65,11 @@ class ThemerTests: XCTestCase {
                                                       expectedPinImageName: "macwindow.on.rectangle",
                                                       expectedSunriseImageName: "sunrise.fill",
                                                       expectedSunsetImageName: "sunset.fill",
-                                                      expectedRemoveImageName: "xmark",
-                                                      expectedExtraOptionsImage: "Extra",
+                                                      expectedRemoveImageName: "xmark.circle",
+                                                      expectedExtraOptionsImage: "info.circle",
                                                       expectedMenubarOnboardingImage: "Light Menubar",
-                                                      expectedExtraOptionsHighlightedImage: "ExtraHighlighted",
-                                                      expectedSharingImage: "square.and.arrow.up.on.square.fill",
+                                                      expectedExtraOptionsHighlightedImage: "info.circle.fill",
+                                                      expectedSharingImage: "doc.on.doc",
                                                       expectedCurrentLocationImage: "location.fill",
                                                       expectedAddImage: "plus",
                                                       expectedPrivacyTabImage: "lock",
@@ -99,11 +98,11 @@ class ThemerTests: XCTestCase {
                                                       expectedPinImageName: "macwindow.on.rectangle",
                                                       expectedSunriseImageName: "sunrise.fill",
                                                       expectedSunsetImageName: "sunset.fill",
-                                                      expectedRemoveImageName: "xmark",
-                                                      expectedExtraOptionsImage: "ExtraWhite",
+                                                      expectedRemoveImageName: "xmark.circle",
+                                                      expectedExtraOptionsImage: "info.circle",
                                                       expectedMenubarOnboardingImage: "Dark Menubar",
-                                                      expectedExtraOptionsHighlightedImage: "ExtraWhiteHighlighted",
-                                                      expectedSharingImage: "square.and.arrow.up.on.square.fill",
+                                                      expectedExtraOptionsHighlightedImage: "info.circle.fill",
+                                                      expectedSharingImage: "doc.on.doc",
                                                       expectedCurrentLocationImage: "location.fill",
                                                       expectedAddImage: "plus",
                                                       expectedPrivacyTabImage: "lock",
@@ -134,17 +133,17 @@ class ThemerTests: XCTestCase {
                                                       expectedBackgroundColor: expectedBackgroundColor,
                                                       expectedTextColor: expectedTextColor,
                                                       expectedTextBackgroundColor: expectedTextBackgroundColor,
-                                                      expectedPopoverApperarance: NSAppearance.current!,
+                                                      expectedPopoverApperarance: NSApp.effectiveAppearance,
                                                       expectedShutdownImageName: "ellipsis.circle",
                                                       expectedPreferenceImageName: "plus",
                                                       expectedPinImageName: "macwindow.on.rectangle",
                                                       expectedSunriseImageName: "sunrise.fill",
                                                       expectedSunsetImageName: "sunset.fill",
-                                                      expectedRemoveImageName: "xmark",
-                                                      expectedExtraOptionsImage: "Extra Dynamic",
+                                                      expectedRemoveImageName: "xmark.circle",
+                                                      expectedExtraOptionsImage: "info.circle",
                                                       expectedMenubarOnboardingImage: "Dynamic Menubar",
-                                                      expectedExtraOptionsHighlightedImage: "ExtraHighlighted Dynamic",
-                                                      expectedSharingImage: "square.and.arrow.up.on.square.fill",
+                                                      expectedExtraOptionsHighlightedImage: "info.circle.fill",
+                                                      expectedSharingImage: "doc.on.doc",
                                                       expectedCurrentLocationImage: "location.fill",
                                                       expectedAddImage: "plus",
                                                       expectedPrivacyTabImage: "lock",
@@ -174,11 +173,11 @@ class ThemerTests: XCTestCase {
                                                       expectedPinImageName: "macwindow.on.rectangle",
                                                       expectedSunriseImageName: "sunrise.fill",
                                                       expectedSunsetImageName: "sunset.fill",
-                                                      expectedRemoveImageName: "xmark",
-                                                      expectedExtraOptionsImage: "Extra",
+                                                      expectedRemoveImageName: "xmark.circle",
+                                                      expectedExtraOptionsImage: "info.circle",
                                                       expectedMenubarOnboardingImage: "Light Menubar",
-                                                      expectedExtraOptionsHighlightedImage: "ExtraHighlighted",
-                                                      expectedSharingImage: "square.and.arrow.up.on.square.fill",
+                                                      expectedExtraOptionsHighlightedImage: "info.circle.fill",
+                                                      expectedSharingImage: "doc.on.doc",
                                                       expectedCurrentLocationImage: "location.fill",
                                                       expectedAddImage: "plus",
                                                       expectedPrivacyTabImage: "lock",
@@ -207,11 +206,11 @@ class ThemerTests: XCTestCase {
                                                       expectedPinImageName: "macwindow.on.rectangle",
                                                       expectedSunriseImageName: "sunrise.fill",
                                                       expectedSunsetImageName: "sunset.fill",
-                                                      expectedRemoveImageName: "xmark",
-                                                      expectedExtraOptionsImage: "ExtraWhite",
+                                                      expectedRemoveImageName: "xmark.circle",
+                                                      expectedExtraOptionsImage: "info.circle",
                                                       expectedMenubarOnboardingImage: "Dark Menubar",
-                                                      expectedExtraOptionsHighlightedImage: "ExtraWhiteHighlighted",
-                                                      expectedSharingImage: "square.and.arrow.up.on.square.fill",
+                                                      expectedExtraOptionsHighlightedImage: "info.circle.fill",
+                                                      expectedSharingImage: "doc.on.doc",
                                                       expectedCurrentLocationImage: "location.fill",
                                                       expectedAddImage: "plus",
                                                       expectedPrivacyTabImage: "lock",
@@ -228,10 +227,8 @@ class ThemerTests: XCTestCase {
     }
 
     private func testSubject(subject: Themer, withExpectatations expectations: ThemeExpectations) {
-        // Symbol images were introduced in 11.0; Clocker still supports 10.13+ so few asserts below that rely on symbol images will fail.
-        let eligibleOSVersion = ProcessInfo.processInfo.isOperatingSystemAtLeast(OperatingSystemVersion(majorVersion: 11, minorVersion: 0, patchVersion: 0))
-
-        if eligibleOSVersion {
+        // SF Symbols are always available with macOS 13+ minimum deployment target
+        do {
             XCTAssertEqual(subject.shutdownImage().accessibilityDescription, expectations.expectedShutdownImageName)
             XCTAssertEqual(subject.preferenceImage().accessibilityDescription, expectations.expectedPreferenceImageName)
             XCTAssertEqual(subject.pinImage().accessibilityDescription, expectations.expectedPinImageName)
@@ -258,9 +255,9 @@ class ThemerTests: XCTestCase {
         XCTAssertEqual(subject.mainBackgroundColor(), expectations.expectedBackgroundColor)
         XCTAssertEqual(subject.mainTextColor(), expectations.expectedTextColor)
         XCTAssertEqual(subject.textBackgroundColor(), expectations.expectedTextBackgroundColor)
-        XCTAssertEqual(subject.extraOptionsImage().name(), expectations.expectedExtraOptionsImage)
+        XCTAssertEqual(subject.extraOptionsImage().accessibilityDescription, expectations.expectedExtraOptionsImage)
         XCTAssertEqual(subject.menubarOnboardingImage().name(), expectations.expectedMenubarOnboardingImage)
-        XCTAssertEqual(subject.extraOptionsHighlightedImage().name(), expectations.expectedExtraOptionsHighlightedImage)
+        XCTAssertEqual(subject.extraOptionsHighlightedImage().accessibilityDescription, expectations.expectedExtraOptionsHighlightedImage)
         XCTAssertEqual(subject.popoverAppearance(), expectations.expectedPopoverApperarance)
     }
 }

@@ -142,9 +142,7 @@ class ParentPanelController: NSWindowController {
         mainTableView.backgroundColor = NSColor.clear
         mainTableView.selectionHighlightStyle = .none
         mainTableView.enclosingScrollView?.hasVerticalScroller = false
-        if #available(OSX 11.0, *) {
-            mainTableView.style = .plain
-        }
+        mainTableView.style = .plain
         
         // Setup images
         let sharedThemer = Themer.shared()
@@ -807,7 +805,7 @@ class ParentPanelController: NSWindowController {
             updateReviewView()
             ReviewController.prompted()
             
-            if let countryCode = Locale.autoupdatingCurrent.regionCode {
+            if let countryCode = Locale.autoupdatingCurrent.region?.identifier {
                 Logger.log(object: ["CurrentCountry": countryCode], for: "Remind Later for Feedback")
             }
         }
@@ -909,7 +907,7 @@ class ParentPanelController: NSWindowController {
         guard let url = URL(string: "https://github.com/nickhumbir/clocker/issues") else { return }
         NSWorkspace.shared.open(url)
 
-        if let countryCode = Locale.autoupdatingCurrent.regionCode {
+        if let countryCode = Locale.autoupdatingCurrent.region?.identifier {
             let custom: [String: Any] = ["Country": countryCode]
             Logger.log(object: custom, for: "Report Issue Opened")
         }

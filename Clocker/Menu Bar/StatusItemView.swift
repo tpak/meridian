@@ -15,20 +15,11 @@ var compactModeTimeFont: NSFont {
 
 extension NSView {
     var hasDarkAppearance: Bool {
-        if #available(OSX 10.14, *) {
-            switch effectiveAppearance.name {
-            case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
-                return true
-            default:
-                return false
-            }
-        } else {
-            switch effectiveAppearance.name {
-            case .vibrantDark:
-                return true
-            default:
-                return false
-            }
+        switch effectiveAppearance.name {
+        case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
+            return true
+        default:
+            return false
         }
     }
 }
@@ -101,7 +92,6 @@ class StatusItemView: NSView {
         ])
     }
 
-    @available(OSX 10.14, *)
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
         updateTimeInMenubar()

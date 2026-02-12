@@ -25,13 +25,7 @@ extension ParentPanelController {
         if modernSlider != nil {
             modernSliderLabel.alignment = .center
             
-            if #available(OSX 11.0, *) {
-                resetModernSliderButton.image = Themer.shared().resetModernSliderImage()
-            } else {
-                resetModernSliderButton.layer?.backgroundColor = NSColor.lightGray.cgColor
-                resetModernSliderButton.layer?.masksToBounds = true
-                resetModernSliderButton.layer?.cornerRadius = resetModernSliderButton.frame.width / 2
-            }
+            resetModernSliderButton.image = Themer.shared().resetModernSliderImage()
             
             if let scrollView = modernSlider.superview?.superview as? NSScrollView {
                 scrollView.scrollerStyle = NSScroller.Style.overlay

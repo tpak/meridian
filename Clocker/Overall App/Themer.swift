@@ -349,7 +349,7 @@ extension Themer {
         case .dark, .solarizedDark:
             return NSAppearance(named: NSAppearance.Name.vibrantDark)!
         case .system:
-            return NSAppearance.current
+            return NSApp.effectiveAppearance
         }
     }
     
@@ -410,12 +410,8 @@ extension Themer {
     }
     
     func videoCallImage() -> NSImage? {
-        if #available(macOS 11.0, *) {
-            let symbolConfig = NSImage.SymbolConfiguration(pointSize: 20, weight: .regular)
-            return symbolImage(for: "video.circle.fill")?.withSymbolConfiguration(symbolConfig)
-        } else {
-            return nil
-        }
+        let symbolConfig = NSImage.SymbolConfiguration(pointSize: 20, weight: .regular)
+        return symbolImage(for: "video.circle.fill")?.withSymbolConfiguration(symbolConfig)
     }
     
     func filledTrashImage() -> NSImage? {
@@ -456,21 +452,14 @@ extension Themer {
     
     private func symbolImage(for name: String) -> NSImage? {
         assert(name.isEmpty == false)
-        
-        if #available(OSX 11.0, *) {
-            return NSImage(systemSymbolName: name,
-                           accessibilityDescription: name)
-        }
-        
-        return nil
+        return NSImage(systemSymbolName: name,
+                       accessibilityDescription: name)
     }
     
     private func retrieveCurrentSystem() -> Theme {
-        if #available(OSX 10.14, *) {
-            if let appleInterfaceStyle = UserDefaults.standard.object(forKey: UserDefaultKeys.appleInterfaceStyleKey) as? String {
-                if appleInterfaceStyle.lowercased().contains("dark") {
-                    return .dark
-                }
+        if let appleInterfaceStyle = UserDefaults.standard.object(forKey: UserDefaultKeys.appleInterfaceStyleKey) as? String {
+            if appleInterfaceStyle.lowercased().contains("dark") {
+                return .dark
             }
         }
         return .light

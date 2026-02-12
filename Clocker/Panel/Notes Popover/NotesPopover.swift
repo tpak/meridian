@@ -3,6 +3,7 @@
 import Cocoa
 import CoreLoggerKit
 import CoreModelKit
+import UserNotifications
 
 class NotesPopover: NSViewController {
     private enum OverrideType {
@@ -111,9 +112,7 @@ class NotesPopover: NSViewController {
         alertPopupButton.setAccessibilityIdentifier("RemindersAlertPopup")
         reminderView.setAccessibilityIdentifier("RemindersView")
 
-        if #available(OSX 11.0, *) {
-            alertPopupButton.controlSize = .large
-        }
+        alertPopupButton.controlSize = .large
     }
 
     override func viewWillAppear() {
@@ -287,10 +286,10 @@ class NotesPopover: NSViewController {
                 if let convertedType = errors as? [String: Any] {
                     Logger.log(object: convertedType, for: "Script Execution Errors")
                 }
-                NSWorkspace.shared.launchApplication("Reminders")
+                NSWorkspace.shared.open(URL(fileURLWithPath: "/System/Applications/Reminders.app"))
             } else if eventDescriptor == nil {
                 Logger.log(object: nil, for: "Event Description is unexpectedly nil")
-                NSWorkspace.shared.launchApplication("Reminders")
+                NSWorkspace.shared.open(URL(fileURLWithPath: "/System/Applications/Reminders.app"))
             } else {
                 Logger.log(object: ["Successfully Executed Apple Script": "YES"], for: "Successfully Executed Apple Script")
             }
@@ -420,11 +419,14 @@ class NotesPopover: NSViewController {
     }
 
     private func showSuccessMessage() {
-        let reminderNotification = NSUserNotification()
-        reminderNotification.title = "Reminder Set".localized()
-        reminderNotification.subtitle = "Successfully set.".localized()
+        let content = UNMutableNotificationContent()
+        content.title = "Reminder Set".localized()
+        content.subtitle = "Successfully set.".localized()
 
-        NSUserNotificationCenter.default.scheduleNotification(reminderNotification)
+        let request = UNNotificationRequest(identifier: UUID().uuidString,
+                                            content: content,
+                                            trigger: nil)
+        UNUserNotificationCenter.current().add(request)
     }
 
     func setDataSource(data: TimezoneData) {

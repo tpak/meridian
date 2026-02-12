@@ -65,9 +65,6 @@ class AppearanceViewController: ParentViewController {
             "7 days",
         ])
 
-        if #available(macOS 11.0, *) {} else {
-            theme.font = NSFont.systemFont(ofSize: 13)
-        }
 
         setup()
 

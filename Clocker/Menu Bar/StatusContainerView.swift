@@ -126,11 +126,7 @@ class StatusContainerView: NSView {
     }
 
     private func bestWidth(for timezone: TimezoneData) -> Int {
-        var textColor = hasDarkAppearance ? NSColor.white : NSColor.black
-
-        if #available(OSX 11.0, *) {
-            textColor = NSColor.white
-        }
+        let textColor = NSColor.white
 
         let timeBasedAttributes = [
             NSAttributedString.Key.font: compactModeTimeFont,

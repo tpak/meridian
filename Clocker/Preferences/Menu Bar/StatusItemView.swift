@@ -99,10 +99,7 @@ class StatusItemView: NSView {
         
         timeView.disableWrapping()
         
-        var topAnchorConstant: CGFloat = 7.0
-        if #available(macOS 11.0, *) {
-            topAnchorConstant = 0.0
-        }
+        let topAnchorConstant: CGFloat = 0.0
         
         NSLayoutConstraint.activate([
             locationView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -119,7 +116,6 @@ class StatusItemView: NSView {
         ])
     }
     
-    @available(OSX 10.14, *)
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
         statusItemViewSetNeedsDisplay()

@@ -10,22 +10,17 @@ public class Logger: NSObject {
 
     public class func log(object annotations: [String: Any]?, for event: NSString) {
         #if DEBUG
-            if #available(OSX 10.14, *) {
-                os_log(.default, "[%@] - [%@]", event, annotations ?? [:])
-            }
+            os_log(.default, "[%@] - [%@]", event, annotations ?? [:])
         #endif
     }
 
     public class func info(_ message: String) {
         #if DEBUG
-            if #available(OSX 10.14, *) {
-                os_log(.info, "%@", message)
-            }
+            os_log(.info, "%@", message)
         #endif
     }
 }
 
-@available(OSX 10.14, *)
 public class PerfLogger: NSObject {
     static var panelLog = OSLog(subsystem: "com.abhishek.Clocker",
                                 category: "Open Panel")

@@ -85,11 +85,7 @@ class StatusItemHandler: NSObject {
         currentState = menubarState
 
         func setSelector() {
-            if #available(macOS 10.14, *) {
-                statusItem.button?.action = #selector(menubarIconClicked(_:))
-            } else {
-                statusItem.action = #selector(menubarIconClicked(_:))
-            }
+            statusItem.button?.action = #selector(menubarIconClicked(_:))
         }
 
         statusItem.target = self

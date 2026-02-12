@@ -50,10 +50,7 @@ class UpcomingEventStatusItemView: NSView {
 
         etaField.disableWrapping()
         
-        var topAnchorConstant: CGFloat = 7
-        if #available(macOS 11.0, *) {
-            topAnchorConstant = 0
-        }
+        let topAnchorConstant: CGFloat = 0
 
         NSLayoutConstraint.activate([
             nextEventField.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -80,7 +77,6 @@ class UpcomingEventStatusItemView: NSView {
         etaField.attributedStringValue = NSAttributedString(string: dataObject.metadataForMeeting(), attributes: timeAttributes)
     }
 
-    @available(OSX 10.14, *)
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
         statusItemViewSetNeedsDisplay()

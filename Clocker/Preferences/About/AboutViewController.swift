@@ -99,7 +99,7 @@ class AboutViewController: ParentViewController {
 
     @IBAction func openMyTwitter(_: Any) {
         guard let twitterURL = URL(string: AboutUsConstants.TwitterLink),
-              let countryCode = Locale.autoupdatingCurrent.regionCode else { return }
+              let countryCode = Locale.autoupdatingCurrent.region?.identifier else { return }
 
         NSWorkspace.shared.open(twitterURL)
 
@@ -110,7 +110,7 @@ class AboutViewController: ParentViewController {
 
     @IBAction func viewSource(_: Any) {
         guard let sourceURL = URL(string: AboutUsConstants.AppStoreLink),
-              let countryCode = Locale.autoupdatingCurrent.regionCode else { return }
+              let countryCode = Locale.autoupdatingCurrent.region?.identifier else { return }
 
         NSWorkspace.shared.open(sourceURL)
 
@@ -123,7 +123,7 @@ class AboutViewController: ParentViewController {
         guard let gitHubIssuesURL = URL(string: "https://github.com/nickhumbir/clocker/issues") else { return }
         NSWorkspace.shared.open(gitHubIssuesURL)
 
-        if let countryCode = Locale.autoupdatingCurrent.regionCode {
+        if let countryCode = Locale.autoupdatingCurrent.region?.identifier {
             let custom: [String: Any] = ["Country": countryCode]
             Logger.log(object: custom, for: "Report Issue Opened")
         }
