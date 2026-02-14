@@ -27,6 +27,42 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Backup UserDefaults"
+               scriptText = "defaults export com.abhishek.Clocker &quot;${TMPDIR}clocker-defaults-backup.plist&quot; 2&gt;/dev/null || true&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "DD4F7C0313C30F9F00825C6E"
+                     BuildableName = "Clocker.app"
+                     BlueprintName = "Clocker"
+                     ReferencedContainer = "container:Clocker.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
+      <PostActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Restore UserDefaults"
+               scriptText = "if [ -f &quot;${TMPDIR}clocker-defaults-backup.plist&quot; ]; then&#10;  defaults import com.abhishek.Clocker &quot;${TMPDIR}clocker-defaults-backup.plist&quot;&#10;  rm -f &quot;${TMPDIR}clocker-defaults-backup.plist&quot;&#10;fi&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "DD4F7C0313C30F9F00825C6E"
+                     BuildableName = "Clocker.app"
+                     BlueprintName = "Clocker"
+                     ReferencedContainer = "container:Clocker.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PostActions>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
