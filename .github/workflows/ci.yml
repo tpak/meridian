@@ -78,9 +78,8 @@ jobs:
               CODE_SIGNING_REQUIRED=NO \
               CODE_SIGNING_ALLOWED=NO \
               CODE_SIGN_IDENTITY= \
-              -resultBundlePath TestResults/unit-tests.xcresult \
-              2>&1 | xcpretty --report junit --output TestResults/unit-tests.xml
-            status=${PIPESTATUS[0]}
+              -resultBundlePath TestResults/unit-tests.xcresult
+            status=$?
             set -e
             echo "::endgroup::"
             if [ "$status" -eq 0 ]; then
