@@ -235,8 +235,6 @@ class PreferencesTest: XCTestCase {
         let searchField = app.searchFields["AvailableSearchField"]
         searchField.reset(text: "StuJjlqh7AcJFnBuOdgNa2dQ4WrIajP9Mo8R83FV7fIZ3B8zE2n")
 
-        sleep(2)
-
         let maxCharacterCountPredicate = NSPredicate(format: "value like %@", "Max Search Characters".localizedString())
         let currentSheets = app.sheets.firstMatch.staticTexts
         let maxCharacterQuery = currentSheets.matching(maxCharacterCountPredicate)
@@ -312,7 +310,6 @@ class PreferencesTest: XCTestCase {
         }
 
         XCTAssertTrue(favourites.count > 1)
-        sleep(2)
 
         // Select two timezones
         let unfavouritedMenubarsQuery = preferencesTable.checkBoxes.matching(NSPredicate(format: "value == 0", ""))
@@ -321,7 +318,7 @@ class PreferencesTest: XCTestCase {
             for _ in 0 ..< unfavouritedMenubarsQuery.count {
                 let checkbox = unfavouritedMenubarsQuery.element(boundBy: 0)
                 checkbox.click()
-                sleep(2)
+                let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 2.0)
             }
         }
 
@@ -413,7 +410,7 @@ extension XCTestCase {
         }
 
         if shouldSleep {
-            sleep(2)
+            let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 2.0)
         }
     }
 
@@ -452,7 +449,7 @@ extension XCTestCase {
         rowToDelete.click()
         rowToDelete.typeKey(XCUIKeyboardKey.delete, modifierFlags: XCUIElement.KeyModifierFlags())
         if shouldSleep {
-            sleep(2)
+            let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 2.0)
         }
     }
 }

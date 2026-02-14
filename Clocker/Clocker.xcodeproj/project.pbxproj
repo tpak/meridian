@@ -148,6 +148,10 @@
 		D1E2F3A400000001SHARE01 /* PanelSharingHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3A400000002SHARE02 /* PanelSharingHandler.swift */; };
 		A1B2C3D400000001MOCK0001 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D400000002MOCK0002 /* MockURLProtocol.swift */; };
 		A1B2C3D400000003NWTEST01 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D400000004NWTEST02 /* NetworkManagerTests.swift */; };
+		B730E37E4596MOCKDATASTORE /* MockDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730E37E4596MOCKDATASTO2 /* MockDataStore.swift */; };
+		3DEE1440C33BTZSORTINGTST /* TimezoneSortingManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEE1440C33BTZSORTINGTST2 /* TimezoneSortingManagerTests.swift */; };
+		919639F9D2F3GLOBALSHRTCUT /* GlobalShortcutMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919639F9D2F3GLOBALSHRTCU2 /* GlobalShortcutMonitorTests.swift */; };
+		4726354D81E1NWMGRASYNCTS /* NetworkManagerAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4726354D81E1NWMGRASYNCT2 /* NetworkManagerAsyncTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -401,6 +405,10 @@
 		D1E2F3A400000002SHARE02 /* PanelSharingHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelSharingHandler.swift; sourceTree = "<group>"; };
 		A1B2C3D400000002MOCK0002 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		A1B2C3D400000004NWTEST02 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
+		B730E37E4596MOCKDATASTO2 /* MockDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataStore.swift; sourceTree = "<group>"; };
+		3DEE1440C33BTZSORTINGTST2 /* TimezoneSortingManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezoneSortingManagerTests.swift; sourceTree = "<group>"; };
+		919639F9D2F3GLOBALSHRTCU2 /* GlobalShortcutMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalShortcutMonitorTests.swift; sourceTree = "<group>"; };
+		4726354D81E1NWMGRASYNCT2 /* NetworkManagerAsyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerAsyncTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -774,6 +782,10 @@
 				35C11E2324873A660031F18C /* VersionUpdateHandlerTests.swift */,
 				A1B2C3D400000002MOCK0002 /* MockURLProtocol.swift */,
 				A1B2C3D400000004NWTEST02 /* NetworkManagerTests.swift */,
+				B730E37E4596MOCKDATASTO2 /* MockDataStore.swift */,
+				3DEE1440C33BTZSORTINGTST2 /* TimezoneSortingManagerTests.swift */,
+				919639F9D2F3GLOBALSHRTCU2 /* GlobalShortcutMonitorTests.swift */,
+				4726354D81E1NWMGRASYNCT2 /* NetworkManagerAsyncTests.swift */,
 			);
 			path = ClockerUnitTests;
 			sourceTree = "<group>";
@@ -1114,6 +1126,10 @@
 				35C11E2224873A660031F18C /* VersionUpdateHandlerTests.swift in Sources */,
 				A1B2C3D400000001MOCK0001 /* MockURLProtocol.swift in Sources */,
 				A1B2C3D400000003NWTEST01 /* NetworkManagerTests.swift in Sources */,
+				B730E37E4596MOCKDATASTORE /* MockDataStore.swift in Sources */,
+				3DEE1440C33BTZSORTINGTST /* TimezoneSortingManagerTests.swift in Sources */,
+				919639F9D2F3GLOBALSHRTCUT /* GlobalShortcutMonitorTests.swift in Sources */,
+				4726354D81E1NWMGRASYNCTS /* NetworkManagerAsyncTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

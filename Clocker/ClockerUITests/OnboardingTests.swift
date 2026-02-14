@@ -79,19 +79,19 @@ class OnboardingTests: XCTestCase {
     private func moveForward() {
         let onboardingWindow = app.windows["OnboardingWindow"]
         onboardingWindow.buttons["Forward"].click()
-        sleep(1)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 1.0)
     }
 
     private func alternateMoveForward() {
         let onboardingWindow = app.windows["OnboardingWindow"]
         onboardingWindow.buttons["Alternate"].click()
-        sleep(1)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 1.0)
     }
 
     private func moveBackward() {
         let onboardingWindow = app.windows["OnboardingWindow"]
         onboardingWindow.buttons["Backward"].click()
-        sleep(1)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 1.0)
     }
 
     private func welcomeControllerTests() {

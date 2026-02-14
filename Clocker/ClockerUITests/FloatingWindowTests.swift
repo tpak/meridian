@@ -47,12 +47,12 @@ class FloatingWindowTests: XCTestCase {
         let remindersCheckbox = app.checkBoxes["ReminderCheckbox"]
         remindersCheckbox.click()
 
-        sleep(1)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 1.0)
 
         XCTAssertTrue(app.popovers.datePickers.firstMatch.isEnabled)
         remindersCheckbox.click()
 
-        sleep(1)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 1.0)
         XCTAssertFalse(app.popovers.datePickers.firstMatch.isEnabled)
     }
 
@@ -135,7 +135,7 @@ class FloatingWindowTests: XCTestCase {
 
         for index in 0 ..< menubarDisplayQueryCount where index < menubarDisplayQueryCount {
             menubarDisplayQuery.element(boundBy: 0).click()
-            sleep(1)
+            let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 1.0)
         }
 
         let appearanceTab = app.toolbars.buttons.element(boundBy: 1)
@@ -180,7 +180,7 @@ class FloatingWindowTests: XCTestCase {
             }
 
             app.sliders["FloatingSlider"].adjust(toNormalizedSliderPosition: 0.7)
-            sleep(1)
+            let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 1.0)
             app.sliders["FloatingSlider"].adjust(toNormalizedSliderPosition: 1)
 
             let newTomorrow = app.tables.tableRows.staticTexts.matching(tomorrowPredicate)

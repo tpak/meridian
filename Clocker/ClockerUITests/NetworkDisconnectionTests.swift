@@ -33,8 +33,7 @@ class NetworkDisconnectionTests: XCTestCase {
 
         let searchField = app.searchFields["AvailableSearchField"]
         searchField.reset(text: "Uganda")
-        sleep(1)
-        XCTAssertTrue(app.sheets.staticTexts["ErrorPlaceholder"].exists)
+        XCTAssertTrue(app.sheets.staticTexts["ErrorPlaceholder"].waitForExistence(timeout: 5))
 
         app.sheets.buttons["Close Button Title".localizedString()].click()
     }
@@ -64,8 +63,7 @@ class NetworkDisconnectionTests: XCTestCase {
         app.tables["AvailableTimezoneTableView"].click()
         app.buttons["AddAvailableTimezone"].click()
 
-        sleep(1)
-        XCTAssertTrue(app.sheets.staticTexts["ErrorPlaceholder"].exists)
+        XCTAssertTrue(app.sheets.staticTexts["ErrorPlaceholder"].waitForExistence(timeout: 5))
         app.sheets.buttons["Close Button Title".localizedString()].click()
     }
 }

@@ -26,11 +26,9 @@ class OnboardingSearchTests: XCTestCase {
         searchField.reset(text: "Paris")
         searchField.typeKey(XCUIKeyboardKey.return, modifierFlags: XCUIElement.KeyModifierFlags())
 
-        sleep(2) // Wait for the query to return
-
         let results = app.tables["ResultsTableView"]
         let firstResult = results.cells.firstMatch
-        XCTAssertTrue(results.cells.count > 0)
+        XCTAssertTrue(firstResult.waitForExistence(timeout: 5))
 
         let resultsPredicate = NSPredicate(format: "value CONTAINS 'Paris'", "")
         XCTAssertTrue(firstResult.staticTexts.matching(resultsPredicate).count > 0)
@@ -38,12 +36,10 @@ class OnboardingSearchTests: XCTestCase {
         // Let's retrieve the tap and add it!
         firstResult.doubleClick()
 
-        sleep(2) // Wait for the Undo button to appear
-
         // Ensure Added Text is shown properly!
         let predicate = NSPredicate(format: "value BEGINSWITH 'Added'", "")
-        let successTextShown = app.staticTexts.containing(predicate)
-        XCTAssertTrue(successTextShown.count > 0)
+        let successTextShown = app.staticTexts.containing(predicate).firstMatch
+        XCTAssertTrue(successTextShown.waitForExistence(timeout: 5))
     }
 
     func testUndoSearch() throws {
@@ -51,11 +47,9 @@ class OnboardingSearchTests: XCTestCase {
         searchField.reset(text: "Seoul")
         searchField.typeKey(XCUIKeyboardKey.return, modifierFlags: XCUIElement.KeyModifierFlags())
 
-        sleep(2) // Wait for the query to return
-
         let results = app.tables["ResultsTableView"]
         let firstResult = results.cells.firstMatch
-        XCTAssertTrue(results.cells.count > 0)
+        XCTAssertTrue(firstResult.waitForExistence(timeout: 5))
 
         let resultsPredicate = NSPredicate(format: "value CONTAINS 'Seoul'", "")
         XCTAssertTrue(firstResult.staticTexts.containing(resultsPredicate).count > 0)
@@ -63,20 +57,18 @@ class OnboardingSearchTests: XCTestCase {
         // Let's retrieve the tap and add it!
         firstResult.doubleClick()
 
-        sleep(2) // Wait for the Undo button to appear
-
         // Ensure Added Text is shown properly!
         let predicate = NSPredicate(format: "value BEGINSWITH 'Added'", "")
-        let successTextShown = app.staticTexts.containing(predicate)
-        XCTAssertTrue(successTextShown.count > 0)
+        let successTextShown = app.staticTexts.containing(predicate).firstMatch
+        XCTAssertTrue(successTextShown.waitForExistence(timeout: 5))
 
         let undoButton = app.buttons.matching(identifier: "UndoButton").firstMatch
         undoButton.click()
 
         // Ensure Removed Text is shown!
         let removedPredicate = NSPredicate(format: "value BEGINSWITH 'Removed.'", "")
-        let removedText = app.staticTexts.containing(removedPredicate)
-        XCTAssertTrue(removedText.count > 0)
+        let removedText = app.staticTexts.containing(removedPredicate).firstMatch
+        XCTAssertTrue(removedText.waitForExistence(timeout: 5))
     }
 
     func testMispelledCityNameSearch() throws {
@@ -84,24 +76,23 @@ class OnboardingSearchTests: XCTestCase {
         searchField.reset(text: "ajsdkjasdkjhasdkashkjdazasdasdas")
         searchField.typeKey(XCUIKeyboardKey.return, modifierFlags: XCUIElement.KeyModifierFlags())
 
-        sleep(2) // Wait for the query to return
+        // Wait for no results state
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 2.0)
 
         let results = app.tables["ResultsTableView"]
         let firstResult = results.cells.firstMatch
         XCTAssertTrue(results.cells.count == 0)
         XCTAssertFalse(firstResult.staticTexts["Paris, France"].exists)
 
-        sleep(2) // Wait for the Undo button to appear
-
-        // Ensure Added Text is shown properly!
+        // Ensure error text is shown!
         let noErrorTextPredicate = NSPredicate(format: "value CONTAINS 'No results! 😔 Try entering the exact name.'", "")
-        let noErrorText = app.staticTexts.containing(noErrorTextPredicate)
-        XCTAssertTrue(noErrorText.count > 0)
+        let noErrorText = app.staticTexts.containing(noErrorTextPredicate).firstMatch
+        XCTAssertTrue(noErrorText.waitForExistence(timeout: 5))
     }
 
     private func moveForward() {
         let onboardingWindow = app.windows["OnboardingWindow"]
         onboardingWindow.buttons["Forward"].click()
-        sleep(1)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 1.0)
     }
 }

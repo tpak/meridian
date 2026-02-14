@@ -21,7 +21,7 @@ class ReviewTests: XCTestCase {
         guard app.buttons["Not Really"].exists else { return }
         XCTAssertTrue(app.staticTexts["ReviewLabel"].exists)
         app.buttons["Not Really"].click()
-        sleep(2)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 2.0)
         app.buttons["Yes?"].click()
         XCTAssertFalse(app.staticTexts["ReviewLabel"].exists)
         XCTAssertTrue(app.windows["Clocker Feedback"].exists)
@@ -31,7 +31,7 @@ class ReviewTests: XCTestCase {
         guard app.buttons["Not Really"].exists else { return }
         XCTAssertTrue(app.staticTexts["ReviewLabel"].exists)
         app.buttons["Not Really"].click()
-        sleep(2)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 2.0)
         app.buttons["No, thanks"].click()
         XCTAssertFalse(app.staticTexts["ReviewLabel"].exists)
     }
@@ -40,7 +40,7 @@ class ReviewTests: XCTestCase {
         guard app.buttons["Yes!"].exists else { return }
         XCTAssertTrue(app.staticTexts["ReviewLabel"].exists)
         app.buttons["Yes!"].click()
-        sleep(2)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 2.0)
         app.buttons["No, thanks"].click()
         XCTAssertFalse(app.staticTexts["ReviewLabel"].exists)
     }
@@ -49,7 +49,7 @@ class ReviewTests: XCTestCase {
         guard app.buttons["Yes!"].exists else { return }
         XCTAssertTrue(app.staticTexts["ReviewLabel"].exists)
         app.buttons["Yes!"].click()
-        sleep(2)
+        let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 2.0)
         app.buttons["Yes"].click()
         XCTAssertFalse(app.staticTexts["ReviewLabel"].exists)
     }
