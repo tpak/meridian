@@ -118,7 +118,7 @@ extension PreferencesDataSource: NSTableViewDataSource {
         }
 
         if tableColumn?.identifier.rawValue == PreferencesDataSourceConstants.customLabelIdentifier {
-            return selectedDataSource?.customLabel ?? "Error"
+            return selectedDataSource?.customLabel ?? ""
         }
 
         if tableColumn?.identifier.rawValue == PreferencesDataSourceConstants.favoriteTimezoneIdentifier {

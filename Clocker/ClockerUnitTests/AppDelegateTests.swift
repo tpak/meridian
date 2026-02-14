@@ -143,5 +143,6 @@ class AppDelegateTests: XCTestCase {
         XCTAssertEqual(subject?.statusItemForPanel().statusItem.button?.subviews.isEmpty, true) // This will be nil for standard mode
 
         UserDefaults.standard.set(0, forKey: UserDefaultKeys.menubarCompactMode) // Set the menubar mode back to compact
+        DataStore.shared().setTimezones(olderTimezones)
     }
 }
