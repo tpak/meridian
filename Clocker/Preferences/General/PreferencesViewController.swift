@@ -25,7 +25,7 @@ class PreferencesViewController: ParentViewController {
     @IBOutlet var timezonePanel: Panelr!
     @IBOutlet var progressIndicator: NSProgressIndicator!
     @IBOutlet var addButton: NSButton!
-    @IBOutlet private var recorderControl: SRRecorderControl!
+    @IBOutlet private var recorderControl: ShortcutRecorderButton!
     @IBOutlet private var closeButton: NSButton!
 
     @IBOutlet private var timezoneSortButton: NSButton!
@@ -241,44 +241,15 @@ class PreferencesViewController: ParentViewController {
     }
 
     private func setupShortcutObserver() {
-        let defaults = NSUserDefaultsController.shared
         recorderControl.setAccessibilityElement(true)
         recorderControl.setAccessibilityIdentifier("ShortcutControl")
         recorderControl.setAccessibilityLabel("ShortcutControl")
-        recorderControl.bind(NSBindingName.value,
-                             to: defaults,
-                             withKeyPath: PreferencesConstants.hotKeyPathIdentifier,
-                             options: nil)
-
-        recorderControl.delegate = self
-    }
-
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change _: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
-        if let path = keyPath, path == PreferencesConstants.hotKeyPathIdentifier {
-            let hotKeyCenter = PTHotKeyCenter.shared()
-            let oldHotKey = hotKeyCenter?.hotKey(withIdentifier: path)
-            hotKeyCenter?.unregisterHotKey(oldHotKey)
-
-            guard let newObject = object as? NSObject, let newShortcut = newObject.value(forKeyPath: path) as? [AnyHashable: Any] else {
-                Logger.info("Unable to recognize shortcuts")
-                return
-            }
-
-            let newHotKey = PTHotKey(identifier: keyPath,
-                                     keyCombo: newShortcut,
-                                     target: self,
-                                     action: #selector(ping(_:)))
-
-            hotKeyCenter?.register(newHotKey)
+        recorderControl.updateDisplay()
+        recorderControl.shortcutDidChange = { keyCombo in
+            GlobalShortcutMonitor.shared.currentShortcut = keyCombo
         }
     }
 
-    @objc func ping(_ sender: NSButton) {
-        guard let delegate = NSApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        delegate.togglePanel(sender)
-    }
 
     private func showNoTimezoneState() {
         if let zeroView = notimezoneView {
@@ -494,7 +465,6 @@ extension PreferencesViewController {
     }
 }
 
-extension PreferencesViewController: SRRecorderControlDelegate {}
 
 // Helpers
 extension PreferencesViewController {

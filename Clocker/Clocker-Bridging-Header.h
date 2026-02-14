@@ -5,6 +5,4 @@
 //  Created by Banthia, Abhishek on 12/22/17.
 //
 
-#import <ShortcutRecorder/ShortcutRecorder.h>
-#import <PTHotKey/PTHotKeyCenter.h>
-#import <PTHotKey/PTHotKey+ShortcutRecorder.h>
+// Previously used for ShortcutRecorder and PTHotKey - now implemented in pure Swift

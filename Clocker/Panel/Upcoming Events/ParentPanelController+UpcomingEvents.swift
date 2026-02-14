@@ -1,6 +1,6 @@
 // Copyright © 2015 Abhishek Banthia
 
-import Foundation
+import Cocoa
 
 var avenirBookFont: NSFont {
     if let avenirFont = NSFont(name: "Avenir-Book", size: 13) {

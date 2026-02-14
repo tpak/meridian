@@ -10,28 +10,6 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusBarHandler: StatusItemHandler!
     private let versionUpdateHandler = VersionUpdateHandler()
 
-    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change _: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
-        if let path = keyPath, path == PreferencesConstants.hotKeyPathIdentifier {
-            let hotKeyCenter = PTHotKeyCenter.shared()
-
-            // Unregister old hot key
-            let oldHotKey = hotKeyCenter?.hotKey(withIdentifier: path)
-            hotKeyCenter?.unregisterHotKey(oldHotKey)
-
-            // We don't register unless there's a valid key combination
-            guard let newObject = object as? NSObject, let newShortcut = newObject.value(forKeyPath: path) as? [AnyHashable: Any] else {
-                return
-            }
-
-            // Register new key
-            let newHotKey = PTHotKey(identifier: keyPath,
-                                     keyCombo: newShortcut,
-                                     target: self,
-                                     action: #selector(ping(_:)))
-
-            hotKeyCenter?.register(newHotKey)
-        }
-    }
 
     public func applicationDidFinishLaunching(_: Notification) {
         AppDefaults.initialize(with: DataStore.shared(), defaults: UserDefaults.standard)
@@ -164,12 +142,6 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         alert.runModal()
     }
 
-    @IBAction func ping(_ sender: NSButton) {
-        if let statusItemButton = statusBarHandler.statusItem.button {
-            statusItemButton.state = statusItemButton.state == .on ? .off : .on
-            togglePanel(statusItemButton)
-        }
-    }
 
     private func retrieveLatestLocation() {
         let locationController = LocationController(withStore: DataStore.shared())
@@ -186,10 +158,12 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func assignShortcut() {
-        NSUserDefaultsController.shared.addObserver(self,
-                                                    forKeyPath: PreferencesConstants.hotKeyPathIdentifier,
-                                                    options: [.initial, .new],
-                                                    context: nil)
+        GlobalShortcutMonitor.shared.action = { [weak self] in
+            guard let button = self?.statusBarHandler.statusItem.button else { return }
+            button.state = button.state == .on ? .off : .on
+            self?.togglePanel(button)
+        }
+        GlobalShortcutMonitor.shared.register()
     }
 
     private func checkIfRunFromApplicationsFolder() {

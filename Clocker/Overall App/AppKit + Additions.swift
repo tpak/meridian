@@ -1,5 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
+import Cocoa
+
 extension NSTextField {
     func applyDefaultStyle() {
         backgroundColor = NSColor.clear
