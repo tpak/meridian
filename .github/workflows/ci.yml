@@ -66,10 +66,11 @@ jobs:
 
       - name: Run Unit Tests
         run: |
-          set -o pipefail
           for attempt in 1 2 3; do
-            echo "Attempt $attempt of 3..."
-            if xcodebuild -project "$PROJECT" \
+            echo "::group::Attempt $attempt of 3"
+            rm -rf TestResults/unit-tests.xcresult
+            set +e
+            xcodebuild -project "$PROJECT" \
               -scheme "$SCHEME" \
               -configuration Debug \
               test \
@@ -78,12 +79,15 @@ jobs:
               CODE_SIGNING_ALLOWED=NO \
               CODE_SIGN_IDENTITY= \
               -resultBundlePath TestResults/unit-tests.xcresult \
-              | xcpretty --report junit --output TestResults/unit-tests.xml; then
+              2>&1 | xcpretty --report junit --output TestResults/unit-tests.xml
+            status=${PIPESTATUS[0]}
+            set -e
+            echo "::endgroup::"
+            if [ "$status" -eq 0 ]; then
               echo "Tests passed on attempt $attempt"
               exit 0
             fi
-            echo "Attempt $attempt failed, exit code $?"
-            rm -rf TestResults/unit-tests.xcresult
+            echo "Attempt $attempt failed (xcodebuild exit code $status)"
             sleep 5
           done
           echo "All 3 attempts failed"
