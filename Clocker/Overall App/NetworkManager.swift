@@ -33,6 +33,51 @@ class NetworkManager: NSObject {
 }
 
 extension NetworkManager {
+    // MARK: - Async/Await Methods
+
+    /// Fetch data from a URL using async/await.
+    /// - Parameter url: The URL to fetch from
+    /// - Returns: The response data
+    /// - Throws: NSError if the request fails or returns a non-200 status code
+    static func data(from url: URL) async throws -> Data {
+        // Check if we're running a network UI test
+        if ProcessInfo.processInfo.arguments.contains("mockTimezoneDown") {
+            throw internalServerError
+        }
+
+        var request = URLRequest(url: url, timeoutInterval: 20)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw internalServerError
+        }
+
+        guard httpResponse.statusCode == 200 else {
+            throw internalServerError
+        }
+
+        return data
+    }
+
+    /// Fetch data from a URL path string using async/await.
+    /// - Parameter path: The URL path string to fetch from
+    /// - Returns: The response data
+    /// - Throws: NSError if URL construction fails or the request fails
+    static func data(from path: String) async throws -> Data {
+        guard let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: encodedPath)
+        else {
+            throw unableToGenerateURL
+        }
+
+        return try await data(from: url)
+    }
+
+    // MARK: - Legacy Callback Methods
+
     @discardableResult
     class func task(with path: String, completionHandler: @escaping (_ response: Data?, _ error: NSError?) -> Void) -> URLSessionDataTask? {
         guard let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),

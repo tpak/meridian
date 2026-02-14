@@ -13,6 +13,7 @@ import CoreModelKit
 
  */
 
+@MainActor
 class OnboardingSearchController: NSViewController {
     @IBOutlet private var appName: NSTextField!
     @IBOutlet private var onboardingTypeLabel: NSTextField!
@@ -22,7 +23,7 @@ class OnboardingSearchController: NSViewController {
     @IBOutlet var undoButton: NSButton!
 
     private var searchResultsDataSource: SearchDataSource?
-    private var dataTask: URLSessionDataTask? = .none
+    private var searchTask: Task<Void, Never>?
     private var themeDidChangeNotification: NSObjectProtocol?
 
     private var geocodingKey: String = {
@@ -52,8 +53,10 @@ class OnboardingSearchController: NSViewController {
 
         setup()
 
-        themeDidChangeNotification = NotificationCenter.default.addObserver(forName: .themeDidChangeNotification, object: nil, queue: OperationQueue.main) { _ in
-            self.setup()
+        themeDidChangeNotification = NotificationCenter.default.addObserver(forName: .themeDidChangeNotification, object: nil, queue: OperationQueue.main) { [weak self] _ in
+            Task { @MainActor in
+                self?.setup()
+            }
         }
 
         resultsTableView.reloadData()
@@ -135,9 +138,9 @@ class OnboardingSearchController: NSViewController {
 
     private func setupLabelHidingTimer() {
         Timer.scheduledTimer(withTimeInterval: 5,
-                             repeats: false) { _ in
-            OperationQueue.main.addOperation {
-                self.setInfoLabel(UserDefaultKeys.emptyString)
+                             repeats: false) { [weak self] _ in
+            Task { @MainActor in
+                self?.setInfoLabel(UserDefaultKeys.emptyString)
             }
         }
     }
@@ -206,54 +209,54 @@ class OnboardingSearchController: NSViewController {
             return
         }
 
-        NetworkManager.task(with: url) { [weak self] response, error in
+        Task { @MainActor in
+            do {
+                let json = try await NetworkManager.data(from: url)
 
-            guard let self = self else { return }
-
-            OperationQueue.main.addOperation {
-                if self.handleEdgeCase(for: response) == true {
+                if handleEdgeCase(for: json) == true {
                     return
                 }
 
-                if error == nil, let json = response, let response = json.decodeTimezone() {
-                    if self.resultsTableView.selectedRow >= 0, self.resultsTableView.selectedRow < (self.searchResultsDataSource?.resultsCount()) ?? 0 {
-                        var filteredAddress = "Error"
+                guard let response = json.decodeTimezone() else {
+                    setInfoLabel(PreferencesConstants.noInternetConnectivityError)
+                    return
+                }
 
-                        if let address = dataObject.formattedAddress {
-                            filteredAddress = address.filteredName()
-                        }
+                if resultsTableView.selectedRow >= 0, resultsTableView.selectedRow < (searchResultsDataSource?.resultsCount()) ?? 0 {
+                    var filteredAddress = "Error"
 
-                        let newTimeZone = [
-                            UserDefaultKeys.timezoneID: response.timeZoneId,
-                            UserDefaultKeys.timezoneName: filteredAddress,
-                            UserDefaultKeys.placeIdentifier: dataObject.placeID ?? "",
-                            "latitude": latitude,
-                            "longitude": longitude,
-                            "nextUpdate": UserDefaultKeys.emptyString,
-                            UserDefaultKeys.customLabel: filteredAddress
-                        ] as [String: Any]
-
-                        DataStore.shared().addTimezone(TimezoneData(with: newTimeZone))
-
-                        Logger.log(object: ["PlaceName": filteredAddress, "Timezone": response.timeZoneId], for: "Filtered Address")
-
-                        self.accessoryLabel.stringValue = "Added \(filteredAddress)."
-                        self.undoButton.isHidden = false
-
-                        Logger.log(object: ["Place Name": filteredAddress],
-                                   for: "Added Timezone while Onboarding")
+                    if let address = dataObject.formattedAddress {
+                        filteredAddress = address.filteredName()
                     }
 
-                    // Cleanup.
-                    self.resetSearchView()
+                    let newTimeZone = [
+                        UserDefaultKeys.timezoneID: response.timeZoneId,
+                        UserDefaultKeys.timezoneName: filteredAddress,
+                        UserDefaultKeys.placeIdentifier: dataObject.placeID ?? "",
+                        "latitude": latitude,
+                        "longitude": longitude,
+                        "nextUpdate": UserDefaultKeys.emptyString,
+                        UserDefaultKeys.customLabel: filteredAddress
+                    ] as [String: Any]
+
+                    DataStore.shared().addTimezone(TimezoneData(with: newTimeZone))
+
+                    Logger.log(object: ["PlaceName": filteredAddress, "Timezone": response.timeZoneId], for: "Filtered Address")
+
+                    accessoryLabel.stringValue = "Added \(filteredAddress)."
+                    undoButton.isHidden = false
+
+                    Logger.log(object: ["Place Name": filteredAddress],
+                               for: "Added Timezone while Onboarding")
+                }
+
+                // Cleanup.
+                resetSearchView()
+            } catch {
+                if error.localizedDescription == "The Internet connection appears to be offline." {
+                    setInfoLabel(PreferencesConstants.noInternetConnectivityError)
                 } else {
-                    OperationQueue.main.addOperation {
-                        if error?.localizedDescription == "The Internet connection appears to be offline." {
-                            self.setInfoLabel(PreferencesConstants.noInternetConnectivityError)
-                        } else {
-                            self.setInfoLabel(PreferencesConstants.noInternetConnectivityError)
-                        }
-                    }
+                    setInfoLabel(PreferencesConstants.noInternetConnectivityError)
                 }
             }
         }
@@ -335,58 +338,47 @@ class OnboardingSearchController: NSViewController {
             return
         }
 
-        dataTask = NetworkManager.task(with: url,
-                                       completionHandler: { [weak self] response, error in
+        searchTask?.cancel()
+        searchTask = Task { @MainActor in
+            do {
+                let data = try await NetworkManager.data(from: url)
 
-                                           guard let self = self else { return }
+                let currentSearchBarValue = searchBar.stringValue
+                let words = currentSearchBarValue.components(separatedBy: CharacterSet.whitespacesAndNewlines)
 
-                                           OperationQueue.main.addOperation {
-                                               let currentSearchBarValue = self.searchBar.stringValue
+                if words.joined(separator: UserDefaultKeys.emptyString) != searchString {
+                    return
+                }
 
-                                               let words = currentSearchBarValue.components(separatedBy: CharacterSet.whitespacesAndNewlines)
+                searchResultsDataSource?.cleanupFilterArray()
+                searchResultsDataSource?.timezoneFilteredArray = []
 
-                                               if words.joined(separator: UserDefaultKeys.emptyString) != searchString {
-                                                   return
-                                               }
+                guard let searchResults: SearchResult = data.decode() else {
+                    setInfoLabel(PreferencesConstants.tryAgainMessage)
+                    setupForError()
+                    return
+                }
 
-                                               self.searchResultsDataSource?.cleanupFilterArray()
-                                               self.searchResultsDataSource?.timezoneFilteredArray = []
+                if searchResults.status == ResultStatus.zeroResults {
+                    setInfoLabel("No results! 😔 Try entering the exact name.")
+                    setupForError()
+                    return
+                }
 
-                                               if let errorPresent = error {
-                                                   self.findLocalSearchResultsForTimezones()
-                                                   if self.searchResultsDataSource?.timezoneFilteredArray.isEmpty == true {
-                                                       self.presentErrorMessage(errorPresent.localizedDescription)
-                                                       setupForError()
-                                                       return
-                                                   }
+                appendResultsToFilteredArray(searchResults.results)
+                findLocalSearchResultsForTimezones()
+                prepareUIForPresentingResults()
+            } catch {
+                findLocalSearchResultsForTimezones()
+                if searchResultsDataSource?.timezoneFilteredArray.isEmpty == true {
+                    presentErrorMessage(error.localizedDescription)
+                    setupForError()
+                    return
+                }
 
-                                                   self.prepareUIForPresentingResults()
-                                                   return
-                                               }
-
-                                               guard let data = response else {
-                                                   self.setInfoLabel(PreferencesConstants.tryAgainMessage)
-                                                   setupForError()
-                                                   return
-                                               }
-
-                                               guard let searchResults = data.decode() else {
-                                                   self.setInfoLabel(PreferencesConstants.tryAgainMessage)
-                                                   setupForError()
-                                                   return
-                                               }
-
-                                               if searchResults.status == ResultStatus.zeroResults {
-                                                   self.setInfoLabel("No results! 😔 Try entering the exact name.")
-                                                   setupForError()
-                                                   return
-                                               }
-
-                                               self.appendResultsToFilteredArray(searchResults.results)
-                                               self.findLocalSearchResultsForTimezones()
-                                               self.prepareUIForPresentingResults()
-                                           }
-                                       })
+                prepareUIForPresentingResults()
+            }
+        }
     }
 
     private func presentErrorMessage(_ errorMessage: String) {

@@ -20,19 +20,18 @@ protocol TimezoneAdditionHost: AnyObject {
     func refreshMainTable()
 }
 
+@MainActor
 class TimezoneAdditionHandler: NSObject {
     private weak var host: TimezoneAdditionHost?
 
-    private var dataTask: URLSessionDataTask? = .none
+    private var searchTask: Task<Void, Never>?
 
     private var isActivityInProgress = false {
         didSet {
             guard let host = host else { return }
-            OperationQueue.main.addOperation {
-                self.isActivityInProgress ? host.progressIndicator.startAnimation(nil) : host.progressIndicator.stopAnimation(nil)
-                host.availableTimezoneTableView.isEnabled = !self.isActivityInProgress
-                host.addButton.isEnabled = !self.isActivityInProgress
-            }
+            isActivityInProgress ? host.progressIndicator.startAnimation(nil) : host.progressIndicator.stopAnimation(nil)
+            host.availableTimezoneTableView.isEnabled = !isActivityInProgress
+            host.addButton.isEnabled = !isActivityInProgress
         }
     }
 
@@ -57,78 +56,68 @@ class TimezoneAdditionHandler: NSObject {
         let searchString = host.searchField.stringValue
 
         if searchString.isEmpty {
-            dataTask?.cancel()
+            searchTask?.cancel()
             resetSearchView()
             return
         }
 
-        if dataTask?.state == .running {
-            dataTask?.cancel()
+        searchTask?.cancel()
+
+        if host.availableTimezoneTableView.isHidden {
+            host.availableTimezoneTableView.isHidden = false
         }
 
-        OperationQueue.main.addOperation {
-            if host.availableTimezoneTableView.isHidden {
-                host.availableTimezoneTableView.isHidden = false
-            }
+        host.placeholderLabel.isHidden = false
+        isActivityInProgress = true
+        host.placeholderLabel.placeholderString = "Searching for \(searchString)"
 
-            host.placeholderLabel.isHidden = false
-            self.isActivityInProgress = true
-            host.placeholderLabel.placeholderString = "Searching for \(searchString)"
+        Logger.info(host.placeholderLabel.placeholderString ?? "")
 
-            Logger.info(host.placeholderLabel.placeholderString ?? "")
+        guard let searchURL = generateSearchURL() else {
+            presentError("Unable to construct search URL.")
+            return
+        }
 
-            guard let searchURL = self.generateSearchURL() else {
-                self.presentError("Unable to construct search URL.")
-                return
-            }
+        searchTask = Task { @MainActor in
+            do {
+                let data = try await NetworkManager.data(from: searchURL)
 
-            self.dataTask = NetworkManager.task(with: searchURL,
-                                                completionHandler: { [weak self] response, error in
-
-                guard let self = self, let host = self.host else { return }
-
-                OperationQueue.main.addOperation {
-                    if let errorPresent = error {
-                        self.findLocalSearchResultsForTimezones()
-                        if host.searchResultsDataSource.timezoneFilteredArray.isEmpty {
-                            self.presentError(errorPresent.localizedDescription)
-                            return
-                        }
-                        self.prepareUIForPresentingResults()
-                        return
-                    }
-
-                    guard let data = response, let searchResults = data.decode() else {
-                        Logger.info("Data was unexpectedly nil")
-                        return
-                    }
-
-                    if searchResults.status == ResultStatus.zeroResults {
-                        Logger.info("Zero Results returned")
-                        self.findLocalSearchResultsForTimezones()
-                        let noResults = host.searchResultsDataSource.timezoneFilteredArray.isEmpty
-                        host.placeholderLabel.placeholderString = noResults
-                            ? "No results! 😔 Try entering the exact name." : UserDefaultKeys.emptyString
-                        self.reloadSearchResults()
-                        self.isActivityInProgress = false
-                        return
-                    } else if searchResults.status == ResultStatus.requestDenied && searchResults.results.isEmpty {
-                        Logger.info("Request denied!")
-                        self.findLocalSearchResultsForTimezones()
-                        let noResults = host.searchResultsDataSource.timezoneFilteredArray.isEmpty
-                        host.placeholderLabel.placeholderString = noResults
-                            ? "Update Clocker to get a faster experience 😃" : UserDefaultKeys.emptyString
-                        self.reloadSearchResults()
-                        self.isActivityInProgress = false
-                        return
-                    }
-
-                    self.appendResultsToFilteredArray(searchResults.results)
-                    self.findLocalSearchResultsForTimezones()
-                    self.prepareUIForPresentingResults()
+                guard let searchResults: SearchResult = data.decode() else {
+                    Logger.info("Data was unexpectedly nil")
+                    return
                 }
 
-            })
+                if searchResults.status == ResultStatus.zeroResults {
+                    Logger.info("Zero Results returned")
+                    findLocalSearchResultsForTimezones()
+                    let noResults = host.searchResultsDataSource.timezoneFilteredArray.isEmpty
+                    host.placeholderLabel.placeholderString = noResults
+                        ? "No results! 😔 Try entering the exact name." : UserDefaultKeys.emptyString
+                    reloadSearchResults()
+                    isActivityInProgress = false
+                    return
+                } else if searchResults.status == ResultStatus.requestDenied && searchResults.results.isEmpty {
+                    Logger.info("Request denied!")
+                    findLocalSearchResultsForTimezones()
+                    let noResults = host.searchResultsDataSource.timezoneFilteredArray.isEmpty
+                    host.placeholderLabel.placeholderString = noResults
+                        ? "Update Clocker to get a faster experience 😃" : UserDefaultKeys.emptyString
+                    reloadSearchResults()
+                    isActivityInProgress = false
+                    return
+                }
+
+                appendResultsToFilteredArray(searchResults.results)
+                findLocalSearchResultsForTimezones()
+                prepareUIForPresentingResults()
+            } catch {
+                findLocalSearchResultsForTimezones()
+                if host.searchResultsDataSource.timezoneFilteredArray.isEmpty {
+                    presentError(error.localizedDescription)
+                    return
+                }
+                prepareUIForPresentingResults()
+            }
         }
     }
 
@@ -175,9 +164,7 @@ class TimezoneAdditionHandler: NSObject {
     }
 
     private func resetSearchView() {
-        if dataTask?.state == .running {
-            dataTask?.cancel()
-        }
+        searchTask?.cancel()
 
         guard let host = host else { return }
         isActivityInProgress = false
@@ -204,32 +191,33 @@ class TimezoneAdditionHandler: NSObject {
             return
         }
 
-        NetworkManager.task(with: url) { [weak self] response, error in
+        Task { @MainActor in
+            do {
+                let json = try await NetworkManager.data(from: url)
 
-            guard let self = self, let host = self.host else { return }
-
-            OperationQueue.main.addOperation {
-                if self.handleEdgeCase(for: response) == true {
-                    self.reloadSearchResults()
+                if handleEdgeCase(for: json) == true {
+                    reloadSearchResults()
                     return
                 }
 
-                if error == nil, let json = response, let timezone = json.decodeTimezone() {
-                    if host.availableTimezoneTableView.selectedRow >= 0 {
-                        self.installTimezone(timezone)
-                    }
-                    self.updateViewState()
-                } else {
-                    OperationQueue.main.addOperation {
-                        if error?.localizedDescription == "The Internet connection appears to be offline." {
-                            host.placeholderLabel.placeholderString = PreferencesConstants.noInternetConnectivityError
-                        } else {
-                            host.placeholderLabel.placeholderString = PreferencesConstants.tryAgainMessage
-                        }
-
-                        self.isActivityInProgress = false
-                    }
+                guard let timezone = json.decodeTimezone() else {
+                    host.placeholderLabel.placeholderString = PreferencesConstants.tryAgainMessage
+                    isActivityInProgress = false
+                    return
                 }
+
+                if host.availableTimezoneTableView.selectedRow >= 0 {
+                    installTimezone(timezone)
+                }
+                updateViewState()
+            } catch {
+                if error.localizedDescription == "The Internet connection appears to be offline." {
+                    host.placeholderLabel.placeholderString = PreferencesConstants.noInternetConnectivityError
+                } else {
+                    host.placeholderLabel.placeholderString = PreferencesConstants.tryAgainMessage
+                }
+
+                isActivityInProgress = false
             }
         }
     }
@@ -454,7 +442,7 @@ class TimezoneAdditionHandler: NSObject {
         }
 
         if host.searchField.stringValue.isEmpty == false {
-            dataTask?.cancel()
+            searchTask?.cancel()
             NSObject.cancelPreviousPerformRequests(withTarget: self)
             perform(#selector(search), with: nil, afterDelay: 0.5)
         } else {

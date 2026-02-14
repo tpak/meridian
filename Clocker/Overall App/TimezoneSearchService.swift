@@ -29,7 +29,48 @@ enum TimezoneSearchService {
         dataSource.searchTimezones(query.lowercased())
     }
 
-    /// Perform a geocoding search via the Google Maps API.
+    /// Perform a geocoding search via the Google Maps API using async/await.
+    @MainActor
+    static func performGeocodingSearch(
+        for searchString: String,
+        geocodingKey: String,
+        dataSource: SearchDataSource
+    ) async throws -> [SearchResult.Result] {
+        let userPreferredLanguage = Locale.preferredLanguages.first ?? "en-US"
+
+        let words = searchString.components(separatedBy: .whitespacesAndNewlines)
+        let compactSearch = words.joined(separator: "")
+
+        guard compactSearch.count >= 3 else {
+            throw SearchError.queryTooShort
+        }
+
+        guard let url = NetworkManager.geocodeURL(for: compactSearch, key: geocodingKey, language: userPreferredLanguage) else {
+            throw SearchError.urlConstruction
+        }
+
+        do {
+            let data = try await NetworkManager.data(from: url)
+
+            guard let searchResults: SearchResult = data.decode() else {
+                throw SearchError.parsing
+            }
+
+            if searchResults.status == ResultStatus.zeroResults {
+                throw SearchError.zeroResults
+            }
+
+            if searchResults.status == ResultStatus.requestDenied && searchResults.results.isEmpty {
+                throw SearchError.requestDenied
+            }
+
+            return searchResults.results
+        } catch let error as NSError {
+            throw SearchError.network(error.localizedDescription)
+        }
+    }
+
+    /// Perform a geocoding search via the Google Maps API (legacy callback version).
     /// Returns the data task so callers can cancel it if needed.
     @discardableResult
     static func performGeocodingSearch(
@@ -82,7 +123,51 @@ enum TimezoneSearchService {
         return task
     }
 
-    /// Fetch timezone data for the given coordinates via the Google Maps Timezone API.
+    /// Fetch timezone data for the given coordinates via the Google Maps Timezone API using async/await.
+    @MainActor
+    static func fetchTimezone(
+        for latitude: Double,
+        longitude: Double,
+        geocodingKey: String
+    ) async throws -> Timezone {
+        if !NetworkManager.isConnected() || ProcessInfo.processInfo.arguments.contains("mockTimezoneDown") {
+            throw SearchError.offline
+        }
+
+        let timestamp = Date().timeIntervalSince1970
+
+        guard let url = NetworkManager.timezoneURL(for: latitude, longitude: longitude, timestamp: timestamp, key: geocodingKey) else {
+            throw SearchError.urlConstruction
+        }
+
+        do {
+            let json = try await NetworkManager.data(from: url)
+
+            // Check for edge cases (zero results from timezone API)
+            if let jsonUnserialized = try? JSONSerialization.jsonObject(with: json, options: .allowFragments),
+               let unwrapped = jsonUnserialized as? [String: Any],
+               let status = unwrapped["status"] as? String,
+               status == ResultStatus.zeroResults {
+                throw SearchError.zeroResults
+            }
+
+            guard let timezone = json.decodeTimezone() else {
+                throw SearchError.parsing
+            }
+
+            return timezone
+        } catch let error as NSError {
+            if error.localizedDescription == "The Internet connection appears to be offline." {
+                throw SearchError.offline
+            } else if let searchError = error as? SearchError {
+                throw searchError
+            } else {
+                throw SearchError.network(error.localizedDescription)
+            }
+        }
+    }
+
+    /// Fetch timezone data for the given coordinates via the Google Maps Timezone API (legacy callback version).
     @discardableResult
     static func fetchTimezone(
         for latitude: Double,

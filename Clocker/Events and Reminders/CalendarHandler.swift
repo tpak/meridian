@@ -175,13 +175,33 @@ extension EventCenter {
         }
     }
 
+    func requestAccess(to entity: EKEntityType) async -> Bool {
+        initializeStoreIfNeccesary()
+
+        do {
+            let granted = try await eventStore.requestAccess(to: entity)
+
+            // On successful granting of calendar permission, we default to showing events from all calendars
+            if entity == .event, granted {
+                await saveDefaultIdentifiersList()
+            }
+
+            return granted
+        } catch {
+            Logger.info("Unable to request events access due to \(error.localizedDescription)")
+            return false
+        }
+    }
+
     func requestAccess(to entity: EKEntityType, completionHandler: @escaping (_ granted: Bool) -> Void) {
         initializeStoreIfNeccesary()
 
         eventStore.requestAccess(to: entity) { [weak self] granted, error in
             // On successful granting of calendar permission, we default to showing events from all calendars
             if let self = self, entity == .event, granted {
-                self.saveDefaultIdentifiersList()
+                Task { @MainActor in
+                    self.saveDefaultIdentifiersList()
+                }
             } else if let requestError = error {
                 Logger.info("Unable to request events access due to \(requestError.localizedDescription)")
             } else {
@@ -218,16 +238,14 @@ extension EventCenter {
         Logger.info("Unable to filter events because user hasn't selected calendars")
     }
 
+    @MainActor
     func saveDefaultIdentifiersList() {
-        OperationQueue.main.addOperation { [weak self] in
-            guard let self = self else { return }
-            let allCalendars = self.retrieveAllCalendarIdentifiers()
+        let allCalendars = retrieveAllCalendarIdentifiers()
 
-            if !allCalendars.isEmpty {
-                UserDefaults.standard.set(allCalendars, forKey: UserDefaultKeys.selectedCalendars)
-                Logger.info("Finished saving all calendar identifiers in default")
-                self.filterEvents()
-            }
+        if !allCalendars.isEmpty {
+            UserDefaults.standard.set(allCalendars, forKey: UserDefaultKeys.selectedCalendars)
+            Logger.info("Finished saving all calendar identifiers in default")
+            filterEvents()
         }
     }
 
