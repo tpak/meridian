@@ -93,29 +93,39 @@ class AppDelegateTests: XCTestCase {
         XCTAssertEqual(statusItemHandler?.statusItem.button?.toolTip, "Clocker")
     }
 
-    func testCompactModeMenubarSetup() {
+    func testCompactModeMenubarSetup() throws {
         let subject = NSApplication.shared.delegate as? AppDelegate
         let olderTimezones = DataStore.shared().timezones()
+        let olderCompactMode = UserDefaults.standard.integer(forKey: UserDefaultKeys.menubarCompactMode)
+        defer {
+            DataStore.shared().setTimezones(olderTimezones)
+            UserDefaults.standard.set(olderCompactMode, forKey: UserDefaultKeys.menubarCompactMode)
+        }
+
+        // Ensure compact mode is active
+        UserDefaults.standard.set(0, forKey: UserDefaultKeys.menubarCompactMode)
 
         let timezone1 = TimezoneData()
         timezone1.timezoneID = TimeZone.autoupdatingCurrent.identifier
         timezone1.formattedAddress = "MenubarTimezone"
         timezone1.isFavourite = 1
-        // Encode it in UserDefaults
-        guard let encodedTimezone = NSKeyedArchiver.clocker_archive(with: timezone1) else {
-            return
-        }
+
+        let encodedTimezone = try XCTUnwrap(NSKeyedArchiver.clocker_archive(with: timezone1))
         DataStore.shared().setTimezones([encodedTimezone])
 
         subject?.setupMenubarTimer()
         let statusItemHandler = subject?.statusItemForPanel()
-        XCTAssertNotNil(statusItemHandler?.statusItem.button) // This won't be nil for compact mode
-
-        DataStore.shared().setTimezones(olderTimezones)
+        XCTAssertNotNil(statusItemHandler?.statusItem.button)
     }
 
-    func testStandardModeMenubarSetup() {
+    func testStandardModeMenubarSetup() throws {
         let olderTimezones = DataStore.shared().timezones()
+        let olderCompactMode = UserDefaults.standard.integer(forKey: UserDefaultKeys.menubarCompactMode)
+        defer {
+            UserDefaults.standard.set(olderCompactMode, forKey: UserDefaultKeys.menubarCompactMode)
+            DataStore.shared().setTimezones(olderTimezones)
+        }
+
         UserDefaults.standard.set(1, forKey: UserDefaultKeys.menubarCompactMode) // Set the menubar mode to standard
 
         let subject = NSApplication.shared.delegate as? AppDelegate
@@ -132,17 +142,12 @@ class AppDelegateTests: XCTestCase {
         timezone1.timezoneID = TimeZone.autoupdatingCurrent.identifier
         timezone1.formattedAddress = "MenubarTimezone"
         timezone1.isFavourite = 1
-        // Encode it in UserDefaults
-        guard let encodedTimezone = NSKeyedArchiver.clocker_archive(with: timezone1) else {
-            return
-        }
+
+        let encodedTimezone = try XCTUnwrap(NSKeyedArchiver.clocker_archive(with: timezone1))
         DataStore.shared().setTimezones([encodedTimezone])
 
         subject?.setupMenubarTimer()
 
         XCTAssertEqual(subject?.statusItemForPanel().statusItem.button?.subviews.isEmpty, true) // This will be nil for standard mode
-
-        UserDefaults.standard.set(0, forKey: UserDefaultKeys.menubarCompactMode) // Set the menubar mode back to compact
-        DataStore.shared().setTimezones(olderTimezones)
     }
 }

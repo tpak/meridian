@@ -167,18 +167,34 @@ class ClockerUnitTests: XCTestCase {
         XCTAssertTrue(currentFavourites.count == oldCount - 1, "Current Favourites Count \(currentFavourites.count) and Old Count \(oldCount - 1) don't line up.")
     }
 
-    // The below test might fail outside California or if DST is active!
-    // CI is calibrated to be on LA timezone!
     func testTimeDifference() {
-        let observingDaylightSavings = TimeZone.autoupdatingCurrent.isDaylightSavingTime(for: Date())
-        let expectedDifference = observingDaylightSavings ? ", +9h 30m" : ", +10h 30m"
-        let expectedDifferenceForAuckland = observingDaylightSavings ? ", +16h " : ", +18h "
-        
-        XCTAssertTrue(operations.timeDifference() == expectedDifference, "Difference was unexpectedly: \(operations.timeDifference())")
-        XCTAssertTrue(californiaOperations.timeDifference() == ", -3h ", "Difference was unexpectedly: \(californiaOperations.timeDifference())")
-        XCTAssertTrue(floridaOperations.timeDifference() == "", "Difference was unexpectedly: \(floridaOperations.timeDifference())")
-        XCTAssertTrue(aucklandOperations.timeDifference() == expectedDifferenceForAuckland, "Difference was unexpectedly: \(aucklandOperations.timeDifference())")
-        XCTAssertTrue(omahaOperations.timeDifference() == ", -1h ", "Difference was unexpectedly: \(omahaOperations.timeDifference())")
+        // Compute expected differences dynamically from the local timezone
+        // so this test works regardless of where the machine is located.
+        let now = Date()
+        let localTZ = TimeZone.autoupdatingCurrent
+
+        func expectedDiff(for timezoneID: String) -> String {
+            let targetTZ = TimeZone(identifier: timezoneID)!
+            let diffSeconds = targetTZ.secondsFromGMT(for: now) - localTZ.secondsFromGMT(for: now)
+
+            if diffSeconds == 0 { return "" }
+
+            let sign = diffSeconds > 0 ? "+" : "-"
+            let hours = abs(diffSeconds) / 3600
+            let minutes = (abs(diffSeconds) % 3600) / 60
+
+            if minutes == 0 {
+                return ", \(sign)\(hours)h "
+            } else {
+                return ", \(sign)\(hours)h \(minutes)m"
+            }
+        }
+
+        XCTAssertEqual(operations.timeDifference(), expectedDiff(for: "Asia/Calcutta"))
+        XCTAssertEqual(californiaOperations.timeDifference(), expectedDiff(for: "America/Los_Angeles"))
+        XCTAssertEqual(floridaOperations.timeDifference(), expectedDiff(for: "America/New_York"))
+        XCTAssertEqual(aucklandOperations.timeDifference(), expectedDiff(for: "Pacific/Auckland"))
+        XCTAssertEqual(omahaOperations.timeDifference(), expectedDiff(for: "America/Chicago"))
     }
 
     func testSunriseSunset() {
