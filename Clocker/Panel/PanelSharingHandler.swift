@@ -90,8 +90,7 @@ class PanelSharingHandler: NSObject, NSSharingServicePickerDelegate {
 
         stride(from: 0, to: sortedByTime.count, by: 1).forEach {
             if $0 < sortedByTime.count,
-               let dataModel = TimezoneData.customObject(from: sortedByTime[$0])
-            {
+               let dataModel = TimezoneData.customObject(from: sortedByTime[$0]) {
                 let dataOperations = TimezoneDataOperations(with: dataModel, store: store)
                 let date = dataOperations.todaysDate(with: futureSliderValue)
                 let time = dataOperations.time(with: futureSliderValue)

@@ -21,7 +21,7 @@ class UpcomingEventStatusItemView: NSView {
             NSAttributedString.Key.font: compactModeTimeFont,
             NSAttributedString.Key.foregroundColor: textColor,
             NSAttributedString.Key.backgroundColor: NSColor.clear,
-            NSAttributedString.Key.paragraphStyle: defaultTimeParagraphStyle,
+            NSAttributedString.Key.paragraphStyle: defaultTimeParagraphStyle
         ]
         return attributes
     }
@@ -33,7 +33,7 @@ class UpcomingEventStatusItemView: NSView {
             NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: 10),
             NSAttributedString.Key.foregroundColor: textColor,
             NSAttributedString.Key.backgroundColor: NSColor.clear,
-            NSAttributedString.Key.paragraphStyle: defaultParagraphStyle,
+            NSAttributedString.Key.paragraphStyle: defaultParagraphStyle
         ]
         return textFontAttributes
     }
@@ -49,21 +49,21 @@ class UpcomingEventStatusItemView: NSView {
         }
 
         etaField.disableWrapping()
-        
+
         let topAnchorConstant: CGFloat = 0
 
         NSLayoutConstraint.activate([
             nextEventField.leadingAnchor.constraint(equalTo: leadingAnchor),
             nextEventField.trailingAnchor.constraint(equalTo: trailingAnchor),
             nextEventField.topAnchor.constraint(equalTo: topAnchor, constant: topAnchorConstant),
-            nextEventField.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.35),
+            nextEventField.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.35)
         ])
 
         NSLayoutConstraint.activate([
             etaField.leadingAnchor.constraint(equalTo: leadingAnchor),
             etaField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             etaField.topAnchor.constraint(equalTo: nextEventField.bottomAnchor),
-            etaField.bottomAnchor.constraint(equalTo: bottomAnchor),
+            etaField.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 

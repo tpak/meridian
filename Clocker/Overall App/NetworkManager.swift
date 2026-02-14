@@ -91,7 +91,7 @@ extension NetworkManager {
         components.queryItems = [
             URLQueryItem(name: "address", value: address),
             URLQueryItem(name: "key", value: key),
-            URLQueryItem(name: "language", value: language),
+            URLQueryItem(name: "language", value: language)
         ]
         return components.url
     }
@@ -105,7 +105,7 @@ extension NetworkManager {
         components.queryItems = [
             URLQueryItem(name: "location", value: "\(latitude),\(longitude)"),
             URLQueryItem(name: "timestamp", value: "\(timestamp)"),
-            URLQueryItem(name: "key", value: key),
+            URLQueryItem(name: "key", value: key)
         ]
         return components.url
     }

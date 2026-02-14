@@ -43,7 +43,7 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
             checkIfRunFromApplicationsFolder()
         #endif
     }
-  
+
     public func applicationWillFinishLaunching(_: Notification) {
         // iVersion removed; update checks happen via VersionUpdateHandler in continueUsually()
     }

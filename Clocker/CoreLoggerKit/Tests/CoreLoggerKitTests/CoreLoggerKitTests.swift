@@ -2,7 +2,6 @@
 
 @testable import CoreLoggerKit
 import os
-import os.log
 import XCTest
 
 // MARK: - Logger Tests
@@ -41,7 +40,7 @@ final class LoggerTests: XCTestCase {
             "nested": ["inner": "value"],
             "array": [1, 2, 3],
             "bool": true,
-            "nil_val": NSNull(),
+            "nil_val": NSNull()
         ]
         Logger.log(object: annotations, for: "NestedEvent")
     }

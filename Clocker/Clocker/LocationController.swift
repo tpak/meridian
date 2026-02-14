@@ -11,7 +11,7 @@ protocol LocationControllerDelegate: NSObject {
 
 class LocationController: NSObject {
     private let store: DataStore
-    
+
     init(withStore dataStore: DataStore) {
         store = dataStore
         super.init()

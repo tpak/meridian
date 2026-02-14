@@ -177,7 +177,7 @@ extension EventCenter {
 
     func requestAccess(to entity: EKEntityType, completionHandler: @escaping (_ granted: Bool) -> Void) {
         initializeStoreIfNeccesary()
-        
+
         eventStore.requestAccess(to: entity) { [weak self] granted, error in
             // On successful granting of calendar permission, we default to showing events from all calendars
             if let self = self, entity == .event, granted {
@@ -187,7 +187,7 @@ extension EventCenter {
             } else {
                 Logger.info("Request events access failed silently")
             }
-            
+
             completionHandler(granted)
         }
     }
@@ -358,8 +358,7 @@ extension EventCenter {
                     || actualLink.contains("zoomgov.com/j/")
                     || actualLink.contains("zoomgov.com/s/")
                     || actualLink.contains("zoomgov.com/w/")
-                    || actualLink.contains("zoomgov.com/my/")
-                {
+                    || actualLink.contains("zoomgov.com/my/") {
                     // Create a Zoom App link
                     let workspace = NSWorkspace.shared
                     if workspace.urlForApplication(toOpen: URL(string: "zoommtg://")!) != nil {
@@ -372,17 +371,17 @@ extension EventCenter {
                             return appLink
                         }
                     }
-                } else if (actualLink.contains("teams.microsoft.com/l/meetup-join")) {
+                } else if actualLink.contains("teams.microsoft.com/l/meetup-join") {
                     let workSpace = NSWorkspace.shared
-                    if workSpace.urlForApplication(toOpen: URL(string:"msteams://")!) != nil {
+                    if workSpace.urlForApplication(toOpen: URL(string: "msteams://")!) != nil {
                         let sanitizedString = actualLink.replacingOccurrences(of: "https://", with: "msteams://")
                         if let sanitizedURL = URL(string: sanitizedString) {
                             return sanitizedURL
                         }
                     }
-                } else if (actualLink.contains("chime.aws/")) {
+                } else if actualLink.contains("chime.aws/") {
                     let workSpace = NSWorkspace.shared
-                    if workSpace.urlForApplication(toOpen: URL(string:"chime://")!) != nil {
+                    if workSpace.urlForApplication(toOpen: URL(string: "chime://")!) != nil {
                         let sanitizedString = actualLink.replacingOccurrences(of: "https://chime.aws/", with: "chime://meeting?pin=")
                         if let sanitizedURL = URL(string: sanitizedString) {
                             return sanitizedURL
@@ -405,8 +404,7 @@ extension EventCenter {
                             || actualLink.contains("facetime.apple.com/join")
                             || actualLink.contains("workplace.com/meet")
                             || actualLink.contains("youcanbook.me/zoom/")
-                            || actualLink.contains("fb.workplace.com/groupcall")
-                {
+                            || actualLink.contains("fb.workplace.com/groupcall") {
                     if let meetingLink = result.url {
                         return meetingLink
                     }
@@ -428,8 +426,8 @@ extension EventCenter {
             EventCenter.dataDetector = dataDetector
         }
 
-        var meetingURL: URL? = nil
-        
+        var meetingURL: URL?
+
         if let url = event.url {
             meetingURL = findAppropriateURLs(url.absoluteString)
         }
@@ -437,8 +435,8 @@ extension EventCenter {
         if let notes = event.notes, meetingURL == nil {
             meetingURL = findAppropriateURLs(notes)
         }
-        
-        if let location = event.location, meetingURL == nil  {
+
+        if let location = event.location, meetingURL == nil {
             meetingURL = findAppropriateURLs(location)
         }
 
@@ -477,8 +475,7 @@ struct EventInfo {
 
     func metadataForMeeting() -> String {
         let timeIntervalSinceNowForMeeting = event.startDate.timeIntervalSinceNow
-        
-        
+
         if timeIntervalSinceNowForMeeting == 0 || event.startDate.shortTimeAgoSinceNow == "0s" {
             return "started."
         } else if timeIntervalSinceNowForMeeting < 0, timeIntervalSinceNowForMeeting > -300 {

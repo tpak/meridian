@@ -6,7 +6,7 @@ extension NSTextField {
         isEditable = false
         isBordered = false
         allowsDefaultTighteningForTruncation = true
-        
+
         isAutomaticTextCompletionEnabled = false
         allowsCharacterPickerTouchBarItem = false
     }

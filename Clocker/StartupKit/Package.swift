@@ -6,13 +6,13 @@ import PackageDescription
 let package = Package(
     name: "StartupKit",
     platforms: [
-        .macOS(.v13),
+        .macOS(.v13)
     ],
     products: [
         .library(
             name: "StartupKit",
             targets: ["StartupKit"]
-        ),
+        )
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -22,6 +22,6 @@ let package = Package(
         .target(
             name: "StartupKit",
             dependencies: []
-        ),
+        )
     ]
 )

@@ -31,7 +31,7 @@ public class TimezoneData: NSObject, NSCoding, NSSecureCoding {
     public static var supportsSecureCoding: Bool {
         return true
     }
-    
+
     public enum SelectionType: Int {
         case city
         case timezone
@@ -70,7 +70,7 @@ public class TimezoneData: NSObject, NSCoding, NSSecureCoding {
         // Suffix
         NSNumber(integerLiteral: 9): DateFormat.twelveHourWithoutSuffix,
         NSNumber(integerLiteral: 10): DateFormat.twelveHourWithoutSuffixAndSeconds,
-        NSNumber(integerLiteral: 11): DateFormat.epochTime,
+        NSNumber(integerLiteral: 11): DateFormat.epochTime
     ]
 
     public var customLabel: String?
@@ -271,12 +271,12 @@ public class TimezoneData: NSObject, NSCoding, NSSecureCoding {
         let formatInString = TimezoneData.values[key] ?? DateFormat.twelveHour
         return formatInString.contains("ss")
     }
-    
+
     public func isDaylightSavings() -> Bool {
         guard let timezone = TimeZone(abbreviation: timezone()) else {
             return false
         }
-        
+
         return timezone.isDaylightSavingTime(for: Date())
     }
 

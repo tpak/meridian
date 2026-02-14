@@ -106,14 +106,18 @@ class TimezoneAdditionHandler: NSObject {
                     if searchResults.status == ResultStatus.zeroResults {
                         Logger.info("Zero Results returned")
                         self.findLocalSearchResultsForTimezones()
-                        host.placeholderLabel.placeholderString = host.searchResultsDataSource.timezoneFilteredArray.isEmpty ? "No results! 😔 Try entering the exact name." : UserDefaultKeys.emptyString
+                        let noResults = host.searchResultsDataSource.timezoneFilteredArray.isEmpty
+                        host.placeholderLabel.placeholderString = noResults
+                            ? "No results! 😔 Try entering the exact name." : UserDefaultKeys.emptyString
                         self.reloadSearchResults()
                         self.isActivityInProgress = false
                         return
                     } else if searchResults.status == ResultStatus.requestDenied && searchResults.results.isEmpty {
                         Logger.info("Request denied!")
                         self.findLocalSearchResultsForTimezones()
-                        host.placeholderLabel.placeholderString = host.searchResultsDataSource.timezoneFilteredArray.isEmpty ? "Update Clocker to get a faster experience 😃" : UserDefaultKeys.emptyString
+                        let noResults = host.searchResultsDataSource.timezoneFilteredArray.isEmpty
+                        host.placeholderLabel.placeholderString = noResults
+                            ? "Update Clocker to get a faster experience 😃" : UserDefaultKeys.emptyString
                         self.reloadSearchResults()
                         self.isActivityInProgress = false
                         return
@@ -250,7 +254,7 @@ class TimezoneAdditionHandler: NSObject {
             "latitude": dataObject.latitude ?? 0.0,
             "longitude": dataObject.longitude ?? 0.0,
             "nextUpdate": UserDefaultKeys.emptyString,
-            UserDefaultKeys.customLabel: filteredAddress,
+            UserDefaultKeys.customLabel: filteredAddress
         ] as [String: Any]
 
         let timezoneObject = TimezoneData(with: newTimeZone)
@@ -472,4 +476,3 @@ class TimezoneAdditionHandler: NSObject {
         host.timezoneTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
     }
 }
-

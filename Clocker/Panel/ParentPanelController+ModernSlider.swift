@@ -10,7 +10,7 @@ extension ParentPanelController: NSCollectionViewDataSource {
         let futureSliderDayRange = (futureSliderDayPreference.intValue + 1)
         return (PanelConstants.modernSliderPointsInADay * futureSliderDayRange * 2) + 1
     }
-    
+
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         guard let item = collectionView.makeItem(withIdentifier: TimeMarkerViewItem.reuseIdentifier, for: indexPath) as? TimeMarkerViewItem else {
             return NSCollectionViewItem()
@@ -24,22 +24,22 @@ extension ParentPanelController {
     func setupModernSliderIfNeccessary() {
         if modernSlider != nil {
             modernSliderLabel.alignment = .center
-            
+
             resetModernSliderButton.image = Themer.shared().resetModernSliderImage()
-            
+
             if let scrollView = modernSlider.superview?.superview as? NSScrollView {
                 scrollView.scrollerStyle = NSScroller.Style.overlay
             }
-            
+
             goBackwardsButton.image = Themer.shared().goBackwardsImage()
             goForwardButton.image = Themer.shared().goForwardsImage()
-            
+
             goForwardButton.isContinuous = true
             goBackwardsButton.isContinuous = true
-            
+
             goBackwardsButton.toolTip = "Navigate 15 mins back"
             goForwardButton.toolTip = "Navigate 15 mins forward"
-            
+
             modernSlider.wantsLayer = true // Required for animating reset to center
             modernSlider.enclosingScrollView?.scrollerInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             modernSlider.enclosingScrollView?.backgroundColor = NSColor.clear
@@ -49,27 +49,27 @@ extension ParentPanelController {
                                                    selector: #selector(collectionViewDidScroll(_:)),
                                                    name: NSView.boundsDidChangeNotification,
                                                    object: modernSlider.superview)
-            
+
             // Set the modern slider label!
             closestQuarterTimeRepresentation = findClosestQuarterTimeApproximation()
             if let unwrappedClosetQuarterTime = closestQuarterTimeRepresentation {
                 modernSliderLabel.stringValue = timezoneFormattedStringRepresentation(unwrappedClosetQuarterTime)
             }
-            
+
             // Make sure modern slider is centered horizontally!
             let indexPaths: Set<IndexPath> = Set([IndexPath(item: modernSlider.numberOfItems(inSection: 0) / 2, section: 0)])
             modernSlider.scrollToItems(at: indexPaths, scrollPosition: .centeredHorizontally)
         }
     }
-    
+
     @IBAction func goForward(_: NSButton) {
         navigateModernSliderToSpecificIndex(1)
     }
-    
+
     @IBAction func goBackward(_: NSButton) {
         navigateModernSliderToSpecificIndex(-1)
     }
-    
+
     private func animateButton(_ hidden: Bool) {
         NSAnimationContext.runAnimationGroup({ context in
             context.duration = 0.5
@@ -80,7 +80,7 @@ extension ParentPanelController {
             strongSelf.resetModernSliderButton.animator().isHidden = hidden
         })
     }
-    
+
     private func showAccessoryButtonsIfNeccesary(_ hide: Bool) {
         NSAnimationContext.runAnimationGroup({ context in
             context.duration = 0.5
@@ -89,7 +89,7 @@ extension ParentPanelController {
             goBackwardsButton.animator().alphaValue = hide ? 0.0 : 1.0
         }, completionHandler: nil)
     }
-    
+
     @IBAction func resetModernSlider(_: NSButton) {
         closestQuarterTimeRepresentation = findClosestQuarterTimeApproximation()
         modernSliderLabel.stringValue = "Time Scroller"
@@ -106,7 +106,7 @@ extension ParentPanelController {
             })
         }
     }
-    
+
     private func navigateModernSliderToSpecificIndex(_ index: Int) {
         guard let contentView = modernSlider.superview as? NSClipView else {
             return
@@ -118,12 +118,12 @@ extension ParentPanelController {
             modernSlider.scrollToItems(at: Set([previousIndexPath]), scrollPosition: .centeredHorizontally)
         }
     }
-    
+
     @objc func collectionViewDidScroll(_ notification: NSNotification) {
         guard let contentView = notification.object as? NSClipView else {
             return
         }
-        
+
         let changedOrigin = contentView.documentVisibleRect.origin
         let newPoint = NSPoint(x: changedOrigin.x + contentView.frame.width / 2, y: changedOrigin.y)
         let indexPath = modernSlider.indexPathForItem(at: newPoint)
@@ -135,7 +135,7 @@ extension ParentPanelController {
             mainTableView.reloadData()
         }
     }
-    
+
     public func findClosestQuarterTimeApproximation() -> Date {
         let defaultParameters = minuteFromCalendar()
         let hourQuarterDate = Calendar.current.nextDate(after: defaultParameters.0,
@@ -145,7 +145,7 @@ extension ParentPanelController {
                                                         direction: .forward)!
         return hourQuarterDate
     }
-    
+
     public func setDefaultDateLabel(_ index: Int) -> Int {
         let futureSliderDayPreference = DataStore.shared().retrieve(key: UserDefaultKeys.futureSliderRange) as? NSNumber ?? 5
         let futureSliderDayRange = (futureSliderDayPreference.intValue + 1)
@@ -158,7 +158,7 @@ extension ParentPanelController {
             if resetModernSliderButton.isHidden {
                 animateButton(false)
             }
-            
+
             return nextDate.minutes(from: Date()) + 1
         } else if index < centerPoint {
             let remainder = centerPoint - index + 1
@@ -176,7 +176,7 @@ extension ParentPanelController {
             return 0
         }
     }
-    
+
     private func minuteFromCalendar() -> (Date, Int) {
         let currentDate = Date()
         var minute = Calendar.current.component(.minute, from: currentDate)
@@ -189,10 +189,10 @@ extension ParentPanelController {
         } else {
             minute = 0
         }
-        
+
         return (currentDate, minute)
     }
-    
+
     private func timezoneFormattedStringRepresentation(_ date: Date) -> String {
         let dateFormatter = DateFormatterManager.dateFormatterWithFormat(with: .none,
                                                                          format: "MMM d HH:mm",

@@ -15,12 +15,10 @@ func compactWidth(for timezone: TimezoneData, with store: DataStore) -> Int {
     if timeFormat == DateFormat.twelveHour
         || timeFormat == DateFormat.twelveHourWithSeconds
         || timeFormat == DateFormat.twelveHourWithZero
-        || timeFormat == DateFormat.twelveHourWithSeconds
-    {
+        || timeFormat == DateFormat.twelveHourWithSeconds {
         totalWidth += 20
     } else if timeFormat == DateFormat.twentyFourHour
-        || timeFormat == DateFormat.twentyFourHourWithSeconds
-    {
+        || timeFormat == DateFormat.twentyFourHourWithSeconds {
         totalWidth += 0
     }
 
@@ -77,16 +75,14 @@ class StatusContainerView: NSView {
     init(with timezones: [Data],
          store: DataStore,
          showUpcomingEventView: Bool,
-         bufferContainerWidth: Int)
-    {
+         bufferContainerWidth: Int) {
         self.store = store
 
         func addSubviews() {
             if showUpcomingEventView,
                let events = EventCenter.sharedCenter().eventsForDate[NSCalendar.autoupdatingCurrent.startOfDay(for: Date())],
                events.isEmpty == false,
-               let upcomingEvent = EventCenter.sharedCenter().nextOccuring(events)
-            {
+               let upcomingEvent = EventCenter.sharedCenter().nextOccuring(events) {
                 let calculatedWidth = bestWidth(for: upcomingEvent)
                 let frame = NSRect(x: previousX, y: 0, width: calculatedWidth, height: 30)
                 let calendarItemView = UpcomingEventStatusItemView(frame: frame)
@@ -105,7 +101,7 @@ class StatusContainerView: NSView {
         let timeBasedAttributes = [
             NSAttributedString.Key.font: compactModeTimeFont,
             NSAttributedString.Key.backgroundColor: NSColor.clear,
-            NSAttributedString.Key.paragraphStyle: defaultParagraphStyle,
+            NSAttributedString.Key.paragraphStyle: defaultParagraphStyle
         ]
 
         func containerWidth(for timezones: [Data], event: EventInfo?) -> CGFloat {
@@ -173,7 +169,7 @@ class StatusContainerView: NSView {
             NSAttributedString.Key.font: compactModeTimeFont,
             NSAttributedString.Key.foregroundColor: textColor,
             NSAttributedString.Key.backgroundColor: NSColor.clear,
-            NSAttributedString.Key.paragraphStyle: paragraphStyle,
+            NSAttributedString.Key.paragraphStyle: paragraphStyle
         ]
 
         let operation = TimezoneDataOperations(with: timezone, store: store)
@@ -194,7 +190,7 @@ class StatusContainerView: NSView {
             NSAttributedString.Key.font: compactModeTimeFont,
             NSAttributedString.Key.foregroundColor: textColor,
             NSAttributedString.Key.backgroundColor: NSColor.clear,
-            NSAttributedString.Key.paragraphStyle: defaultParagraphStyle,
+            NSAttributedString.Key.paragraphStyle: defaultParagraphStyle
         ]
 
         let bestSize = compactModeTimeFont.size(for: eventInfo.metadataForMeeting(),

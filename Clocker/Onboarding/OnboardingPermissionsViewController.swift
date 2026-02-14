@@ -23,7 +23,7 @@ class OnboardingPermissionsViewController: NSViewController {
 
     @IBOutlet var calendarHeaderLabel: NSTextField!
     @IBOutlet var calendarDetailLabel: NSTextField!
-    
+
     @IBOutlet var locationHeaderLabel: NSTextField!
     @IBOutlet var locationDetailLabel: NSTextField!
 
@@ -44,10 +44,10 @@ class OnboardingPermissionsViewController: NSViewController {
         appLabel.stringValue = NSLocalizedString("Permissions Tab", comment: "Title for Permissions screen")
         onboardingTypeLabel.stringValue = "Your data doesn't leave your device 🔐"
 
-        reminderHeaderLabel.stringValue = NSLocalizedString("Reminders Access Title",comment: "Title for Reminders Access Label")
+        reminderHeaderLabel.stringValue = NSLocalizedString("Reminders Access Title", comment: "Title for Reminders Access Label")
         reminderDetailLabel.stringValue = "Set reminders in the timezone of the location of your choice. Your reminders are stored in the default Reminders app."
 
-        calendarHeaderLabel.stringValue = NSLocalizedString("Calendar Access Title",comment: "Title for Calendar access label")
+        calendarHeaderLabel.stringValue = NSLocalizedString("Calendar Access Title", comment: "Title for Calendar access label")
         calendarDetailLabel.stringValue = "Calendar Detail".localized()
 
         [calendarHeaderLabel, calendarDetailLabel, privacyLabel, reminderDetailLabel, reminderHeaderLabel, onboardingTypeLabel, appLabel].forEach { $0?.textColor = Themer.shared().mainTextColor()

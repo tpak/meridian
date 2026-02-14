@@ -62,9 +62,8 @@ class AppearanceViewController: ParentViewController {
             "4 days",
             "5 days",
             "6 days",
-            "7 days",
+            "7 days"
         ])
-
 
         setup()
 
@@ -187,8 +186,7 @@ class AppearanceViewController: ParentViewController {
         refresh(panel: true, floating: true)
 
         if let selectedFormat = sender.selectedItem?.title,
-           selectedFormat.contains("ss")
-        {
+           selectedFormat.contains("ss") {
             Logger.info("Selected format contains timezone format")
             guard let panelController = PanelController.panel() else { return }
             panelController.pauseTimer()

@@ -72,8 +72,7 @@ class PreferencesViewController: ParentViewController {
 
         NotificationCenter.default.addObserver(forName: DataStore.didSyncFromExternalSourceNotification,
                                                object: self,
-                                               queue: OperationQueue.main)
-        { [weak self] _ in
+                                               queue: OperationQueue.main) { [weak self] _ in
             if let sSelf = self {
                 sSelf.refreshTimezoneTableView()
             }
@@ -228,7 +227,7 @@ class PreferencesViewController: ParentViewController {
         [timezoneNameSortButton, labelSortButton, timezoneSortButton].forEach {
             $0?.attributedTitle = NSAttributedString(string: $0?.title ?? UserDefaultKeys.emptyString, attributes: [
                 NSAttributedString.Key.foregroundColor: Themer.shared().mainTextColor(),
-                NSAttributedString.Key.font: NSFont(name: "Avenir-Light", size: 13) ?? NSFont.systemFont(ofSize: 13),
+                NSAttributedString.Key.font: NSFont(name: "Avenir-Light", size: 13) ?? NSFont.systemFont(ofSize: 13)
             ])
         }
 
@@ -326,8 +325,7 @@ extension PreferencesViewController: NSTableViewDataSource, NSTableViewDelegate 
         if let appDelegate = NSApplication.shared.delegate as? AppDelegate,
            let menubarFavourites = DataStore.shared().menubarTimezones(),
            menubarFavourites.isEmpty,
-           DataStore.shared().shouldDisplay(.showMeetingInMenubar) == false
-        {
+           DataStore.shared().shouldDisplay(.showMeetingInMenubar) == false {
             appDelegate.invalidateMenubarTimer(true)
         }
 

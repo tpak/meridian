@@ -135,8 +135,7 @@ class OnboardingSearchController: NSViewController {
 
     private func setupLabelHidingTimer() {
         Timer.scheduledTimer(withTimeInterval: 5,
-                             repeats: false)
-        { _ in
+                             repeats: false) { _ in
             OperationQueue.main.addOperation {
                 self.setInfoLabel(UserDefaultKeys.emptyString)
             }
@@ -231,7 +230,7 @@ class OnboardingSearchController: NSViewController {
                             "latitude": latitude,
                             "longitude": longitude,
                             "nextUpdate": UserDefaultKeys.emptyString,
-                            UserDefaultKeys.customLabel: filteredAddress,
+                            UserDefaultKeys.customLabel: filteredAddress
                         ] as [String: Any]
 
                         DataStore.shared().addTimezone(TimezoneData(with: newTimeZone))
@@ -355,7 +354,7 @@ class OnboardingSearchController: NSViewController {
 
                                                if let errorPresent = error {
                                                    self.findLocalSearchResultsForTimezones()
-                                                   if self.searchResultsDataSource?.timezoneFilteredArray.count == 0 {
+                                                   if self.searchResultsDataSource?.timezoneFilteredArray.isEmpty == true {
                                                        self.presentErrorMessage(errorPresent.localizedDescription)
                                                        setupForError()
                                                        return
@@ -439,8 +438,7 @@ extension OnboardingSearchController: NSTableViewDataSource {
     func tableView(_ tableView: NSTableView, viewFor _: NSTableColumn?, row: Int) -> NSView? {
         if let result = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "resultCellView"), owner: self) as? ResultTableViewCell,
            row >= 0,
-           row < (searchResultsDataSource?.resultsCount() ?? 0)
-        {
+           row < (searchResultsDataSource?.resultsCount() ?? 0) {
             let currentSelection = searchResultsDataSource?.retrieveResult(row)
             if let timezone = currentSelection as? TimezoneMetadata {
                 result.result.stringValue = " \(timezone.formattedName)"

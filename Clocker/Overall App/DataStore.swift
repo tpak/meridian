@@ -112,7 +112,7 @@ class DataStore: NSObject {
     func menubarTimezones() -> [Data]? {
         return cachedMenubarTimezones
     }
-    
+
     func selectedCalendars() -> [String]? {
         return userDefaults.array(forKey: UserDefaultKeys.selectedCalendars) as? [String]
     }

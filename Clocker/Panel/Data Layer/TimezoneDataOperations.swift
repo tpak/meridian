@@ -84,11 +84,11 @@ extension TimezoneDataOperations {
         var subtitle = UserDefaultKeys.emptyString
 
         let shouldLabelBeShownAlongWithTime = !store.shouldDisplay(.placeInMenubar)
-        
+
         if shouldLabelBeShownAlongWithTime == false {
             return dataObject.formattedTimezoneLabel()
         }
-        
+
         let shouldDayBeShown = store.shouldShowDayInMenubar()
         if shouldDayBeShown, shouldLabelBeShownAlongWithTime {
             let substring = date(with: 0, displayType: .menu)
@@ -292,7 +292,7 @@ extension TimezoneDataOperations {
             let unableToConvertDateParameters = [
                 "New Date": newDate,
                 "Timezone": dataObject.timezone(),
-                "Locale": dateFormatter.locale.identifier,
+                "Locale": dateFormatter.locale.identifier
             ] as [String: Any]
             Logger.log(object: unableToConvertDateParameters, for: "Date conversion failure - New Date is nil")
             return UserDefaultKeys.emptyString
@@ -428,7 +428,7 @@ extension TimezoneDataOperations {
 
     func saveObject(at index: Int = -1) {
         var defaults = store.timezones()
-        guard let encodedObject = NSKeyedArchiver.clocker_archive(with:dataObject as Any) else {
+        guard let encodedObject = NSKeyedArchiver.clocker_archive(with: dataObject as Any) else {
             return
         }
         index == -1 ? defaults.append(encodedObject) : defaults.insert(encodedObject, at: index)

@@ -74,7 +74,7 @@ class NotesPopover: NSViewController {
             "1 hour before",
             "2 hour before",
             "1 day before",
-            "2 days before",
+            "2 days before"
         ]
 
         alertPopupButton.removeAllItems()
@@ -239,7 +239,7 @@ class NotesPopover: NSViewController {
         let attributesDictionary = [
             NSAttributedString.Key.font: font,
             NSAttributedString.Key.foregroundColor: Themer.shared().mainTextColor(),
-            NSAttributedString.Key.paragraphStyle: style,
+            NSAttributedString.Key.paragraphStyle: style
         ]
 
         button.attributedTitle = NSAttributedString(string: title,
@@ -315,15 +315,14 @@ class NotesPopover: NSViewController {
 
     private func insertTimezoneInDefaultPreferences() {
         guard let model = dataObject, var timezones = timezoneObjects,
-        let encodedObject = NSKeyedArchiver.clocker_archive(with:model) else { return }
-        
+        let encodedObject = NSKeyedArchiver.clocker_archive(with: model) else { return }
+
         timezones[currentRow] = encodedObject
         DataStore.shared().setTimezones(timezones)
     }
 
     private func updateTimezoneInDefaultPreferences(with override: Int,
-                                                    _: OverrideType)
-    {
+                                                    _: OverrideType) {
         let timezones = DataStore.shared().timezones()
 
         var timezoneObjects: [TimezoneData] = []
@@ -394,8 +393,7 @@ class NotesPopover: NSViewController {
                                           timezone: model.timezone(),
                                           alertIndex: alertIndex,
                                           reminderDate: reminderPicker.dateValue,
-                                          additionalNotes: model.note)
-            {
+                                          additionalNotes: model.note) {
                 showSuccessMessage()
             }
         }

@@ -2,9 +2,6 @@
 
 import Cocoa
 import os
-import os.log
-import os.signpost
-
 public class Logger: NSObject {
     let logObjc = OSLog(subsystem: "com.abhishek.Clocker", category: "app")
 

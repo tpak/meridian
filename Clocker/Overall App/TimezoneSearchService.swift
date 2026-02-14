@@ -17,7 +17,7 @@ enum TimezoneSearchService {
                 UserDefaultKeys.timezoneName: result.formattedAddress,
                 UserDefaultKeys.customLabel: result.formattedAddress,
                 UserDefaultKeys.timezoneID: UserDefaultKeys.emptyString,
-                UserDefaultKeys.placeIdentifier: result.placeId,
+                UserDefaultKeys.placeIdentifier: result.placeId
             ]
             return TimezoneData(with: totalPackage)
         }
@@ -122,8 +122,7 @@ enum TimezoneSearchService {
                 if let jsonUnserialized = try? JSONSerialization.jsonObject(with: json, options: .allowFragments),
                    let unwrapped = jsonUnserialized as? [String: Any],
                    let status = unwrapped["status"] as? String,
-                   status == ResultStatus.zeroResults
-                {
+                   status == ResultStatus.zeroResults {
                     completion(.failure(.zeroResults))
                     return
                 }

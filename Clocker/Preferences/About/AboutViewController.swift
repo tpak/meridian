@@ -149,4 +149,3 @@ class AboutViewController: ParentViewController {
         underlineTextForActionButton()
     }
 }
-

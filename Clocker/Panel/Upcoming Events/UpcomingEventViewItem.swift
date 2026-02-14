@@ -42,8 +42,7 @@ class UpcomingEventViewItem: NSCollectionViewItem {
                _ color: NSColor,
                _ link: URL?,
                _ delegate: UpcomingEventPanelDelegate?,
-               _ isCancelled: Bool)
-    {
+               _ isCancelled: Bool) {
         if leadingConstraint.constant != UpcomingEventViewItem.EventLeadingConstraint / 2 {
             leadingConstraint.animator().constant = UpcomingEventViewItem.EventLeadingConstraint / 2
         }
@@ -59,11 +58,11 @@ class UpcomingEventViewItem: NSCollectionViewItem {
 
     private func setupLabels(_ title: String, _ cancellationState: Bool) {
         var sanitizedTitle = title
-        if (cancellationState) {
+        if cancellationState {
             let offendingString = "Canceled: "
             sanitizedTitle = sanitizedTitle.replacingOccurrences(of: offendingString, with: "")
         }
-        
+
         let attributes: [NSAttributedString.Key: Any] = cancellationState ? [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue,
                                                                              NSAttributedString.Key.strikethroughColor: NSColor.gray] : [:]
         let attributedString = NSAttributedString(string: sanitizedTitle, attributes: attributes)
@@ -106,7 +105,7 @@ class UpcomingEventViewItem: NSCollectionViewItem {
         nil)
     }
 
-    private func setAlternateState(_ title: String, 
+    private func setAlternateState(_ title: String,
                                    _ buttonTitle: String,
                                    _ color: NSColor,
                                    _ image: NSImage?,

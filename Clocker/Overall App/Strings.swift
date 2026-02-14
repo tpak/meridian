@@ -42,5 +42,3 @@ public enum UserDefaultKeys {
     static let ubiquitousStoreLastUpdateKey = "com.abhishek.ubiquitousLastUpdateKey"
     static let userDefaultsLastUpdateKey = "com.abhishek.defaultsLastUpdateKey"
 }
-
-

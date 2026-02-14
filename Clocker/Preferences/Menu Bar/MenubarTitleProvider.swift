@@ -53,7 +53,7 @@ class MenubarTitleProvider: NSObject {
             for eventInfo in events {
                 let event = eventInfo.event
                 let acceptableCriteria = event.startDate.timeIntervalSinceNow > -300
-                if acceptableCriteria, 
+                if acceptableCriteria,
                     !eventInfo.isAllDay,
                     eventInfo.event.status != EKEventStatus.canceled {
                     let timeForEventToStart = event.startDate.timeIntervalSinceNow / 60
