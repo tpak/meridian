@@ -101,7 +101,15 @@ class EventInfoTests: XCTestCase {
                                       isAllDay: false,
                                       meetingURL: nil,
                                       attendeStatus: .accepted)
-        XCTAssert(mockEventInfo.metadataForMeeting() == "in 3h 4m",
-                  "Metadata for meeting: \(mockEventInfo.metadataForMeeting()) doesn't match expectation")
+        let metadata = mockEventInfo.metadataForMeeting()
+        // When run late in the day, adding 3h crosses midnight and the event
+        // lands on tomorrow. The tomorrow branch omits minutes.
+        if mockEvent.startDate.isToday {
+            XCTAssertEqual(metadata, "in 3h 4m",
+                           "Metadata for meeting: \(metadata) doesn't match expectation")
+        } else {
+            XCTAssertEqual(metadata, "in 3h",
+                           "Metadata for meeting: \(metadata) doesn't match expectation")
+        }
     }
 }
