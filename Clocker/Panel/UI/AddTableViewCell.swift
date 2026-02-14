@@ -10,7 +10,7 @@ class AddTableViewCell: NSTableCellView {
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(themeChanges),
-                                               name: Notification.Name.themeDidChange,
+                                               name: .themeDidChangeNotification,
                                                object: nil)
 
         if let addCell = addTimezone.cell as? NSButtonCell {

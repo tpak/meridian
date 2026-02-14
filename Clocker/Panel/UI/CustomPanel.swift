@@ -2,7 +2,7 @@
 
 import Cocoa
 
-class Panelr: NSPanel {
+class CustomPanel: NSPanel {
     override var canBecomeKey: Bool {
         return true
     }

@@ -136,7 +136,7 @@ class ParentPanelController: NSWindowController {
 #endif
 
         // Setup notifications
-        NotificationCenter.default.publisher(for: Notification.Name.themeDidChange)
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in self?.themeChanged() }
             .store(in: &cancellables)

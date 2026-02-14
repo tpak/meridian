@@ -1231,7 +1231,7 @@
         <!-- Preferences -->
         <scene sceneID="udr-95-hTV">
             <objects>
-                <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hasShadow="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="alertPanel" frameAutosaveName="" id="YHn-dh-3ug" customClass="Panelr" customModule="Clocker" customModuleProvider="target">
+                <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hasShadow="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="alertPanel" frameAutosaveName="" id="YHn-dh-3ug" customClass="CustomPanel" customModule="Clocker" customModuleProvider="target">
                     <windowStyleMask key="styleMask" closable="YES" miniaturizable="YES" nonactivatingPanel="YES"/>
                     <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                     <rect key="contentRect" x="120" y="64" width="345" height="320"/>

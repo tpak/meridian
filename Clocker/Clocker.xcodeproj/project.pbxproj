@@ -53,7 +53,7 @@
 		35C36F18225961DA002FA5C6 /* Date+Comparators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F08225961DA002FA5C6 /* Date+Comparators.swift */; };
 		35C36F19225961DA002FA5C6 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F09225961DA002FA5C6 /* Enums.swift */; };
 		35C36F1A225961DA002FA5C6 /* Date+Manipulations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F0A225961DA002FA5C6 /* Date+Manipulations.swift */; };
-		35C36F1B225961DA002FA5C6 /* Date+Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F0B225961DA002FA5C6 /* Date+Format.swift */; };
+
 		35C36F2022596253002FA5C6 /* OneWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F1E22596253002FA5C6 /* OneWindowController.swift */; };
 		35C36F2122596253002FA5C6 /* AppearanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F1F22596253002FA5C6 /* AppearanceViewController.swift */; };
 		35C36F2B2259D6FA002FA5C6 /* ParentPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F272259D6FA002FA5C6 /* ParentPanelController.swift */; };
@@ -63,7 +63,7 @@
 		35C36F422259D892002FA5C6 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F3A2259D892002FA5C6 /* Timer.swift */; };
 		35C36F452259D892002FA5C6 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F3D2259D892002FA5C6 /* Strings.swift */; };
 		35C36F462259D892002FA5C6 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F3E2259D892002FA5C6 /* DataStore.swift */; };
-		35C36F472259D892002FA5C6 /* Reach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F3F2259D892002FA5C6 /* Reach.swift */; };
+
 		35C36F482259D892002FA5C6 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F402259D892002FA5C6 /* NetworkManager.swift */; };
 		A1B2C3D4E5F60002SEARCH02 /* TimezoneSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60001SEARCH01 /* TimezoneSearchService.swift */; };
 		35C36F4B2259D971002FA5C6 /* PointingHandCursorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F4A2259D971002FA5C6 /* PointingHandCursorButton.swift */; };
@@ -72,7 +72,7 @@
 		35C36F572259DD8A002FA5C6 /* TimezoneDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F532259DD8A002FA5C6 /* TimezoneDataSource.swift */; };
 		35C36F582259DD8A002FA5C6 /* PanelTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F542259DD8A002FA5C6 /* PanelTableView.swift */; };
 		35C36F592259DD8A002FA5C6 /* TimezoneCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F552259DD8A002FA5C6 /* TimezoneCellView.swift */; };
-		35C36F5A2259DD8A002FA5C6 /* Panelr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F562259DD8A002FA5C6 /* Panelr.swift */; };
+		35C36F5A2259DD8A002FA5C6 /* CustomPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F562259DD8A002FA5C6 /* CustomPanel.swift */; };
 		35C36F5D2259DD96002FA5C6 /* TimezoneDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F5B2259DD96002FA5C6 /* TimezoneDataOperations.swift */; };
 		35C36F612259DE67002FA5C6 /* NotesPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35C36F5F2259DE67002FA5C6 /* NotesPopover.xib */; };
 		35C36F622259DE67002FA5C6 /* NotesPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F602259DE67002FA5C6 /* NotesPopover.swift */; };
@@ -266,7 +266,7 @@
 		35C36F08225961DA002FA5C6 /* Date+Comparators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Comparators.swift"; sourceTree = "<group>"; };
 		35C36F09225961DA002FA5C6 /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		35C36F0A225961DA002FA5C6 /* Date+Manipulations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Manipulations.swift"; sourceTree = "<group>"; };
-		35C36F0B225961DA002FA5C6 /* Date+Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Format.swift"; sourceTree = "<group>"; };
+
 		35C36F1E22596253002FA5C6 /* OneWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWindowController.swift; sourceTree = "<group>"; };
 		35C36F1F22596253002FA5C6 /* AppearanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearanceViewController.swift; sourceTree = "<group>"; };
 		35C36F272259D6FA002FA5C6 /* ParentPanelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentPanelController.swift; sourceTree = "<group>"; };
@@ -278,7 +278,7 @@
 		35C36F3E2259D892002FA5C6 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		9FEC776853CC4796AD9A1DC6 /* GlobalShortcutMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalShortcutMonitor.swift; sourceTree = "<group>"; };
 		E0A19BB308FC4CDEA6F6878A /* ShortcutRecorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortcutRecorderButton.swift; sourceTree = "<group>"; };
-		35C36F3F2259D892002FA5C6 /* Reach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reach.swift; sourceTree = "<group>"; };
+
 		35C36F402259D892002FA5C6 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60001SEARCH01 /* TimezoneSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezoneSearchService.swift; sourceTree = "<group>"; };
 		35C36F4A2259D971002FA5C6 /* PointingHandCursorButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointingHandCursorButton.swift; sourceTree = "<group>"; };
@@ -287,7 +287,7 @@
 		35C36F532259DD8A002FA5C6 /* TimezoneDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimezoneDataSource.swift; sourceTree = "<group>"; };
 		35C36F542259DD8A002FA5C6 /* PanelTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanelTableView.swift; sourceTree = "<group>"; };
 		35C36F552259DD8A002FA5C6 /* TimezoneCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimezoneCellView.swift; sourceTree = "<group>"; };
-		35C36F562259DD8A002FA5C6 /* Panelr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Panelr.swift; sourceTree = "<group>"; };
+		35C36F562259DD8A002FA5C6 /* CustomPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPanel.swift; sourceTree = "<group>"; };
 		35C36F5B2259DD96002FA5C6 /* TimezoneDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimezoneDataOperations.swift; sourceTree = "<group>"; };
 		35C36F5F2259DE67002FA5C6 /* NotesPopover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesPopover.xib; sourceTree = "<group>"; };
 		35C36F602259DE67002FA5C6 /* NotesPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesPopover.swift; sourceTree = "<group>"; };
@@ -501,7 +501,7 @@
 				35C36EFE225961D9002FA5C6 /* Date+Bundle.swift */,
 				35C36F08225961DA002FA5C6 /* Date+Comparators.swift */,
 				35C36F02225961DA002FA5C6 /* Date+Components.swift */,
-				35C36F0B225961DA002FA5C6 /* Date+Format.swift */,
+
 				35C36F06225961DA002FA5C6 /* Date+Inits.swift */,
 				35C36F0A225961DA002FA5C6 /* Date+Manipulations.swift */,
 				35C36F03225961DA002FA5C6 /* Date+TimeAgo.swift */,
@@ -559,7 +559,7 @@
 				35C36F3E2259D892002FA5C6 /* DataStore.swift */,
 				9FEC776853CC4796AD9A1DC6 /* GlobalShortcutMonitor.swift */,
 				35C36F402259D892002FA5C6 /* NetworkManager.swift */,
-				35C36F3F2259D892002FA5C6 /* Reach.swift */,
+
 				35C36F3D2259D892002FA5C6 /* Strings.swift */,
 				35C36F392259D892002FA5C6 /* Themer.swift */,
 				A1B2C3D4E5F60001SEARCH01 /* TimezoneSearchService.swift */,
@@ -596,7 +596,7 @@
 				35C36F6C2259E185002FA5C6 /* CustomSliderCell.swift */,
 				35C36F6E2259E185002FA5C6 /* NoTimezoneView.swift */,
 				35C36F6A2259E0E1002FA5C6 /* FloatingWindow.xib */,
-				35C36F562259DD8A002FA5C6 /* Panelr.swift */,
+				35C36F562259DD8A002FA5C6 /* CustomPanel.swift */,
 				35C36F542259DD8A002FA5C6 /* PanelTableView.swift */,
 				35C36F552259DD8A002FA5C6 /* TimezoneCellView.swift */,
 				35C36F532259DD8A002FA5C6 /* TimezoneDataSource.swift */,
@@ -1165,7 +1165,7 @@
 				35C36EF622595F14002FA5C6 /* OnboardingController.swift in Sources */,
 				9AB6F1622259D1B000A44663 /* PreferencesDataSource.swift in Sources */,
 				3508CC9A259A0001000E3530 /* StatusItemView.swift in Sources */,
-				35C36F472259D892002FA5C6 /* Reach.swift in Sources */,
+
 				35C36EF222595F14002FA5C6 /* OnboardingWelcomeViewController.swift in Sources */,
 				3548C45F26BEEFB400AFB533 /* UpcomingEventsDataSource.swift in Sources */,
 				35C36F732259E1AA002FA5C6 /* FloatingWindowController.swift in Sources */,
@@ -1196,7 +1196,7 @@
 				AA000001SWIFTUI00000001 /* AboutView.swift in Sources */,
 				AA000003SWIFTUI00000001 /* PermissionsView.swift in Sources */,
 				35C36F2122596253002FA5C6 /* AppearanceViewController.swift in Sources */,
-				35C36F1B225961DA002FA5C6 /* Date+Format.swift in Sources */,
+
 				35C36F372259D7C3002FA5C6 /* AddTableViewCell.swift in Sources */,
 				35C36F12225961DA002FA5C6 /* Date+Components.swift in Sources */,
 				35C36F2C2259D6FA002FA5C6 /* PanelController.swift in Sources */,
@@ -1204,7 +1204,7 @@
 				35C36FA42259EEC2002FA5C6 /* AppDelegate.swift in Sources */,
 				35DFBCEF26A8468900D6648B /* ConfigExport.swift in Sources */,
 				35C36F19225961DA002FA5C6 /* Enums.swift in Sources */,
-				35C36F5A2259DD8A002FA5C6 /* Panelr.swift in Sources */,
+				35C36F5A2259DD8A002FA5C6 /* CustomPanel.swift in Sources */,
 				35C36F712259E185002FA5C6 /* NoTimezoneView.swift in Sources */,
 				35C36F2B2259D6FA002FA5C6 /* ParentPanelController.swift in Sources */,
 				35C36F582259DD8A002FA5C6 /* PanelTableView.swift in Sources */,

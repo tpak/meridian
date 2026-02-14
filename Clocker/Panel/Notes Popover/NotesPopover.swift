@@ -64,7 +64,7 @@ class NotesPopover: NSViewController {
         setupAlarmTextField()
         setupUI()
 
-        NotificationCenter.default.publisher(for: NSNotification.Name.themeDidChange)
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in self?.themeChanged() }
             .store(in: &cancellables)

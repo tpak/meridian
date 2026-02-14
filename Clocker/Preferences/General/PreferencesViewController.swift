@@ -23,7 +23,7 @@ class PreferencesViewController: ParentViewController {
     @IBOutlet var placeholderLabel: NSTextField!
     @IBOutlet var timezoneTableView: NSTableView!
     @IBOutlet var availableTimezoneTableView: NSTableView!
-    @IBOutlet var timezonePanel: Panelr!
+    @IBOutlet var timezonePanel: CustomPanel!
     @IBOutlet var progressIndicator: NSProgressIndicator!
     @IBOutlet var addButton: NSButton!
     @IBOutlet private var recorderControl: ShortcutRecorderButton!
