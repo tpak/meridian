@@ -19,14 +19,13 @@ class MenubarHandler: NSObject {
         }
 
         if menubarTitles.isEmpty == false {
-            let titles = menubarTitles.map { data -> String? in
-                let timezone = TimezoneData.customObject(from: data)
-                let operationsObject = TimezoneDataOperations(with: timezone!)
-                return "\(operationsObject.menuTitle().trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines))"
+            let titles = menubarTitles.compactMap { data -> String? in
+                guard let timezone = TimezoneData.customObject(from: data) else { return nil }
+                let operationsObject = TimezoneDataOperations(with: timezone)
+                return operationsObject.menuTitle().trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
             }
 
-            let titlesStringified = titles.compactMap { $0 }
-            return titlesStringified.joined(separator: " ")
+            return titles.joined(separator: " ")
         }
 
         return nil

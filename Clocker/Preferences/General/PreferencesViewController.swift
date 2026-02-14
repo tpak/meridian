@@ -45,10 +45,7 @@ class PreferencesViewController: ParentViewController {
     
     // Sorting
     private var arePlacesSortedInAscendingOrder = false
-    private var arePlacesSortedInAscendingTimezoneOrder = false
-    private var isTimezoneSortOptionSelected = false
-    private var isTimezoneNameSortOptionSelected = false
-    private var isLabelOptionSelected = false
+    private let sortingManager = TimezoneSortingManager()
     
     private var isActivityInProgress = false {
         didSet {
@@ -248,7 +245,7 @@ class PreferencesViewController: ParentViewController {
         [timezoneNameSortButton, labelSortButton, timezoneSortButton].forEach {
             $0?.attributedTitle = NSAttributedString(string: $0?.title ?? UserDefaultKeys.emptyString, attributes: [
                 NSAttributedString.Key.foregroundColor: Themer.shared().mainTextColor(),
-                NSAttributedString.Key.font: NSFont(name: "Avenir-Light", size: 13)!,
+                NSAttributedString.Key.font: NSFont(name: "Avenir-Light", size: 13) ?? NSFont.systemFont(ofSize: 13),
             ])
         }
         
@@ -281,7 +278,7 @@ class PreferencesViewController: ParentViewController {
             hotKeyCenter?.unregisterHotKey(oldHotKey)
             
             guard let newObject = object as? NSObject, let newShortcut = newObject.value(forKeyPath: path) as? [AnyHashable: Any] else {
-                assertionFailure("Unable to recognize shortcuts")
+                Logger.info("Unable to recognize shortcuts")
                 return
             }
             
@@ -426,10 +423,15 @@ extension PreferencesViewController {
             self.placeholderLabel.isHidden = false
             self.isActivityInProgress = true
             self.placeholderLabel.placeholderString = "Searching for \(searchString)"
-            
+
             Logger.info(self.placeholderLabel.placeholderString ?? "")
-            
-            self.dataTask = NetworkManager.task(with: self.generateSearchURL(),
+
+            guard let searchURL = self.generateSearchURL() else {
+                self.presentError("Unable to construct search URL.")
+                return
+            }
+
+            self.dataTask = NetworkManager.task(with: searchURL,
                                                 completionHandler: { [weak self] response, error in
                 
                 guard let self = self else { return }
@@ -446,7 +448,7 @@ extension PreferencesViewController {
                     }
                     
                     guard let data = response, let searchResults = data.decode() else {
-                        assertionFailure("Data was unexpectedly nil")
+                        Logger.info("Data was unexpectedly nil")
                         return
                     }
                     
@@ -478,18 +480,17 @@ extension PreferencesViewController {
     }
     
     private func findLocalSearchResultsForTimezones() {
-        let lowercasedSearchString = searchField.stringValue.lowercased()
-        searchResultsDataSource.searchTimezones(lowercasedSearchString)
+        TimezoneSearchService.searchLocalTimezones(searchField.stringValue, in: searchResultsDataSource)
     }
     
-    private func generateSearchURL() -> String {
+    private func generateSearchURL() -> URL? {
         let userPreferredLanguage = Locale.preferredLanguages.first ?? "en-US"
-        
+
         var searchString = searchField.stringValue
         let words = searchString.components(separatedBy: CharacterSet.whitespacesAndNewlines)
         searchString = words.joined(separator: UserDefaultKeys.emptyString)
-        
-        return "https://maps.googleapis.com/maps/api/geocode/json?address=\(searchString)&key=\(geocodingKey)&language=\(userPreferredLanguage)"
+
+        return NetworkManager.geocodeURL(for: searchString, key: geocodingKey, language: userPreferredLanguage)
     }
     
     private func presentError(_ errorMessage: String) {
@@ -498,25 +499,7 @@ extension PreferencesViewController {
     }
     
     private func appendResultsToFilteredArray(_ results: [SearchResult.Result]) {
-        var finalResults: [TimezoneData] = []
-        results.forEach {
-            let location = $0.geometry.location
-            let latitude = location.lat
-            let longitude = location.lng
-            let formattedAddress = $0.formattedAddress
-            
-            let totalPackage = [
-                "latitude": latitude,
-                "longitude": longitude,
-                UserDefaultKeys.timezoneName: formattedAddress,
-                UserDefaultKeys.customLabel: formattedAddress,
-                UserDefaultKeys.timezoneID: UserDefaultKeys.emptyString,
-                UserDefaultKeys.placeIdentifier: $0.placeId,
-            ] as [String: Any]
-            
-            finalResults.append(TimezoneData(with: totalPackage))
-        }
-        searchResultsDataSource.setFilteredArrayValue(finalResults)
+        TimezoneSearchService.parseAndAddGeocodingResults(results, to: searchResultsDataSource)
     }
     
     private func prepareUIForPresentingResults() {
@@ -550,11 +533,14 @@ extension PreferencesViewController {
         placeholderLabel.placeholderString = "Retrieving timezone data"
         availableTimezoneTableView.isHidden = true
         
-        let tuple = "\(latitude),\(longitude)"
         let timeStamp = Date().timeIntervalSince1970
-        let urlString = "https://maps.googleapis.com/maps/api/timezone/json?location=\(tuple)&timestamp=\(timeStamp)&key=\(geocodingKey)"
-        
-        NetworkManager.task(with: urlString) { [weak self] response, error in
+
+        guard let url = NetworkManager.timezoneURL(for: latitude, longitude: longitude, timestamp: timeStamp, key: geocodingKey) else {
+            presentError("Unable to construct timezone URL.")
+            return
+        }
+
+        NetworkManager.task(with: url) { [weak self] response, error in
             
             guard let strongSelf = self else { return }
             
@@ -586,7 +572,7 @@ extension PreferencesViewController {
     
     private func installTimezone(_ timezone: Timezone) {
         guard let dataObject = searchResultsDataSource.retrieveFilteredResultFromGoogleAPI(availableTimezoneTableView.selectedRow) else {
-            assertionFailure("Data was unexpectedly nil")
+            Logger.info("Data was unexpectedly nil")
             return
         }
         
@@ -599,9 +585,9 @@ extension PreferencesViewController {
         let newTimeZone = [
             UserDefaultKeys.timezoneID: timezone.timeZoneId,
             UserDefaultKeys.timezoneName: filteredAddress,
-            UserDefaultKeys.placeIdentifier: dataObject.placeID!,
-            "latitude": dataObject.latitude!,
-            "longitude": dataObject.longitude!,
+            UserDefaultKeys.placeIdentifier: dataObject.placeID ?? "",
+            "latitude": dataObject.latitude ?? 0.0,
+            "longitude": dataObject.longitude ?? 0.0,
             "nextUpdate": UserDefaultKeys.emptyString,
             UserDefaultKeys.customLabel: filteredAddress,
         ] as [String: Any]
@@ -715,15 +701,15 @@ extension PreferencesViewController {
     
     private func cleanupAfterInstallingCity() {
         guard let dataObject = searchResultsDataSource.retrieveFilteredResultFromGoogleAPI(availableTimezoneTableView.selectedRow) else {
-            assertionFailure("Data was unexpectedly nil")
+            Logger.info("Data was unexpectedly nil")
             return
         }
-        
+
         if messageLabel.stringValue.isEmpty {
             searchField.stringValue = UserDefaultKeys.emptyString
-            
+
             guard let latitude = dataObject.latitude, let longitude = dataObject.longitude else {
-                assertionFailure("Data was unexpectedly nil")
+                Logger.info("Data was unexpectedly nil")
                 return
             }
             
@@ -774,9 +760,9 @@ extension PreferencesViewController {
     
     private func metadata(for selection: TimezoneMetadata) -> (NSTimeZone, TimezoneMetadata) {
         if selection.formattedName == "Anywhere on Earth" {
-            return (NSTimeZone(name: "GMT-1200")!, selection)
+            return (NSTimeZone(name: "GMT-1200") ?? NSTimeZone.default as NSTimeZone, selection)
         } else if selection.formattedName == "UTC" {
-            return (NSTimeZone(name: "GMT")!, selection)
+            return (NSTimeZone(name: "GMT") ?? NSTimeZone.default as NSTimeZone, selection)
         } else {
             return (selection.timezone, selection)
         }
@@ -809,7 +795,7 @@ extension PreferencesViewController {
         }
         
         if timezoneTableView.selectedRow == -1, selectedTimeZones.count <= timezoneTableView.selectedRow {
-            assertionFailure("Data was unexpectedly nil")
+            Logger.info("Data was unexpectedly nil")
             return
         }
         
@@ -886,78 +872,23 @@ extension PreferencesViewController {
     }
     
     @IBAction func sortByTime(_ sender: NSButton) {
-        let sortedByTime = selectedTimeZones.sorted { obj1, obj2 -> Bool in
-            
-            let system = NSTimeZone.system
-            
-            guard let object1 = TimezoneData.customObject(from: obj1),
-                  let object2 = TimezoneData.customObject(from: obj2)
-            else {
-                assertionFailure("Data was unexpectedly nil")
-                return false
-            }
-            
-            let timezone1 = NSTimeZone(name: object1.timezone())
-            let timezone2 = NSTimeZone(name: object2.timezone())
-            
-            let difference1 = system.secondsFromGMT() - timezone1!.secondsFromGMT
-            let difference2 = system.secondsFromGMT() - timezone2!.secondsFromGMT
-            
-            return arePlacesSortedInAscendingTimezoneOrder ? difference1 > difference2 : difference1 < difference2
-        }
-        
-        sender.image = arePlacesSortedInAscendingTimezoneOrder ? NSImage(named: NSImage.Name("NSDescendingSortIndicator"))! : NSImage(named: NSImage.Name("NSAscendingSortIndicator"))!
-        
-        arePlacesSortedInAscendingTimezoneOrder.toggle()
-        
-        DataStore.shared().setTimezones(sortedByTime)
-        
+        let result = sortingManager.sort(selectedTimeZones, by: .time)
+        sender.image = result.indicatorImage
+        DataStore.shared().setTimezones(result.sorted)
         updateAfterSorting()
     }
-    
+
     @IBAction func sortByLabel(_ sender: NSButton) {
-        let sortedLabels = selectedTimeZones.sorted { obj1, obj2 -> Bool in
-            
-            guard let object1 = TimezoneData.customObject(from: obj1),
-                  let object2 = TimezoneData.customObject(from: obj2)
-            else {
-                assertionFailure("Data was unexpectedly nil")
-                return false
-            }
-            
-            return isLabelOptionSelected ? object1.customLabel! > object2.customLabel! : object1.customLabel! < object2.customLabel!
-        }
-        
-        sender.image = isLabelOptionSelected ?
-        NSImage(named: NSImage.Name("NSDescendingSortIndicator"))! :
-        NSImage(named: NSImage.Name("NSAscendingSortIndicator"))!
-        
-        isLabelOptionSelected.toggle()
-        
-        DataStore.shared().setTimezones(sortedLabels)
-        
+        let result = sortingManager.sort(selectedTimeZones, by: .label)
+        sender.image = result.indicatorImage
+        DataStore.shared().setTimezones(result.sorted)
         updateAfterSorting()
     }
-    
+
     @IBAction func sortByFormattedAddress(_ sender: NSButton) {
-        let sortedByAddress = selectedTimeZones.sorted { obj1, obj2 -> Bool in
-            
-            guard let object1 = TimezoneData.customObject(from: obj1),
-                  let object2 = TimezoneData.customObject(from: obj2)
-            else {
-                assertionFailure("Data was unexpectedly nil")
-                return false
-            }
-            
-            return isTimezoneNameSortOptionSelected ? object1.formattedAddress! > object2.formattedAddress! : object1.formattedAddress! < object2.formattedAddress!
-        }
-        
-        sender.image = isTimezoneNameSortOptionSelected ? NSImage(named: NSImage.Name("NSDescendingSortIndicator"))! : NSImage(named: NSImage.Name("NSAscendingSortIndicator"))!
-        
-        isTimezoneNameSortOptionSelected.toggle()
-        
-        DataStore.shared().setTimezones(sortedByAddress)
-        
+        let result = sortingManager.sort(selectedTimeZones, by: .name)
+        sender.image = result.indicatorImage
+        DataStore.shared().setTimezones(result.sorted)
         updateAfterSorting()
     }
     
@@ -1008,37 +939,10 @@ extension PreferencesViewController: PreferenceSelectionUpdates {
         if tableColumn.identifier.rawValue == "favouriteTimezone" {
             return
         }
-        
-        let sortedTimezones = selectedTimeZones.sorted { obj1, obj2 -> Bool in
-            
-            guard let object1 = TimezoneData.customObject(from: obj1),
-                  let object2 = TimezoneData.customObject(from: obj2)
-            else {
-                assertionFailure("Data was unexpectedly nil")
-                return false
-            }
-            
-            if tableColumn.identifier.rawValue == "formattedAddress" {
-                return arePlacesSortedInAscendingOrder ?
-                object1.formattedAddress! > object2.formattedAddress! :
-                object1.formattedAddress! < object2.formattedAddress!
-            } else {
-                return arePlacesSortedInAscendingOrder ?
-                object1.customLabel! > object2.customLabel! :
-                object1.customLabel! < object2.customLabel!
-            }
-        }
-        
-        let indicatorImage = arePlacesSortedInAscendingOrder ?
-        NSImage(named: NSImage.Name("NSDescendingSortIndicator"))! :
-        NSImage(named: NSImage.Name("NSAscendingSortIndicator"))!
-        
-        timezoneTableView.setIndicatorImage(indicatorImage, in: tableColumn)
-        
-        arePlacesSortedInAscendingOrder.toggle()
-        
-        DataStore.shared().setTimezones(sortedTimezones)
-        
+
+        let result = sortingManager.sort(selectedTimeZones, byColumn: tableColumn.identifier.rawValue, ascending: &arePlacesSortedInAscendingOrder)
+        timezoneTableView.setIndicatorImage(result.indicatorImage, in: tableColumn)
+        DataStore.shared().setTimezones(result.sorted)
         updateAfterSorting()
     }
 }

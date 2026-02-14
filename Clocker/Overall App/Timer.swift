@@ -265,7 +265,7 @@ open class Repeater: Equatable {
     /// - Returns: timer
     @discardableResult
     public class func every(_ interval: Interval, count: Int? = nil, queue: DispatchQueue? = nil, _ handler: @escaping Observer) -> Repeater {
-        let mode: Mode = (count != nil ? .finite(count!) : .infinite)
+        let mode: Mode = count.map { .finite($0) } ?? .infinite
         let timer = Repeater(interval: interval, mode: mode, queue: queue, observer: handler)
         timer.start()
         return timer
@@ -374,8 +374,10 @@ open class Repeater: Equatable {
             setPause(from: .executing, to: .finished)
         case .finite:
             // for finite intervals we decrement the left iterations count...
-            remainingIterations! -= 1
-            if remainingIterations! == 0 {
+            if let remaining = remainingIterations {
+                remainingIterations = remaining - 1
+            }
+            if remainingIterations == 0 {
                 // ...if left count is zero we just pause the timer and stop
                 setPause(from: .executing, to: .finished)
             }

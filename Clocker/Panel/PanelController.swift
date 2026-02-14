@@ -96,10 +96,6 @@ class PanelController: ParentPanelController {
         
         setTimezoneDatasourceSlider(sliderValue: 0)
         
-        reviewView.isHidden = !ReviewController.canPrompt()
-        
-        reviewView.layer?.backgroundColor = NSColor.clear.cgColor
-        
         setPanelFrame()
         
         startWindowTimer()
@@ -236,7 +232,7 @@ class PanelController: ParentPanelController {
                 self.updateTime()
             }
         }
-        parentTimer!.start()
+        parentTimer?.start()
     }
     
     private func stopMenubarTimerIfNeccesary() {

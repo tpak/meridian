@@ -80,6 +80,9 @@ class LocationController: NSObject {
             if let latlong = coordinates {
                 timezoneObject.longitude = latlong.longitude
                 timezoneObject.latitude = latlong.latitude
+            } else {
+                timezoneObject.longitude = nil
+                timezoneObject.latitude = nil
             }
         }
 

@@ -6,6 +6,17 @@ import CoreModelKit
 import XCTest
 
 class ClockerUnitTests: XCTestCase {
+    override func tearDown() {
+        // Remove test-specific timezone entries that could pollute UserDefaults
+        // when tests run in parallel across multiple workers.
+        let cleaned = DataStore.shared().timezones().filter {
+            let tz = TimezoneData.customObject(from: $0)
+            return tz?.placeID != "TestIdentifier"
+        }
+        DataStore.shared().setTimezones(cleaned)
+        super.tearDown()
+    }
+
     private let california = ["customLabel": "Test",
                               "formattedAddress": "San Francisco",
                               "place_id": "TestIdentifier",
@@ -93,8 +104,10 @@ class ClockerUnitTests: XCTestCase {
     }
 
     func testAddingATimezoneToDefaults() {
-        let timezoneData = TimezoneData(with: california)
         let currentFavourites = DataStore.shared().timezones()
+        defer { DataStore.shared().setTimezones(currentFavourites) }
+
+        let timezoneData = TimezoneData(with: california)
         let oldCount = currentFavourites.count
 
         let operationsObject = TimezoneDataOperations(with: timezoneData, store: DataStore.shared())
@@ -141,23 +154,17 @@ class ClockerUnitTests: XCTestCase {
     }
 
     func testDeletingATimezone() {
-        var currentFavourites = DataStore.shared().timezones()
-        // Check if timezone with test identifier is present.
-        let filteredCount = currentFavourites.filter {
-            let timezone = TimezoneData.customObject(from: $0)
-            return timezone?.placeID == "TestIdentifier"
-        }
+        let originalFavourites = DataStore.shared().timezones()
+        defer { DataStore.shared().setTimezones(originalFavourites) }
 
-        // California is absent. Add it!
-        if filteredCount.count == 0 {
-            let timezoneData = TimezoneData(with: california)
-            let operationsObject = TimezoneDataOperations(with: timezoneData, store: DataStore.shared())
-            operationsObject.saveObject()
-        }
+        // Always add the test timezone so this test is self-contained
+        let timezoneData = TimezoneData(with: california)
+        let operationsObject = TimezoneDataOperations(with: timezoneData, store: DataStore.shared())
+        operationsObject.saveObject()
 
         let oldCount = DataStore.shared().timezones().count
 
-        currentFavourites = currentFavourites.filter {
+        let currentFavourites = DataStore.shared().timezones().filter {
             let timezone = TimezoneData.customObject(from: $0)
             return timezone?.placeID != "TestIdentifier"
         }

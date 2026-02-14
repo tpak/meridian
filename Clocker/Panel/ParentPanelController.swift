@@ -6,11 +6,6 @@ import CoreModelKit
 import EventKit
 
 struct PanelConstants {
-    static let notReallyButtonTitle = "Not Really"
-    static let feedbackString = "Mind giving feedback?"
-    static let noThanksTitle = "No, thanks"
-    static let yesWithQuestionMark = "Yes?"
-    static let yesWithExclamation = "Yes!"
     static let modernSliderPointsInADay = 96
 }
 
@@ -26,8 +21,6 @@ class ParentPanelController: NSWindowController {
     var futureSliderValue: Int = 0
     
     var parentTimer: Repeater?
-    
-    var showReviewCell: Bool = false
     
     var previousPopoverRow: Int = -1
     
@@ -48,15 +41,7 @@ class ParentPanelController: NSWindowController {
     
     @IBOutlet var scrollViewHeight: NSLayoutConstraint!
     
-    @IBOutlet var reviewView: NSView!
-    
-    @IBOutlet var leftField: NSTextField!
-    
     @IBOutlet var sharingButton: NSButton!
-    
-    @IBOutlet var leftButton: NSButton!
-    
-    @IBOutlet var rightButton: NSButton!
     
     @IBOutlet var shutdownButton: NSButton!
     
@@ -154,9 +139,7 @@ class ParentPanelController: NSWindowController {
         
         // Setup KVO observers for user default changes
         setupObservers()
-        
-        updateReviewViewFontColor()
-        
+
         // Set the background color of the bottom buttons view to something different to indicate we're not in a release candidate
 #if DEBUG
         stackView.arrangedSubviews.last?.layer?.backgroundColor = NSColor(deviceRed: 255.0 / 255.0,
@@ -165,9 +148,6 @@ class ParentPanelController: NSWindowController {
                                                                           alpha: 0.5).cgColor
         stackView.arrangedSubviews.last?.toolTip = "Debug Mode"
 #endif
-        
-        // Setup layers
-        reviewView.wantsLayer = true
         
         // Setup notifications
         NotificationCenter.default.addObserver(self,
@@ -312,26 +292,6 @@ class ParentPanelController: NSWindowController {
         themeChanged()
     }
     
-    private func updateReviewViewFontColor() {
-        let textColor = Themer.shared().mainTextColor()
-        
-        leftField.textColor = textColor
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-        
-        let styleAttributes = [
-            NSAttributedString.Key.paragraphStyle: paragraphStyle,
-            NSAttributedString.Key.font: NSFont(name: "Avenir-Light", size: 13) ?? NSFont.systemFont(ofSize: 13),
-        ]
-        
-        let leftButtonAttributedTitle = NSAttributedString(string: leftButton.title, attributes: styleAttributes)
-        leftButton.attributedTitle = leftButtonAttributedTitle
-        
-        let rightButtonAttributedTitle = NSAttributedString(string: rightButton.title, attributes: styleAttributes)
-        rightButton.attributedTitle = rightButtonAttributedTitle
-    }
-    
     @objc func themeChanged() {
         let sharedThemer = Themer.shared()
         
@@ -348,8 +308,6 @@ class ParentPanelController: NSWindowController {
         if roundedDateView != nil {
             roundedDateView.layer?.backgroundColor = Themer.shared().textBackgroundColor().cgColor
         }
-        
-        updateReviewViewFontColor()
     }
     
     override func windowDidLoad() {
@@ -605,7 +563,7 @@ class ParentPanelController: NSWindowController {
         let defaults = DataStore.shared().timezones()
         
         guard let popover = additionalOptionsPopover else {
-            assertionFailure("Data was unexpectedly nil")
+            Logger.info("Data was unexpectedly nil")
             return false
         }
         
@@ -649,7 +607,7 @@ class ParentPanelController: NSWindowController {
         mainTableView.reloadData()
     }
     
-    @objc private func openPreferencesWindow() {
+    @objc func openPreferencesWindow() {
         oneWindow?.openGeneralPane()
     }
     
@@ -667,9 +625,9 @@ class ParentPanelController: NSWindowController {
     
     func removeUpcomingEventView() {
         OperationQueue.main.addOperation {
-            if self.upcomingEventCollectionView != nil {
-                if self.stackView.arrangedSubviews.contains(self.upcomingEventContainerView!), self.upcomingEventContainerView?.isHidden == false {
-                    self.upcomingEventContainerView?.isHidden = true
+            if self.upcomingEventCollectionView != nil, let eventContainer = self.upcomingEventContainerView {
+                if self.stackView.arrangedSubviews.contains(eventContainer), eventContainer.isHidden == false {
+                    eventContainer.isHidden = true
                     UserDefaults.standard.set("NO", forKey: UserDefaultKeys.showUpcomingEventView)
                     Logger.log(object: ["Removed": "YES"], for: "Removed Upcoming Event View")
                 }
@@ -720,7 +678,7 @@ class ParentPanelController: NSWindowController {
     @IBAction func convertToFloatingWindow(_: NSButton) {
         guard let sharedDelegate = NSApplication.shared.delegate as? AppDelegate
         else {
-            assertionFailure("Data was unexpectedly nil")
+            Logger.info("Data was unexpectedly nil")
             return
         }
         
@@ -792,105 +750,6 @@ class ParentPanelController: NSWindowController {
         additionalOptionsPopover = nil
     }
     
-    // MARK: Review
-    
-    @IBAction func actionOnNegativeFeedback(_ sender: NSButton) {
-        if sender.title == PanelConstants.notReallyButtonTitle {
-            setAnimated(title: PanelConstants.feedbackString,
-                        field: leftField,
-                        leftTitle: PanelConstants.noThanksTitle,
-                        rightTitle: PanelConstants.yesWithQuestionMark)
-            
-        } else {
-            updateReviewView()
-            ReviewController.prompted()
-            
-            if let countryCode = Locale.autoupdatingCurrent.region?.identifier {
-                Logger.log(object: ["CurrentCountry": countryCode], for: "Remind Later for Feedback")
-            }
-        }
-    }
-    
-    @IBAction func actionOnPositiveFeedback(_ sender: NSButton) {
-        if sender.title == PanelConstants.yesWithExclamation {
-            setAnimated(title: "Would you like to rate us?",
-                        field: leftField,
-                        leftTitle: PanelConstants.noThanksTitle,
-                        rightTitle: "Yes")
-        } else if sender.title == PanelConstants.yesWithQuestionMark {
-            ReviewController.prompted()
-            updateReviewView()
-            if let url = URL(string: "https://github.com/nickhumbir/clocker/issues") {
-                NSWorkspace.shared.open(url)
-            }
-        } else {
-            updateReviewView()
-            ReviewController.prompt()
-        }
-    }
-    
-    private func updateReviewView() {
-        reviewView.isHidden = true
-        showReviewCell = false
-        leftField.stringValue = NSLocalizedString("Enjoy using Clocker?",
-                                                  comment: "Title asking users if they like the app")
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-        
-        let styleAttributes = [
-            NSAttributedString.Key.paragraphStyle: paragraphStyle,
-            NSAttributedString.Key.font: NSFont(name: "Avenir-Light", size: 13)!,
-        ]
-        leftButton.attributedTitle = NSAttributedString(string: "Not Really", attributes: styleAttributes)
-        rightButton.attributedTitle = NSAttributedString(string: "Yes!", attributes: styleAttributes)
-    }
-    
-    private func setAnimated(title: String, field: NSTextField, leftTitle: String, rightTitle: String) {
-        if field.stringValue == title {
-            return
-        }
-        
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 1
-            context.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
-            leftButton.animator().alphaValue = 0.0
-            rightButton.animator().alphaValue = 0.0
-        }, completionHandler: {
-            field.stringValue = title
-            
-            NSAnimationContext.runAnimationGroup({ context in
-                context.duration = 1
-                context.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
-                self.runAnimationCompletionBlock(leftTitle, rightTitle)
-            }, completionHandler: {})
-        })
-    }
-    
-    private func runAnimationCompletionBlock(_ leftButtonTitle: String, _ rightButtonTitle: String) {
-        leftButton.animator().alphaValue = 1.0
-        rightButton.animator().alphaValue = 1.0
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-        
-        let styleAttributes = [
-            NSAttributedString.Key.paragraphStyle: paragraphStyle,
-            NSAttributedString.Key.font: NSFont(name: "Avenir-Light", size: 13)!,
-        ]
-        
-        if leftButton.attributedTitle.string == "Not Really" {
-            leftButton.animator().attributedTitle = NSAttributedString(string: PanelConstants.noThanksTitle, attributes: styleAttributes)
-        }
-        
-        if rightButton.attributedTitle.string == PanelConstants.yesWithExclamation {
-            rightButton.animator().attributedTitle = NSAttributedString(string: "Yes, sure", attributes: styleAttributes)
-        }
-        
-        leftButton.animator().attributedTitle = NSAttributedString(string: leftButtonTitle, attributes: styleAttributes)
-        rightButton.animator().attributedTitle = NSAttributedString(string: rightButtonTitle, attributes: styleAttributes)
-    }
-    
     // MARK: Date Picker + Slider
     
     
@@ -899,7 +758,7 @@ class ParentPanelController: NSWindowController {
     }
     
     
-    @objc func terminateClocker() {
+    @objc dynamic func terminateClocker() {
         NSApplication.shared.terminate(nil)
     }
     
@@ -937,37 +796,10 @@ class ParentPanelController: NSWindowController {
     }
     
     @IBAction func showMoreOptions(_ sender: NSButton) {
-        let menuItem = NSMenu(title: "More Options")
-        let terminateOption = NSMenuItem(title: "Quit Clocker",
-                                         action: #selector(terminateClocker), keyEquivalent: "")
-        let rateClocker = NSMenuItem(title: "Support Clocker...",
-                                     action: #selector(rate), keyEquivalent: "")
-        let sendFeedback = NSMenuItem(title: "Send Feedback...",
-                                      action: #selector(reportIssue), keyEquivalent: "")
-        let localizeClocker = NSMenuItem(title: "Localize Clocker...",
-                                         action: #selector(openCrowdin), keyEquivalent: "")
-        let openPreferences = NSMenuItem(title: "Settings",
-                                         action: #selector(openPreferencesWindow), keyEquivalent: "")
-        
-        let appDisplayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") ?? "Clocker"
-        let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "N/A"
-        let longVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "N/A"
-        
-        let versionInfo = "\(appDisplayName) \(shortVersion) (\(longVersion))"
-        let clockerVersionInfo = NSMenuItem(title: versionInfo, action: nil, keyEquivalent: "")
-        clockerVersionInfo.isEnabled = false
-        menuItem.addItem(openPreferences)
-        menuItem.addItem(rateClocker)
-        menuItem.addItem(withTitle: "FAQs", action: #selector(openFAQs), keyEquivalent: "")
-        menuItem.addItem(sendFeedback)
-        menuItem.addItem(localizeClocker)
-        menuItem.addItem(NSMenuItem.separator())
-        menuItem.addItem(clockerVersionInfo)
-        
-        menuItem.addItem(NSMenuItem.separator())
-        menuItem.addItem(terminateOption)
-        NSMenu.popUpContextMenu(menuItem,
-                                with: NSApp.currentEvent!,
+        guard let event = NSApp.currentEvent else { return }
+        let menu = PanelContextMenu.build(target: self)
+        NSMenu.popUpContextMenu(menu,
+                                with: event,
                                 for: sender)
     }
 }
@@ -1027,15 +859,15 @@ extension ParentPanelController: NSSharingServicePickerDelegate {
             guard let object1 = TimezoneData.customObject(from: obj1),
                   let object2 = TimezoneData.customObject(from: obj2)
             else {
-                assertionFailure("Data was unexpectedly nil")
+                Logger.info("Data was unexpectedly nil")
                 return false
             }
             
             let timezone1 = NSTimeZone(name: object1.timezone())
             let timezone2 = NSTimeZone(name: object2.timezone())
-            
-            let difference1 = system.secondsFromGMT() - timezone1!.secondsFromGMT
-            let difference2 = system.secondsFromGMT() - timezone2!.secondsFromGMT
+
+            let difference1 = system.secondsFromGMT() - (timezone1?.secondsFromGMT ?? 0)
+            let difference2 = system.secondsFromGMT() - (timezone2?.secondsFromGMT ?? 0)
             
             return difference1 > difference2
         }

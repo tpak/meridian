@@ -1,0 +1,136 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  SCHEME: Clocker
+  PROJECT: Clocker/Clocker.xcodeproj
+  CODE_SIGNING_REQUIRED: "NO"
+  CODE_SIGNING_ALLOWED: "NO"
+  CODE_SIGN_IDENTITY: ""
+  NSUnbufferedIO: "YES"
+
+jobs:
+  build-and-lint:
+    name: Build & Lint
+    runs-on: macos-15
+    env:
+      TZ: America/Chicago
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Generate Keys.xcconfig for CI
+        run: cp Clocker/Config/Keys.xcconfig.example Clocker/Config/Keys.xcconfig
+
+      - name: SwiftLint
+        run: |
+          brew install swiftlint
+          swiftlint
+
+      - name: Build & Analyze
+        run: |
+          set -o pipefail
+          xcodebuild -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration Debug \
+            build analyze \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY= \
+            | xcpretty
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: macos-15
+    needs: build-and-lint
+    env:
+      TZ: America/Chicago
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+      - name: Generate Keys.xcconfig for CI
+        run: cp Clocker/Config/Keys.xcconfig.example Clocker/Config/Keys.xcconfig
+
+      - name: Run Unit Tests
+        run: |
+          set -o pipefail
+          xcodebuild -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration Debug \
+            test \
+            -only-testing:ClockerUnitTests \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY= \
+            -resultBundlePath TestResults/unit-tests.xcresult \
+            | xcpretty --report junit --output TestResults/unit-tests.xml
+
+      - name: Test Results Summary
+        if: always()
+        uses: kishikawakatsumi/xcresulttool@v1
+        with:
+          path: TestResults/unit-tests.xcresult
+          show-passed-tests: false
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: TestResults/
+
+  ui-tests:
+    name: UI Tests
+    runs-on: macos-15
+    needs: build-and-lint
+    env:
+      TZ: America/Chicago
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+      - name: Generate Keys.xcconfig for CI
+        run: cp Clocker/Config/Keys.xcconfig.example Clocker/Config/Keys.xcconfig
+
+      - name: Run UI Tests
+        run: |
+          set -o pipefail
+          xcodebuild -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration Debug \
+            test \
+            -only-testing:ClockerUITests \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY= \
+            -resultBundlePath TestResults/ui-tests.xcresult \
+            | xcpretty --report junit --output TestResults/ui-tests.xml
+
+      - name: Test Results Summary
+        if: always()
+        uses: kishikawakatsumi/xcresulttool@v1
+        with:
+          path: TestResults/ui-tests.xcresult
+          show-passed-tests: false
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-results
+          path: TestResults/

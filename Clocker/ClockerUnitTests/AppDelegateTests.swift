@@ -6,6 +6,26 @@ import XCTest
 @testable import Clocker
 
 class AppDelegateTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        // When defaults are empty (e.g. cleared by a parallel test worker),
+        // the test host enters onboarding and never calls continueUsually(),
+        // leaving statusBarHandler nil. Ensure the app is fully initialized.
+        let subject = NSApplication.shared.delegate as? AppDelegate
+        subject?.continueUsually()
+    }
+
+    override func tearDown() {
+        // Remove test-specific timezone entries that could pollute UserDefaults
+        // when tests run in parallel across multiple workers.
+        let cleaned = DataStore.shared().timezones().filter {
+            let tz = TimezoneData.customObject(from: $0)
+            return tz?.formattedAddress != "MenubarTimezone"
+        }
+        DataStore.shared().setTimezones(cleaned)
+        super.tearDown()
+    }
+
     func testStatusItemIsInitialized() throws {
         let subject = NSApplication.shared.delegate as? AppDelegate
         let statusHandler = subject?.statusItemForPanel()

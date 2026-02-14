@@ -422,7 +422,7 @@ extension EventCenter {
             do {
                 dataDetector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
             } catch {
-                assertionFailure("Unable to create a link-type data detector")
+                Logger.info("Unable to create a link-type data detector")
                 return nil
             }
             EventCenter.dataDetector = dataDetector

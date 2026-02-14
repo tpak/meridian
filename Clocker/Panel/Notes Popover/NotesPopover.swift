@@ -176,7 +176,7 @@ class NotesPopover: NSViewController {
                                                     value: hour,
                                                     options: NSCalendar.Options.matchPreviousTimePreservingSmallerUnits)
         else {
-            assertionFailure("Initial Date object was unexepectedly nil")
+            Logger.info("Initial Date object was unexpectedly nil")
             return
         }
 
@@ -186,7 +186,7 @@ class NotesPopover: NSViewController {
 
     private func getCurrentTimezoneDate(completionHandler: @escaping (_ response: Date?) -> Void) {
         guard let timezoneID = dataObject?.timezone() else {
-            assertionFailure("Unable to retrieve timezoneID from the model")
+            Logger.info("Unable to retrieve timezoneID from the model")
             completionHandler(nil)
             return
         }
@@ -198,7 +198,7 @@ class NotesPopover: NSViewController {
                                                   to: Date(),
                                                   options: NSCalendar.Options.matchLast)
         else {
-            assertionFailure("Initial Date object was unexepectedly nil")
+            Logger.info("Initial Date object was unexpectedly nil")
             completionHandler(nil)
             return
         }
@@ -225,7 +225,7 @@ class NotesPopover: NSViewController {
 
                                       })
         } catch {
-            assertionFailure("Failed to successfully initialize DataDetector")
+            Logger.info("Failed to successfully initialize DataDetector")
             completionHandler(nil)
         }
     }
@@ -390,7 +390,7 @@ class NotesPopover: NSViewController {
             let eventCenter = EventCenter.sharedCenter()
             let alertIndex = alertPopupButton.indexOfSelectedItem
 
-            if eventCenter.createReminder(with: model.customLabel!,
+            if eventCenter.createReminder(with: model.customLabel ?? "",
                                           timezone: model.timezone(),
                                           alertIndex: alertIndex,
                                           reminderDate: reminderPicker.dateValue,
@@ -462,7 +462,7 @@ extension NotesPopover {
 
     func updateContent() {
         guard let model = dataObject else {
-            assertionFailure("Model object was unexepectedly nil")
+            Logger.info("Model object was unexpectedly nil")
             return
         }
 

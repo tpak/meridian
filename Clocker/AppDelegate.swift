@@ -39,9 +39,6 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         // Check if we can show the onboarding flow!
         showOnboardingFlowIfEligible()
 
-        // Ratings Controller initialization
-        ReviewController.applicationDidLaunch(UserDefaults.standard)
-
         #if RELEASE
             checkIfRunFromApplicationsFolder()
         #endif
@@ -111,10 +108,6 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Install the menubar item!
         statusBarHandler = StatusItemHandler(with: DataStore.shared())
-
-        if ProcessInfo.processInfo.arguments.contains(UserDefaultKeys.testingLaunchArgument) {
-            ReviewController.setPreviewMode(true)
-        }
 
         UserDefaults.standard.register(defaults: ["NSApplicationCrashOnExceptions": true])
 

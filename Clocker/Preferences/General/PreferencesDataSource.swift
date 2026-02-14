@@ -62,12 +62,12 @@ extension PreferencesDataSource: NSTableViewDelegate {
         let pBoard = info.draggingPasteboard
 
         guard let data = pBoard.data(forType: .dragSession) else {
-            assertionFailure("Data was unexpectedly nil")
+            Logger.info("Data was unexpectedly nil")
             return false
         }
 
         guard let rowIndexes = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSIndexSet.self, from: data) else {
-            assertionFailure("Row was unexpectedly nil")
+            Logger.info("Row was unexpectedly nil")
             return false
         }
 

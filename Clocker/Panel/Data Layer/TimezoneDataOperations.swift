@@ -27,7 +27,7 @@ extension TimezoneDataOperations {
                                                                            to: Date(),
                                                                            options: .matchFirst)
         else {
-            assertionFailure("Data was unexpectedly nil")
+            Logger.info("Data was unexpectedly nil")
             return UserDefaultKeys.emptyString
         }
 
@@ -57,7 +57,7 @@ extension TimezoneDataOperations {
                                                                            to: Date(),
                                                                            options: .matchFirst)
         else {
-            assertionFailure("Data was unexpectedly nil")
+            Logger.info("Data was unexpectedly nil")
             return nil
         }
 
@@ -207,7 +207,7 @@ extension TimezoneDataOperations {
 
     func date(with sliderValue: Int, displayType: TimezoneData.DateDisplayType) -> String {
         guard let relativeDayPreference = store.retrieve(key: UserDefaultKeys.relativeDateKey) as? NSNumber else {
-            assertionFailure("Data was unexpectedly nil")
+            Logger.info("Data was unexpectedly nil")
             return UserDefaultKeys.emptyString
         }
 
@@ -224,10 +224,12 @@ extension TimezoneDataOperations {
             // Yesterday, tomorrow, etc
             if relativeDayPreference.intValue == 0 {
                 let localFormatter = DateFormatterManager.localizedSimpleFormatter("EEEE")
-                let local = localFormatter.date(from: localeDate(with: "EEEE"))
+                guard let local = localFormatter.date(from: localeDate(with: "EEEE")) else {
+                    return "\(weekdayText(from: convertedDate))\(timeDifference())"
+                }
 
                 // Gets local week day number and timezone's week day number for comparison
-                let weekDay = currentCalendar.component(.weekday, from: local!)
+                let weekDay = currentCalendar.component(.weekday, from: local)
                 let timezoneWeekday = currentCalendar.component(.weekday, from: convertedDate)
 
                 if weekDay == timezoneWeekday + 1 {
@@ -351,7 +353,7 @@ extension TimezoneDataOperations {
         guard let lat = dataObject.latitude,
               let long = dataObject.longitude
         else {
-            assertionFailure("Data was unexpectedly nil.")
+            Logger.info("Data was unexpectedly nil")
             return
         }
 
@@ -408,7 +410,8 @@ extension TimezoneDataOperations {
                                                                      to: Date(),
                                                                      options: .matchFirst)
 
-        let date = newDate!.formatter(with: "MMM d", timeZone: dataObject.timezone(), locale: locale)
+        guard let newDate = newDate else { return "" }
+        let date = newDate.formatter(with: "MMM d", timeZone: dataObject.timezone(), locale: locale)
 
         return date
     }

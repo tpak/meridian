@@ -12,8 +12,6 @@
                 <outlet property="backgroundView" destination="6" id="20"/>
                 <outlet property="goBackwardsButton" destination="aW8-hr-4Zh" id="EWT-EA-AGP"/>
                 <outlet property="goForwardButton" destination="Bmz-Z2-OvH" id="6bR-Ph-Nit"/>
-                <outlet property="leftButton" destination="WVY-D9-AAX" id="M2W-xG-chN"/>
-                <outlet property="leftField" destination="8Qj-Y9-Okf" id="q3N-ht-jCd"/>
                 <outlet property="mainTableView" destination="dFw-ts-8OZ" id="2kY-dd-rDV"/>
                 <outlet property="modernContainerView" destination="8W7-rS-Uob" id="qgZ-SS-ayy"/>
                 <outlet property="modernSlider" destination="lxA-64-3QU" id="kS5-ub-7gV"/>
@@ -21,8 +19,6 @@
                 <outlet property="pinButton" destination="YXE-4J-5cn" id="k6V-HK-7XG"/>
                 <outlet property="preferencesButton" destination="Ctq-BV-GPN" id="cdL-5h-qmx"/>
                 <outlet property="resetModernSliderButton" destination="TK5-db-7bd" id="Mie-WC-5YN"/>
-                <outlet property="reviewView" destination="TDn-Kk-KkV" id="YdI-Y4-zrg"/>
-                <outlet property="rightButton" destination="w3d-CG-aBO" id="rcF-Gw-CtM"/>
                 <outlet property="scrollViewHeight" destination="dff-DX-W1o" id="vYe-lb-h9x"/>
                 <outlet property="sharingButton" destination="Hc7-fH-V7i" id="sXz-Cx-VaA"/>
                 <outlet property="shutdownButton" destination="1cR-pI-osG" id="ZFz-9l-yNi"/>
@@ -374,91 +370,6 @@
                                 </constraints>
                                 <accessibility identifier="Modern Slider Container"/>
                             </customView>
-                            <customView identifier="Review Cell" focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="TDn-Kk-KkV" userLabel="Review View">
-                                <rect key="frame" x="0.0" y="115" width="379" height="60"/>
-                                <subviews>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="56t-G6-K0e" customClass="ClockerTextBackgroundView" customModule="Clocker" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="5" width="357" height="50"/>
-                                        <subviews>
-                                            <stackView focusRingType="none" distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uys-ww-duA">
-                                                <rect key="frame" x="29" y="25" width="300" height="20"/>
-                                                <subviews>
-                                                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" preferredMaxLayoutWidth="185" translatesAutoresizingMaskIntoConstraints="NO" id="8Qj-Y9-Okf">
-                                                        <rect key="frame" x="-2" y="0.0" width="304" height="20"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="a0R-zl-Wu7"/>
-                                                            <constraint firstAttribute="height" constant="20" id="uOe-5v-8AR"/>
-                                                        </constraints>
-                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Enjoy using Clocker?" id="mjq-qB-etG">
-                                                            <font key="font" size="12" name="Avenir-Book"/>
-                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                </subviews>
-                                                <visibilityPriorities>
-                                                    <integer value="1000"/>
-                                                </visibilityPriorities>
-                                                <customSpacing>
-                                                    <real value="3.4028234663852886e+38"/>
-                                                </customSpacing>
-                                                <accessibility identifier="ReviewLabel"/>
-                                            </stackView>
-                                            <stackView focusRingType="none" distribution="fillEqually" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1AK-MW-qsc">
-                                                <rect key="frame" x="79" y="2" width="200" height="21"/>
-                                                <subviews>
-                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WVY-D9-AAX">
-                                                        <rect key="frame" x="-7" y="-7" width="110" height="33"/>
-                                                        <buttonCell key="cell" type="push" title="Not Really" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OAa-sj-koh">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="4zI-xY-iLf"/>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="96" id="weK-At-NNy"/>
-                                                        </constraints>
-                                                        <connections>
-                                                            <action selector="actionOnNegativeFeedback:" target="-2" id="5FU-oG-fas"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w3d-CG-aBO">
-                                                        <rect key="frame" x="97" y="-6" width="110" height="32"/>
-                                                        <buttonCell key="cell" type="push" title="Yes!" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VE1-Cu-JUr">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="actionOnPositiveFeedback:" target="-2" id="382-CW-Y6O"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <visibilityPriorities>
-                                                    <integer value="1000"/>
-                                                    <integer value="1000"/>
-                                                </visibilityPriorities>
-                                                <customSpacing>
-                                                    <real value="3.4028234663852886e+38"/>
-                                                    <real value="3.4028234663852886e+38"/>
-                                                </customSpacing>
-                                            </stackView>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="uys-ww-duA" firstAttribute="top" secondItem="56t-G6-K0e" secondAttribute="top" constant="5" id="HCN-eh-0eI"/>
-                                            <constraint firstAttribute="bottom" secondItem="1AK-MW-qsc" secondAttribute="bottom" constant="2" id="U6I-ls-PBN"/>
-                                            <constraint firstItem="uys-ww-duA" firstAttribute="centerX" secondItem="56t-G6-K0e" secondAttribute="centerX" id="g9H-lz-4tz"/>
-                                            <constraint firstItem="1AK-MW-qsc" firstAttribute="centerX" secondItem="56t-G6-K0e" secondAttribute="centerX" id="hHF-Qb-8M1"/>
-                                        </constraints>
-                                    </customView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="56t-G6-K0e" firstAttribute="leading" secondItem="TDn-Kk-KkV" secondAttribute="leading" constant="10" id="3Hy-PW-q1p"/>
-                                    <constraint firstAttribute="trailing" secondItem="56t-G6-K0e" secondAttribute="trailing" constant="12" id="5Gx-5Q-eSd"/>
-                                    <constraint firstAttribute="bottom" secondItem="56t-G6-K0e" secondAttribute="bottom" constant="5" id="QtU-aQ-iZX"/>
-                                    <constraint firstItem="56t-G6-K0e" firstAttribute="top" secondItem="TDn-Kk-KkV" secondAttribute="top" constant="5" id="ZsZ-3v-bpP"/>
-                                    <constraint firstAttribute="height" constant="60" id="gsB-Rw-4Wo"/>
-                                </constraints>
-                                <accessibility description="ReviewCell" identifier="ReviewCell"/>
-                            </customView>
                             <customView wantsLayer="YES" focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="Akn-cR-W4G" userLabel="Upcoming Event View">
                                 <rect key="frame" x="0.0" y="40" width="379" height="75"/>
                                 <subviews>
@@ -583,20 +494,16 @@
                             <constraint firstItem="Akn-cR-W4G" firstAttribute="leading" secondItem="OZA-6o-SbE" secondAttribute="leading" id="JkM-LS-gBv"/>
                             <constraint firstItem="4Gd-Nv-fXr" firstAttribute="top" secondItem="OZA-6o-SbE" secondAttribute="top" id="UTb-I7-5P6"/>
                             <constraint firstAttribute="trailing" secondItem="Akn-cR-W4G" secondAttribute="trailing" id="abe-WC-DiW"/>
-                            <constraint firstItem="TDn-Kk-KkV" firstAttribute="leading" secondItem="OZA-6o-SbE" secondAttribute="leading" id="aza-Aq-nXb"/>
                             <constraint firstAttribute="trailing" secondItem="4Gd-Nv-fXr" secondAttribute="trailing" id="bWd-Yi-wvZ"/>
                             <constraint firstAttribute="trailing" secondItem="B8X-sx-cjT" secondAttribute="trailing" id="rNr-k6-UcF"/>
-                            <constraint firstAttribute="trailing" secondItem="TDn-Kk-KkV" secondAttribute="trailing" id="sac-t8-0AH"/>
                         </constraints>
                         <visibilityPriorities>
                             <integer value="1000"/>
                             <integer value="1000"/>
                             <integer value="1000"/>
                             <integer value="1000"/>
-                            <integer value="1000"/>
                         </visibilityPriorities>
                         <customSpacing>
-                            <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>

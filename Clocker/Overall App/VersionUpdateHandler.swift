@@ -280,7 +280,7 @@ extension String {
         case 1:
             return ComparisonResult.orderedDescending
         default:
-            assertionFailure("Invalid Comparison Result")
+            Logger.info("Invalid Comparison Result")
             return .orderedSame
         }
     }

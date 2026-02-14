@@ -9,13 +9,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FloatingWindowController" customModule="Clocker" customModuleProvider="target">
             <connections>
-                <outlet property="leftButton" destination="7ID-ll-0YN" id="Msx-3N-nDQ"/>
-                <outlet property="leftField" destination="DHg-ca-UOi" id="eOW-Ml-DE8"/>
                 <outlet property="mainTableView" destination="3js-Fl-DdU" id="6Lu-oW-cuZ"/>
                 <outlet property="pinButton" destination="KWj-8n-2K0" id="FUW-0f-glB"/>
                 <outlet property="preferencesButton" destination="iFk-kj-d5a" id="1bK-Ld-MwV"/>
-                <outlet property="reviewView" destination="HBv-Eh-z9y" id="vt7-in-yQF"/>
-                <outlet property="rightButton" destination="8oB-ID-Dka" id="s0E-Pp-8Eb"/>
                 <outlet property="scrollViewHeight" destination="SQM-7C-DIi" id="bRu-h6-Rvg"/>
                 <outlet property="sharingButton" destination="GMo-5B-bnh" id="ocx-7g-Wtp"/>
                 <outlet property="shutdownButton" destination="M9q-iF-MaE" id="43B-sx-8Oh"/>
@@ -248,75 +244,6 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView identifier="Review Cell" translatesAutoresizingMaskIntoConstraints="NO" id="HBv-Eh-z9y">
-                                <rect key="frame" x="0.0" y="115" width="429" height="50"/>
-                                <subviews>
-                                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y83-Ew-CDw">
-                                        <rect key="frame" x="80" y="30" width="185" height="20"/>
-                                        <subviews>
-                                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" preferredMaxLayoutWidth="185" translatesAutoresizingMaskIntoConstraints="NO" id="DHg-ca-UOi">
-                                                <rect key="frame" x="-2" y="0.0" width="189" height="20"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="185" id="41v-Z8-YN3"/>
-                                                    <constraint firstAttribute="height" constant="20" id="ozt-2h-dEn"/>
-                                                </constraints>
-                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Enjoy using Clocker?" id="bEe-fc-DDv">
-                                                    <font key="font" size="12" name="Avenir-Book"/>
-                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                        <visibilityPriorities>
-                                            <integer value="1000"/>
-                                        </visibilityPriorities>
-                                        <customSpacing>
-                                            <real value="3.4028234663852886e+38"/>
-                                        </customSpacing>
-                                    </stackView>
-                                    <stackView distribution="fillEqually" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xts-eA-jvq">
-                                        <rect key="frame" x="75" y="4" width="200" height="21"/>
-                                        <subviews>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8oB-ID-Dka">
-                                                <rect key="frame" x="-7" y="-6" width="110" height="32"/>
-                                                <buttonCell key="cell" type="push" title="Yes!" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0tg-Hq-QXV">
-                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" size="13" name="Avenir-Light"/>
-                                                </buttonCell>
-                                                <connections>
-                                                    <action selector="actionOnPositiveFeedback:" target="-2" id="8Rf-zf-EbK"/>
-                                                </connections>
-                                            </button>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7ID-ll-0YN">
-                                                <rect key="frame" x="97" y="-7" width="110" height="33"/>
-                                                <buttonCell key="cell" type="push" title="Not Really" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0by-2H-Kzg">
-                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" size="13" name="Avenir-Light"/>
-                                                </buttonCell>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="21" id="H1a-d6-Y0v"/>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="96" id="yWy-SJ-EE0"/>
-                                                </constraints>
-                                                <connections>
-                                                    <action selector="actionOnNegativeFeedback:" target="-2" id="8vl-83-vp5"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <visibilityPriorities>
-                                            <integer value="1000"/>
-                                            <integer value="1000"/>
-                                        </visibilityPriorities>
-                                        <customSpacing>
-                                            <real value="3.4028234663852886e+38"/>
-                                            <real value="3.4028234663852886e+38"/>
-                                        </customSpacing>
-                                    </stackView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="dAp-jE-BUc"/>
-                                </constraints>
-                                <accessibility description="Review Cell"/>
-                            </customView>
                             <customView wantsLayer="YES" focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="7cF-j3-JRf" userLabel="Upcoming Event View">
                                 <rect key="frame" x="0.0" y="40" width="370" height="75"/>
                                 <subviews>
@@ -437,19 +364,15 @@
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="HBv-Eh-z9y" firstAttribute="leading" secondItem="Bn4-fy-Lm6" secondAttribute="leading" id="1gK-nB-cgS"/>
                             <constraint firstAttribute="trailing" secondItem="khu-OS-PzP" secondAttribute="trailing" id="AgT-oA-uZ1"/>
                             <constraint firstItem="khu-OS-PzP" firstAttribute="top" secondItem="Bn4-fy-Lm6" secondAttribute="top" id="AxZ-D1-B8f"/>
-                            <constraint firstAttribute="trailing" secondItem="HBv-Eh-z9y" secondAttribute="trailing" id="i0H-Z4-5gF"/>
                         </constraints>
                         <visibilityPriorities>
                             <integer value="1000"/>
                             <integer value="1000"/>
                             <integer value="1000"/>
-                            <integer value="1000"/>
                         </visibilityPriorities>
                         <customSpacing>
-                            <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>

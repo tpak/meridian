@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import CoreLoggerKit
 
 class FloatingWindowController: ParentPanelController {
     private var repeater: Repeater?
@@ -35,10 +36,6 @@ class FloatingWindowController: ParentPanelController {
 
         mainTableView.registerForDraggedTypes([.dragSession])
 
-        reviewView.isHidden = !showReviewCell
-
-        reviewView.layer?.backgroundColor = Themer.shared().mainBackgroundColor().cgColor
-
         mainTableView.setAccessibility("FloatingTableView")
     }
 
@@ -66,7 +63,7 @@ class FloatingWindowController: ParentPanelController {
         super.showNotesPopover(forRow: row, relativeTo: positioningRect, andButton: target)
 
         guard let contentView = window?.contentView else {
-            assertionFailure("Window was unexpectedly nil")
+            Logger.info("Window was unexpectedly nil")
             return false
         }
 
@@ -130,7 +127,7 @@ class FloatingWindowController: ParentPanelController {
                 self.updateTime()
             }
         }
-        repeater!.start()
+        repeater?.start()
 
         super.dismissRowActions()
     }

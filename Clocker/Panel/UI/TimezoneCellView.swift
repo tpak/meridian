@@ -44,7 +44,7 @@ class TimezoneCellView: NSTableCellView {
         guard let relativeFont = relativeDate.font,
               let sunriseFont = sunriseSetTime.font
         else {
-            assertionFailure("Unable to convert to NSString")
+            Logger.info("Unable to convert to NSString")
             return
         }
 
@@ -126,14 +126,14 @@ class TimezoneCellView: NSTableCellView {
 
     private func setupTextSize() {
         guard let userFontSize = DataStore.shared().retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber else {
-            assertionFailure("User Font Size is in unexpected format")
+            Logger.info("User Font Size is in unexpected format")
             return
         }
 
         guard let customFont = customName.font,
               let timeFont = time.font
         else {
-            assertionFailure("User Font Size is in unexpectedly nil")
+            Logger.info("User Font Size is unexpectedly nil")
             return
         }
 

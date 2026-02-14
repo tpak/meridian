@@ -47,8 +47,8 @@ func hideAnimation(view: NSView, style: Style) {
     let anim = CABasicAnimation(keyPath: "opacity")
     let timing = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
     anim.timingFunction = timing
-    let currentLayerTime = view.layer?.convertTime(CACurrentMediaTime(), from: nil)
-    anim.beginTime = currentLayerTime! + CFTimeInterval(style.fadeInOutDelay)
+    let currentLayerTime = view.layer?.convertTime(CACurrentMediaTime(), from: nil) ?? CACurrentMediaTime()
+    anim.beginTime = currentLayerTime + CFTimeInterval(style.fadeInOutDelay)
     anim.duration = CFTimeInterval(style.fadeInOutDuration)
     anim.fromValue = 1.0
     anim.toValue = 0.0
@@ -128,7 +128,8 @@ class ToastView: NSView {
     }
 
     private func configure() {
-        frame = superview?.bounds ?? NSRect.zero
+        guard let superview = superview else { return }
+        frame = superview.bounds
         let rect = CGRect(origin: style.labelOriginWithMargin, size: labelSize)
         let sizeWithMargin = CGSize(
             width: rect.width + style.horizontalMargin * 2,
@@ -141,7 +142,7 @@ class ToastView: NSView {
         // outside Container
         let container = CALayer()
         container.frame = rectWithMargin
-        container.position = CGRect.center(of: superview!)
+        container.position = CGRect.center(of: superview)
         container.backgroundColor = style.backgroundColor.cgColor
         container.cornerRadius = style.cornerRadius
         layer?.addSublayer(container)

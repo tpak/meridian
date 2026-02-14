@@ -25,7 +25,7 @@ extension EventCenter {
                 do {
                     try eventStore.saveCalendar(calendar, commit: true)
                 } catch {
-                    assertionFailure("Unable to store calendar")
+                    Logger.info("Unable to store calendar: \(error.localizedDescription)")
                 }
             }
         }

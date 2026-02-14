@@ -200,11 +200,14 @@ class OnboardingSearchController: NSViewController {
 
         resultsTableView.isHidden = true
 
-        let tuple = "\(latitude),\(longitude)"
         let timeStamp = Date().timeIntervalSince1970
-        let urlString = "https://maps.googleapis.com/maps/api/timezone/json?location=\(tuple)&timestamp=\(timeStamp)&key=\(geocodingKey)"
 
-        NetworkManager.task(with: urlString) { [weak self] response, error in
+        guard let url = NetworkManager.timezoneURL(for: latitude, longitude: longitude, timestamp: timeStamp, key: geocodingKey) else {
+            setInfoLabel(PreferencesConstants.tryAgainMessage)
+            return
+        }
+
+        NetworkManager.task(with: url) { [weak self] response, error in
 
             guard let self = self else { return }
 
@@ -224,7 +227,7 @@ class OnboardingSearchController: NSViewController {
                         let newTimeZone = [
                             UserDefaultKeys.timezoneID: response.timeZoneId,
                             UserDefaultKeys.timezoneName: filteredAddress,
-                            UserDefaultKeys.placeIdentifier: dataObject.placeID!,
+                            UserDefaultKeys.placeIdentifier: dataObject.placeID ?? "",
                             "latitude": latitude,
                             "longitude": longitude,
                             "nextUpdate": UserDefaultKeys.emptyString,
@@ -328,9 +331,12 @@ class OnboardingSearchController: NSViewController {
             return
         }
 
-        let urlString = "https://maps.googleapis.com/maps/api/geocode/json?address=\(searchString)&key=\(geocodingKey)&language=\(userPreferredLanguage)"
+        guard let url = NetworkManager.geocodeURL(for: searchString, key: geocodingKey, language: userPreferredLanguage) else {
+            presentErrorMessage("Unable to construct search URL.")
+            return
+        }
 
-        dataTask = NetworkManager.task(with: urlString,
+        dataTask = NetworkManager.task(with: url,
                                        completionHandler: { [weak self] response, error in
 
                                            guard let self = self else { return }
@@ -365,15 +371,19 @@ class OnboardingSearchController: NSViewController {
                                                    return
                                                }
 
-                                               let searchResults = data.decode()
+                                               guard let searchResults = data.decode() else {
+                                                   self.setInfoLabel(PreferencesConstants.tryAgainMessage)
+                                                   setupForError()
+                                                   return
+                                               }
 
-                                               if searchResults?.status == ResultStatus.zeroResults {
+                                               if searchResults.status == ResultStatus.zeroResults {
                                                    self.setInfoLabel("No results! 😔 Try entering the exact name.")
                                                    setupForError()
                                                    return
                                                }
 
-                                               self.appendResultsToFilteredArray(searchResults!.results)
+                                               self.appendResultsToFilteredArray(searchResults.results)
                                                self.findLocalSearchResultsForTimezones()
                                                self.prepareUIForPresentingResults()
                                            }
@@ -402,25 +412,8 @@ class OnboardingSearchController: NSViewController {
     }
 
     private func appendResultsToFilteredArray(_ results: [SearchResult.Result]) {
-        let finalTimezones: [TimezoneData] = results.map { result -> TimezoneData in
-            let location = result.geometry.location
-            let latitude = location.lat
-            let longitude = location.lng
-            let formattedAddress = result.formattedAddress
-
-            let totalPackage = [
-                "latitude": latitude,
-                "longitude": longitude,
-                UserDefaultKeys.timezoneName: formattedAddress,
-                UserDefaultKeys.customLabel: formattedAddress,
-                UserDefaultKeys.timezoneID: UserDefaultKeys.emptyString,
-                UserDefaultKeys.placeIdentifier: result.placeId,
-            ] as [String: Any]
-
-            return TimezoneData(with: totalPackage)
-        }
-
-        searchResultsDataSource?.setFilteredArrayValue(finalTimezones)
+        guard let dataSource = searchResultsDataSource else { return }
+        TimezoneSearchService.parseAndAddGeocodingResults(results, to: dataSource)
     }
 
     private func resetSearchView() {

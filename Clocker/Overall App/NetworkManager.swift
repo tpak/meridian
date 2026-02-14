@@ -35,17 +35,22 @@ class NetworkManager: NSObject {
 extension NetworkManager {
     @discardableResult
     class func task(with path: String, completionHandler: @escaping (_ response: Data?, _ error: NSError?) -> Void) -> URLSessionDataTask? {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 20
-
-        let session = URLSession(configuration: configuration)
-
         guard let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let url = URL(string: encodedPath)
         else {
             completionHandler(nil, unableToGenerateURL)
             return nil
         }
+
+        return task(with: url, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    class func task(with url: URL, completionHandler: @escaping (_ response: Data?, _ error: NSError?) -> Void) -> URLSessionDataTask? {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 20
+
+        let session = URLSession(configuration: configuration)
 
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -75,6 +80,34 @@ extension NetworkManager {
         dataTask.resume()
 
         return dataTask
+    }
+
+    /// Builds a Google Maps Geocoding API URL using URLComponents to safely encode query parameters.
+    static func geocodeURL(for address: String, key: String, language: String) -> URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "maps.googleapis.com"
+        components.path = "/maps/api/geocode/json"
+        components.queryItems = [
+            URLQueryItem(name: "address", value: address),
+            URLQueryItem(name: "key", value: key),
+            URLQueryItem(name: "language", value: language),
+        ]
+        return components.url
+    }
+
+    /// Builds a Google Maps Timezone API URL using URLComponents to safely encode query parameters.
+    static func timezoneURL(for latitude: Double, longitude: Double, timestamp: TimeInterval, key: String) -> URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "maps.googleapis.com"
+        components.path = "/maps/api/timezone/json"
+        components.queryItems = [
+            URLQueryItem(name: "location", value: "\(latitude),\(longitude)"),
+            URLQueryItem(name: "timestamp", value: "\(timestamp)"),
+            URLQueryItem(name: "key", value: key),
+        ]
+        return components.url
     }
 
     class func isConnected() -> Bool {

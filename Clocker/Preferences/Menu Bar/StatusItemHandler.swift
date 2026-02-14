@@ -149,8 +149,10 @@ class StatusItemHandler: NSObject {
                                                   showUpcomingEventView: upcomingEventView,
                                                   bufferContainerWidth: bufferCalculatedWidth())
         statusContainerView?.wantsLayer = true
-        statusItem.button?.addSubview(statusContainerView!)
-        statusItem.button?.frame = statusContainerView!.bounds
+        if let containerView = statusContainerView {
+            statusItem.button?.addSubview(containerView)
+            statusItem.button?.frame = containerView.bounds
+        }
         
         // For OS < 11, we need to fix the sizing (width) on the button's window
         // Otherwise, we won't be able to see the menu bar option at all.

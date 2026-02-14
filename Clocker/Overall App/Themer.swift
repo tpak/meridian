@@ -345,9 +345,9 @@ extension Themer {
     func popoverAppearance() -> NSAppearance {
         switch themeIndex {
         case .light, .solarizedLight:
-            return NSAppearance(named: NSAppearance.Name.vibrantLight)!
+            return NSAppearance(named: NSAppearance.Name.vibrantLight) ?? NSApp.effectiveAppearance
         case .dark, .solarizedDark:
-            return NSAppearance(named: NSAppearance.Name.vibrantDark)!
+            return NSAppearance(named: NSAppearance.Name.vibrantDark) ?? NSApp.effectiveAppearance
         case .system:
             return NSApp.effectiveAppearance
         }
