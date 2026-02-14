@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NotesPopover" customModule="Clocker" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="NotesPopover" customModule="Meridian" customModuleProvider="target">
             <connections>
                 <outlet property="alertPopupButton" destination="5UW-2m-WFy" id="Jwh-z9-kCs"/>
                 <outlet property="customLabel" destination="0Ii-Hg-QWF" id="dNw-kT-poU"/>
@@ -239,7 +239,7 @@
                                         <rect key="frame" x="1" y="1" width="179" height="38"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="XS1-dN-9HQ" customClass="TextViewWithPlaceholder" customModule="Clocker" customModuleProvider="target">
+                                            <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="XS1-dN-9HQ" customClass="TextViewWithPlaceholder" customModule="Meridian" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="179" height="38"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>

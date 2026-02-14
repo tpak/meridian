@@ -13,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="250" height="75"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="aM6-TI-1os" customClass="ClockerTextBackgroundView" customModule="Clocker" customModuleProvider="target">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="aM6-TI-1os" customClass="ClockerTextBackgroundView" customModule="Meridian" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="250" height="75"/>
                     <subviews>
                         <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Khp-8n-4FA">
@@ -81,7 +81,7 @@
             </constraints>
             <point key="canvasLocation" x="147" y="238.5"/>
         </customView>
-        <customObject id="p0M-E4-898" customClass="UpcomingEventViewItem" customModule="Clocker" customModuleProvider="target">
+        <customObject id="p0M-E4-898" customClass="UpcomingEventViewItem" customModule="Meridian" customModuleProvider="target">
             <connections>
                 <outlet property="calendarColorView" destination="Bbu-oG-vAb" id="tBe-V1-qmC"/>
                 <outlet property="eventSubtitleButton" destination="Khp-8n-4FA" id="mXV-EZ-2AW"/>

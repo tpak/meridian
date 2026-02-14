@@ -26,7 +26,7 @@
             </constraints>
             <point key="canvasLocation" x="-17.5" y="283"/>
         </customView>
-        <customObject id="p0M-E4-898" customClass="TimeMarkerViewItem" customModule="Clocker" customModuleProvider="target">
+        <customObject id="p0M-E4-898" customClass="TimeMarkerViewItem" customModule="Meridian" customModuleProvider="target">
             <connections>
                 <outlet property="verticalLineView" destination="9oV-Ab-UG7" id="0d5-Lu-gh3"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="9S0-wg-csq"/>

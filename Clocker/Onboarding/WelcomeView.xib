@@ -5,7 +5,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="OnboardingWelcomeViewController" customModule="Clocker" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="OnboardingWelcomeViewController" customModule="Meridian" customModuleProvider="target">
             <connections>
                 <outlet property="accessoryLabel" destination="Pvz-jw-4nJ" id="gCU-a9-uiz"/>
                 <outlet property="appLabel" destination="hla-i3-RpJ" id="wqd-xT-9Cw"/>

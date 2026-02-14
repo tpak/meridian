@@ -355,7 +355,7 @@
                 </menuItem>
             </items>
         </menu>
-        <customObject id="494" customClass="AppDelegate" customModule="Clocker" customModuleProvider="target"/>
+        <customObject id="494" customClass="AppDelegate" customModule="Meridian" customModuleProvider="target"/>
         <customObject id="420" customClass="NSFontManager"/>
     </objects>
 </document>

@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PanelController" customModule="Clocker" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="PanelController" customModule="Meridian" customModuleProvider="target">
             <connections>
                 <outlet property="backgroundView" destination="6" id="20"/>
                 <outlet property="goBackwardsButton" destination="aW8-hr-4Zh" id="EWT-EA-AGP"/>
@@ -30,13 +30,13 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="none" id="5" customClass="CustomPanel" customModule="Clocker" customModuleProvider="target">
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="none" id="5" customClass="CustomPanel" customModule="Meridian" customModuleProvider="target">
             <windowStyleMask key="styleMask" utility="YES" nonactivatingPanel="YES" texturedBackground="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" ignoresCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1000" y="379" width="300" height="420"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
-            <view key="contentView" focusRingType="none" misplaced="YES" id="6" customClass="BackgroundPanelView" customModule="Clocker" customModuleProvider="target">
+            <view key="contentView" focusRingType="none" misplaced="YES" id="6" customClass="BackgroundPanelView" customModule="Meridian" customModuleProvider="target">
                 <rect key="frame" x="0.0" y="0.0" width="300" height="420"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
@@ -49,7 +49,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="370" height="265"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="95" viewBased="YES" id="dFw-ts-8OZ" customClass="PanelTableView" customModule="Clocker" customModuleProvider="target">
+                                        <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="95" viewBased="YES" id="dFw-ts-8OZ" customClass="PanelTableView" customModule="Meridian" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="370" height="265"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="1"/>
@@ -68,7 +68,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="timeZoneCell" id="qbN-ba-fho" customClass="TimezoneCellView" customModule="Clocker" customModuleProvider="target">
+                                                        <tableCellView identifier="timeZoneCell" id="qbN-ba-fho" customClass="TimezoneCellView" customModule="Meridian" customModuleProvider="target">
                                                             <rect key="frame" x="11" y="0.0" width="347" height="111"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -204,7 +204,7 @@
                                                                 <outlet property="time" destination="vnv-J2-7r1" id="XFD-GQ-9CD"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="addCell" id="rb3-TW-xSb" customClass="AddTableViewCell" customModule="Clocker" customModuleProvider="target">
+                                                        <tableCellView identifier="addCell" id="rb3-TW-xSb" customClass="AddTableViewCell" customModule="Meridian" customModuleProvider="target">
                                                             <rect key="frame" x="11" y="112" width="347" height="100"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -253,13 +253,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView wantsLayer="YES" focusRingType="none" id="8W7-rS-Uob" userLabel="Modern Slider" customClass="ModernSliderContainerView" customModule="Clocker" customModuleProvider="target">
+                            <customView wantsLayer="YES" focusRingType="none" id="8W7-rS-Uob" userLabel="Modern Slider" customClass="ModernSliderContainerView" customModule="Meridian" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="175" width="350" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasVerticalScroller="NO" horizontalScrollElasticity="allowed" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="htc-pO-AqH">
                                         <rect key="frame" x="5" y="25" width="340" height="35"/>
-                                        <clipView key="contentView" drawsBackground="NO" id="N1e-zE-F86" customClass="DraggableClipView" customModule="Clocker" customModuleProvider="target">
+                                        <clipView key="contentView" drawsBackground="NO" id="N1e-zE-F86" customClass="DraggableClipView" customModule="Meridian" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="340" height="35"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -278,7 +278,7 @@
                                             </subviews>
                                             <color key="backgroundColor" name="systemIndigoColor" catalog="System" colorSpace="catalog"/>
                                         </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="8II-oP-xbd" customClass="ThinScroller" customModule="Clocker" customModuleProvider="target">
+                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="8II-oP-xbd" customClass="ThinScroller" customModule="Meridian" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="31" width="340" height="14"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
@@ -287,7 +287,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                     </scrollView>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="hma-wI-Sc9" userLabel="Modern Slider Metadata View" customClass="ClockerTextBackgroundView" customModule="Clocker" customModuleProvider="target">
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="hma-wI-Sc9" userLabel="Modern Slider Metadata View" customClass="ClockerTextBackgroundView" customModule="Meridian" customModuleProvider="target">
                                         <rect key="frame" x="125" y="3" width="100" height="20"/>
                                         <subviews>
                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="e2d-EI-Dm0">
@@ -391,7 +391,7 @@
                                             </subviews>
                                             <color key="backgroundColor" name="Accent Color"/>
                                         </clipView>
-                                        <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="Akw-Iw-iVY" customClass="ThinScroller" customModule="Clocker" customModuleProvider="target">
+                                        <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="Akw-Iw-iVY" customClass="ThinScroller" customModule="Meridian" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="64" width="379" height="11"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
