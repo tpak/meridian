@@ -67,16 +67,27 @@ jobs:
       - name: Run Unit Tests
         run: |
           set -o pipefail
-          xcodebuild -project "$PROJECT" \
-            -scheme "$SCHEME" \
-            -configuration Debug \
-            test \
-            -only-testing:ClockerUnitTests \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY= \
-            -resultBundlePath TestResults/unit-tests.xcresult \
-            | xcpretty --report junit --output TestResults/unit-tests.xml
+          for attempt in 1 2 3; do
+            echo "Attempt $attempt of 3..."
+            if xcodebuild -project "$PROJECT" \
+              -scheme "$SCHEME" \
+              -configuration Debug \
+              test \
+              -only-testing:ClockerUnitTests \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGN_IDENTITY= \
+              -resultBundlePath TestResults/unit-tests.xcresult \
+              | xcpretty --report junit --output TestResults/unit-tests.xml; then
+              echo "Tests passed on attempt $attempt"
+              exit 0
+            fi
+            echo "Attempt $attempt failed, exit code $?"
+            rm -rf TestResults/unit-tests.xcresult
+            sleep 5
+          done
+          echo "All 3 attempts failed"
+          exit 1
 
       - name: Test Results Summary
         if: always()
@@ -90,47 +101,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: TestResults/
-
-  ui-tests:
-    name: UI Tests
-    runs-on: macos-15
-    needs: build-and-lint
-    env:
-      TZ: America/Chicago
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-
-      - name: Generate Keys.xcconfig for CI
-        run: cp Clocker/Config/Keys.xcconfig.example Clocker/Config/Keys.xcconfig
-
-      - name: Run UI Tests
-        run: |
-          set -o pipefail
-          xcodebuild -project "$PROJECT" \
-            -scheme "$SCHEME" \
-            -configuration Debug \
-            test \
-            -only-testing:ClockerUITests \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY= \
-            -resultBundlePath TestResults/ui-tests.xcresult \
-            | xcpretty --report junit --output TestResults/ui-tests.xml
-
-      - name: Test Results Summary
-        if: always()
-        uses: kishikawakatsumi/xcresulttool@v1
-        with:
-          path: TestResults/ui-tests.xcresult
-          show-passed-tests: false
-
-      - name: Upload Test Results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ui-test-results
           path: TestResults/

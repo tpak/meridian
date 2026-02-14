@@ -1,5 +1,9 @@
 // Copyright © 2015 Abhishek Banthia
 
+// NOTE: These UI tests require a real macOS session with menu bar access.
+// They are not run in CI (GitHub Actions lacks NSStatusItem accessibility).
+// Run locally via: xcodebuild test -only-testing:ClockerUITests ...
+
 import XCTest
 
 class PreferencesTest: XCTestCase {
