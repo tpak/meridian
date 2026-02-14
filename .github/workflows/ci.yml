@@ -66,31 +66,19 @@ jobs:
 
       - name: Run Unit Tests
         run: |
-          for attempt in 1 2 3; do
-            echo "::group::Attempt $attempt of 3"
-            rm -rf TestResults/unit-tests.xcresult
-            set +e
-            xcodebuild -project "$PROJECT" \
-              -scheme "$SCHEME" \
-              -configuration Debug \
-              test \
-              -only-testing:ClockerUnitTests \
-              CODE_SIGNING_REQUIRED=NO \
-              CODE_SIGNING_ALLOWED=NO \
-              CODE_SIGN_IDENTITY= \
-              -resultBundlePath TestResults/unit-tests.xcresult
-            status=$?
-            set -e
-            echo "::endgroup::"
-            if [ "$status" -eq 0 ]; then
-              echo "Tests passed on attempt $attempt"
-              exit 0
-            fi
-            echo "Attempt $attempt failed (xcodebuild exit code $status)"
-            sleep 5
-          done
-          echo "All 3 attempts failed"
-          exit 1
+          set -o pipefail
+          xcodebuild -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration Debug \
+            test \
+            -only-testing:ClockerUnitTests \
+            -disable-concurrent-destination-testing \
+            -parallel-testing-enabled NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY= \
+            -resultBundlePath TestResults/unit-tests.xcresult \
+            | xcpretty
 
       - name: Test Results Summary
         if: always()
