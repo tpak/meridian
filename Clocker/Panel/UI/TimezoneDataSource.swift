@@ -7,9 +7,9 @@ import CoreModelKit
 class TimezoneDataSource: NSObject {
     var timezones: [TimezoneData] = []
     var sliderValue: Int = 0
-    var dataStore: DataStore
+    var dataStore: DataStoring
 
-    init(items: [TimezoneData], store: DataStore) {
+    init(items: [TimezoneData], store: DataStoring) {
         sliderValue = 0
         timezones = Array(items)
         dataStore = store

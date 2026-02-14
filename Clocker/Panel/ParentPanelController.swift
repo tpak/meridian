@@ -32,6 +32,8 @@ class ParentPanelController: NSWindowController {
 
     private(set) var sharingHandler: PanelSharingHandler?
 
+    var dataStore: DataStoring = DataStore.shared()
+
     private lazy var oneWindow: OneWindowController? = {
         let preferencesStoryboard = NSStoryboard(name: "Preferences", bundle: nil)
         return preferencesStoryboard.instantiateInitialController() as? OneWindowController
@@ -69,7 +71,7 @@ class ParentPanelController: NSWindowController {
     public var upcomingEventsDataSource: UpcomingEventsDataSource?
 
     var defaultPreferences: [Data] {
-        return DataStore.shared().timezones()
+        return dataStore.timezones()
     }
 
     deinit {
@@ -179,12 +181,12 @@ class ParentPanelController: NSWindowController {
         themeChanged()
 
         // UI adjustments based on user preferences
-        if DataStore.shared().timezones().isEmpty || DataStore.shared().shouldDisplay(.futureSlider) == false {
+        if dataStore.timezones().isEmpty || dataStore.shouldDisplay(.futureSlider) == false {
 
             if modernContainerView != nil {
                 modernContainerView.isHidden = true
             }
-        } else if let value = DataStore.shared().retrieve(key: UserDefaultKeys.displayFutureSliderKey) as? NSNumber {
+        } else if let value = dataStore.retrieve(key: UserDefaultKeys.displayFutureSliderKey) as? NSNumber {
             if value.intValue == 1 {
                 if modernContainerView != nil {
                     modernContainerView.isHidden = true
@@ -198,7 +200,7 @@ class ParentPanelController: NSWindowController {
         }
 
         // Setup sharing handler
-        sharingHandler = PanelSharingHandler(store: DataStore.shared(), datasource: datasource)
+        sharingHandler = PanelSharingHandler(store: dataStore, datasource: datasource)
 
         // More UI adjustments
         sharingButton.sendAction(on: .leftMouseDown)
@@ -228,7 +230,7 @@ class ParentPanelController: NSWindowController {
     }
 
     private func updateHomeObject(with customLabel: String, coordinates: CLLocationCoordinate2D?) {
-        let timezones = DataStore.shared().timezones()
+        let timezones = dataStore.timezones()
 
         var timezoneObjects: [TimezoneData] = []
 
@@ -256,7 +258,7 @@ class ParentPanelController: NSWindowController {
             datas.append(dataObject)
         }
 
-        DataStore.shared().setTimezones(datas)
+        dataStore.setTimezones(datas)
 
         if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
             appDelegate.setupMenubarTimer()
@@ -264,7 +266,7 @@ class ParentPanelController: NSWindowController {
     }
 
     func determineUpcomingViewVisibility() {
-        let showUpcomingEventView = DataStore.shared().shouldDisplay(ViewType.upcomingEventView)
+        let showUpcomingEventView = dataStore.shouldDisplay(ViewType.upcomingEventView)
 
         if showUpcomingEventView == false {
             upcomingEventContainerView?.isHidden = true
@@ -342,8 +344,8 @@ class ParentPanelController: NSWindowController {
     }
 
     private func getAdjustedRowHeight(for object: TimezoneData?, _ currentHeight: CGFloat) -> CGFloat {
-        let userFontSize: NSNumber = DataStore.shared().retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber ?? 4
-        let shouldShowSunrise = DataStore.shared().shouldDisplay(.sunrise)
+        let userFontSize: NSNumber = dataStore.retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber ?? 4
+        let shouldShowSunrise = dataStore.shouldDisplay(.sunrise)
 
         var newHeight = currentHeight
 
@@ -356,7 +358,7 @@ class ParentPanelController: NSWindowController {
             if let note = object?.note, note.isEmpty == false {
                 newHeight += 20
             } else if let obj = object,
-                      TimezoneDataOperations(with: obj, store: DataStore.shared()).nextDaylightSavingsTransitionIfAvailable(with: futureSliderValue) != nil {
+                      TimezoneDataOperations(with: obj, store: dataStore).nextDaylightSavingsTransitionIfAvailable(with: futureSliderValue) != nil {
                 newHeight += 20
             }
         }
@@ -365,7 +367,7 @@ class ParentPanelController: NSWindowController {
             // Set it to 90 expicity in case the row height is calculated be higher.
             newHeight = 88.0
 
-            let ops = object.flatMap { TimezoneDataOperations(with: $0, store: DataStore.shared()) }
+            let ops = object.flatMap { TimezoneDataOperations(with: $0, store: dataStore) }
             if let note = object?.note, note.isEmpty,
                ops?.nextDaylightSavingsTransitionIfAvailable(with: futureSliderValue) == nil {
                 newHeight -= 20.0
@@ -401,7 +403,7 @@ class ParentPanelController: NSWindowController {
             return
         }
 
-        if let userFontSize = DataStore.shared().retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber {
+        if let userFontSize = dataStore.retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber {
             if userFontSize == 4 {
                 scrollViewHeight.constant = totalHeight + CGFloat(userFontSize.intValue * 2)
             } else {
@@ -409,7 +411,7 @@ class ParentPanelController: NSWindowController {
             }
         }
 
-        if DataStore.shared().shouldDisplay(ViewType.upcomingEventView) {
+        if dataStore.shouldDisplay(ViewType.upcomingEventView) {
             if scrollViewHeight.constant > (screenHeight() - 160) {
                 scrollViewHeight.constant = (screenHeight() - 160)
             }
@@ -419,8 +421,8 @@ class ParentPanelController: NSWindowController {
             }
         }
 
-        if DataStore.shared().shouldDisplay(.futureSlider) {
-            let isModernSliderDisplayed = DataStore.shared().retrieve(key: UserDefaultKeys.displayFutureSliderKey) as? NSNumber ?? 0
+        if dataStore.shouldDisplay(.futureSlider) {
+            let isModernSliderDisplayed = dataStore.retrieve(key: UserDefaultKeys.displayFutureSliderKey) as? NSNumber ?? 0
             if isModernSliderDisplayed == 0 {
                 if scrollViewHeight.constant >= (screenHeight() - 200) {
                     scrollViewHeight.constant = (screenHeight() - 300)
@@ -438,13 +440,12 @@ class ParentPanelController: NSWindowController {
 
         updatePanelColor()
 
-        let store = DataStore.shared()
-        let defaults = store.timezones()
+        let defaults = dataStore.timezones()
         let convertedTimezones = defaults.map { data -> TimezoneData in
             TimezoneData.customObject(from: data)!
         }
 
-        datasource = TimezoneDataSource(items: convertedTimezones, store: store)
+        datasource = TimezoneDataSource(items: convertedTimezones, store: dataStore)
         mainTableView.dataSource = datasource
         mainTableView.delegate = datasource
         mainTableView.panelDelegate = datasource
@@ -459,7 +460,7 @@ class ParentPanelController: NSWindowController {
         datasource?.setItems(items: timezones)
         datasource?.setSlider(value: futureSliderValue)
 
-        if let userFontSize = DataStore.shared().retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber {
+        if let userFontSize = dataStore.retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber {
             scrollViewHeight.constant = CGFloat(timezones.count) * (mainTableView.rowHeight + CGFloat(userFontSize.floatValue * 1.5))
 
             setScrollViewConstraint()
@@ -487,7 +488,7 @@ class ParentPanelController: NSWindowController {
 
         // Remove from panel
         defaults.remove(at: row)
-        DataStore.shared().setTimezones(defaults)
+        dataStore.setTimezones(defaults)
         updateDefaultPreferences()
 
         NotificationCenter.default.post(name: Notification.Name.customLabelChanged,
@@ -497,19 +498,17 @@ class ParentPanelController: NSWindowController {
         Logger.log(object: nil, for: "Deleted Timezone Through Swipe")
     }
 
-    private lazy var menubarTitleHandler = MenubarTitleProvider(with: DataStore.shared(), eventStore: EventCenter.sharedCenter())
+    private lazy var menubarTitleHandler = MenubarTitleProvider(with: dataStore, eventStore: EventCenter.sharedCenter())
 
     private static let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: NSFont.monospacedDigitSystemFont(ofSize: 13.0, weight: NSFont.Weight.regular),
                                                                     NSAttributedString.Key.baselineOffset: 0.1]
 
     @objc func updateTime() {
-        let store = DataStore.shared()
+        let menubarCount = dataStore.menubarTimezones()?.count ?? 0
 
-        let menubarCount = store.menubarTimezones()?.count ?? 0
-
-        if menubarCount >= 1 || store.shouldDisplay(.showMeetingInMenubar) == true {
+        if menubarCount >= 1 || dataStore.shouldDisplay(.showMeetingInMenubar) == true {
             if let status = (NSApplication.shared.delegate as? AppDelegate)?.statusItemForPanel() {
-                if store.shouldDisplay(.menubarCompactMode) {
+                if dataStore.shouldDisplay(.menubarCompactMode) {
                     status.updateCompactMenubar()
                 } else {
                     status.statusItem.button?.attributedTitle = NSAttributedString(string: menubarTitleHandler.titleForMenubar() ?? "",
@@ -518,7 +517,7 @@ class ParentPanelController: NSWindowController {
             }
         }
 
-        let preferences = store.timezones()
+        let preferences = dataStore.timezones()
 
         if modernSlider != nil, modernSlider.isHidden == false, modernContainerView.currentlyInFocus == false {
             if currentCenterIndexPath != -1, currentCenterIndexPath != modernSlider.numberOfItems(inSection: 0) / 2 {
@@ -538,7 +537,7 @@ class ParentPanelController: NSWindowController {
                     return
                 }
 
-                let dataOperation = TimezoneDataOperations(with: model, store: DataStore.shared())
+                let dataOperation = TimezoneDataOperations(with: model, store: dataStore)
                 cellView.time.stringValue = dataOperation.time(with: futureSliderValue)
                 cellView.sunriseSetTime.stringValue = dataOperation.formattedSunriseTime(with: futureSliderValue)
                 cellView.sunriseSetTime.lineBreakMode = .byClipping
@@ -552,7 +551,7 @@ class ParentPanelController: NSWindowController {
                 cellView.sunriseImage.contentTintColor = model.isSunriseOrSunset ? NSColor.systemYellow : NSColor.systemOrange
                 if let note = model.note, !note.isEmpty {
                     cellView.noteLabel.stringValue = note
-                } else if let value = TimezoneDataOperations(with: model, store: DataStore.shared()).nextDaylightSavingsTransitionIfAvailable(with: futureSliderValue) {
+                } else if let value = TimezoneDataOperations(with: model, store: dataStore).nextDaylightSavingsTransitionIfAvailable(with: futureSliderValue) {
                     cellView.noteLabel.stringValue = value
                 } else {
                     cellView.noteLabel.stringValue = UserDefaultKeys.emptyString
@@ -565,7 +564,7 @@ class ParentPanelController: NSWindowController {
 
     @discardableResult
     func showNotesPopover(forRow row: Int, relativeTo _: NSRect, andButton target: NSButton!) -> Bool {
-        let defaults = DataStore.shared().timezones()
+        let defaults = dataStore.timezones()
 
         guard let popover = additionalOptionsPopover else {
             Logger.info("Data was unexpectedly nil")
@@ -686,7 +685,7 @@ class ParentPanelController: NSWindowController {
             return
         }
 
-        let showAppInForeground = DataStore.shared().shouldDisplay(ViewType.showAppInForeground)
+        let showAppInForeground = dataStore.shouldDisplay(ViewType.showAppInForeground)
 
         let inverseSelection = showAppInForeground ? NSNumber(value: 0) : NSNumber(value: 1)
 

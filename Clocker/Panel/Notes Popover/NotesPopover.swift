@@ -19,6 +19,8 @@ class NotesPopover: NSViewController {
 
     weak var popover: NSPopover?
 
+    var dataStore: DataStoring = DataStore.shared()
+
     @IBOutlet var customLabel: NSTextField!
 
     @IBOutlet var reminderPicker: NSDatePicker!
@@ -318,12 +320,12 @@ class NotesPopover: NSViewController {
         let encodedObject = NSKeyedArchiver.clocker_archive(with: model) else { return }
 
         timezones[currentRow] = encodedObject
-        DataStore.shared().setTimezones(timezones)
+        dataStore.setTimezones(timezones)
     }
 
     private func updateTimezoneInDefaultPreferences(with override: Int,
                                                     _: OverrideType) {
-        let timezones = DataStore.shared().timezones()
+        let timezones = dataStore.timezones()
 
         var timezoneObjects: [TimezoneData] = []
 
@@ -346,7 +348,7 @@ class NotesPopover: NSViewController {
             datas.append(dataObject)
         }
 
-        DataStore.shared().setTimezones(datas)
+        dataStore.setTimezones(datas)
     }
 
     private func setReminderAlarm() {
@@ -372,7 +374,7 @@ class NotesPopover: NSViewController {
 
     private func refreshMainTableView() {
         OperationQueue.main.addOperation {
-            if DataStore.shared().shouldDisplay(ViewType.showAppInForeground) {
+            if self.dataStore.shouldDisplay(ViewType.showAppInForeground) {
                 let currentInstance = FloatingWindowController.shared()
                 currentInstance.updateDefaultPreferences()
             } else {

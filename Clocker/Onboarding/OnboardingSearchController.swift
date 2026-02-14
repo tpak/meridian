@@ -26,6 +26,8 @@ class OnboardingSearchController: NSViewController {
     private var searchTask: Task<Void, Never>?
     private var themeDidChangeNotification: NSObjectProtocol?
 
+    var dataStore: DataStoring = DataStore.shared()
+
     private var geocodingKey: String = {
         guard let apiKey = Bundle.main.infoDictionary?["GeocodingKey"] as? String,
               !apiKey.isEmpty
@@ -109,7 +111,7 @@ class OnboardingSearchController: NSViewController {
             data.selectionType = .timezone
             data.isSystemTimezone = metaInfo.0.name == NSTimeZone.system.identifier
 
-            let operationObject = TimezoneDataOperations(with: data, store: DataStore.shared())
+            let operationObject = TimezoneDataOperations(with: data, store: dataStore)
             operationObject.saveObject()
 
             searchResultsDataSource?.cleanupFilterArray()
@@ -152,7 +154,7 @@ class OnboardingSearchController: NSViewController {
             return
         }
 
-        if DataStore.shared().timezones().count >= 100 {
+        if dataStore.timezones().count >= 100 {
             setInfoLabel(PreferencesConstants.maxTimezonesErrorMessage)
             setupLabelHidingTimer()
             return
@@ -239,7 +241,7 @@ class OnboardingSearchController: NSViewController {
                         UserDefaultKeys.customLabel: filteredAddress
                     ] as [String: Any]
 
-                    DataStore.shared().addTimezone(TimezoneData(with: newTimeZone))
+                    dataStore.addTimezone(TimezoneData(with: newTimeZone))
 
                     Logger.log(object: ["PlaceName": filteredAddress, "Timezone": response.timeZoneId], for: "Filtered Address")
 
@@ -417,7 +419,7 @@ class OnboardingSearchController: NSViewController {
     }
 
     @IBAction func undoAction(_: Any) {
-        DataStore.shared().removeLastTimezone()
+        dataStore.removeLastTimezone()
         setInfoLabel("Removed.")
     }
 }

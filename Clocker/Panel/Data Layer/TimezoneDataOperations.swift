@@ -7,13 +7,13 @@ import CoreModelKit
 
 class TimezoneDataOperations: NSObject {
     private let dataObject: TimezoneData
-    private let store: DataStore
+    private let store: DataStoring
     private lazy var nsCalendar = Calendar.autoupdatingCurrent
     private static var gregorianCalendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)
     private static var swiftyCalendar = Calendar(identifier: .gregorian)
     private static let currentLocale = Locale.current.identifier
 
-    init(with timezone: TimezoneData, store: DataStore) {
+    init(with timezone: TimezoneData, store: DataStoring) {
         dataObject = timezone
         self.store = store
         super.init()

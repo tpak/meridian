@@ -23,6 +23,7 @@ protocol TimezoneAdditionHost: AnyObject {
 @MainActor
 class TimezoneAdditionHandler: NSObject {
     private weak var host: TimezoneAdditionHost?
+    private let dataStore: DataStoring
 
     private var searchTask: Task<Void, Never>?
 
@@ -45,8 +46,9 @@ class TimezoneAdditionHandler: NSObject {
         return apiKey
     }()
 
-    init(host: TimezoneAdditionHost) {
+    init(host: TimezoneAdditionHost, dataStore: DataStoring = DataStore.shared()) {
         self.host = host
+        self.dataStore = dataStore
     }
 
     // MARK: - Search
@@ -247,7 +249,7 @@ class TimezoneAdditionHandler: NSObject {
 
         let timezoneObject = TimezoneData(with: newTimeZone)
 
-        let operationsObject = TimezoneDataOperations(with: timezoneObject, store: DataStore.shared())
+        let operationsObject = TimezoneDataOperations(with: timezoneObject, store: dataStore)
         operationsObject.saveObject()
 
         Logger.log(object: ["PlaceName": filteredAddress, "Timezone": timezone.timeZoneId], for: "Filtered Address")
@@ -308,7 +310,7 @@ class TimezoneAdditionHandler: NSObject {
             return
         }
 
-        let selectedTimeZones = DataStore.shared().timezones()
+        let selectedTimeZones = dataStore.timezones()
         if selectedTimeZones.count >= 100 {
             host.timezonePanel.contentView?.makeToast(PreferencesConstants.maxTimezonesErrorMessage)
             isActivityInProgress = false
@@ -379,7 +381,7 @@ class TimezoneAdditionHandler: NSObject {
         data.selectionType = .timezone
         data.isSystemTimezone = metaInfo.0.name == NSTimeZone.system.identifier
 
-        let operationObject = TimezoneDataOperations(with: data, store: DataStore.shared())
+        let operationObject = TimezoneDataOperations(with: data, store: dataStore)
         operationObject.saveObject()
 
         host.searchResultsDataSource.cleanupFilterArray()

@@ -67,9 +67,9 @@ class PanelController: ParentPanelController {
 
         setupUpcomingEventViewCollectionViewIfNeccesary()
 
-        if DataStore.shared().timezones().isEmpty || DataStore.shared().shouldDisplay(.futureSlider) == false {
+        if dataStore.timezones().isEmpty || dataStore.shouldDisplay(.futureSlider) == false {
             modernContainerView.isHidden = true
-        } else if let value = DataStore.shared().retrieve(key: UserDefaultKeys.displayFutureSliderKey) as? NSNumber, modernContainerView != nil {
+        } else if let value = dataStore.retrieve(key: UserDefaultKeys.displayFutureSliderKey) as? NSNumber, modernContainerView != nil {
             if value.intValue == 1 {
                 modernContainerView.isHidden = true
             } else if value.intValue == 0 {
@@ -96,7 +96,7 @@ class PanelController: ParentPanelController {
 
         startWindowTimer()
 
-        if DataStore.shared().shouldDisplay(ViewType.upcomingEventView) {
+        if dataStore.shouldDisplay(ViewType.upcomingEventView) {
             retrieveCalendarEvents()
         } else {
             removeUpcomingEventView()
@@ -155,18 +155,18 @@ class PanelController: ParentPanelController {
     private func log() {
         PerfLogger.startMarker("Logging")
 
-        let preferences = DataStore.shared().timezones()
+        let preferences = dataStore.timezones()
 
-        guard let theme = DataStore.shared().retrieve(key: UserDefaultKeys.themeKey) as? NSNumber,
-              let displayFutureSliderKey = DataStore.shared().retrieve(key: UserDefaultKeys.themeKey) as? NSNumber,
-              let showAppInForeground = DataStore.shared().retrieve(key: UserDefaultKeys.showAppInForeground) as? NSNumber,
-              let relativeDateKey = DataStore.shared().retrieve(key: UserDefaultKeys.relativeDateKey) as? NSNumber,
-              let fontSize = DataStore.shared().retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber,
-              let sunriseTime = DataStore.shared().retrieve(key: UserDefaultKeys.sunriseSunsetTime) as? NSNumber,
-              let showDayInMenu = DataStore.shared().retrieve(key: UserDefaultKeys.showDayInMenu) as? NSNumber,
-              let showDateInMenu = DataStore.shared().retrieve(key: UserDefaultKeys.showDateInMenu) as? NSNumber,
-              let showPlaceInMenu = DataStore.shared().retrieve(key: UserDefaultKeys.showPlaceInMenu) as? NSNumber,
-              let showUpcomingEventView = DataStore.shared().retrieve(key: UserDefaultKeys.showUpcomingEventView) as? String,
+        guard let theme = dataStore.retrieve(key: UserDefaultKeys.themeKey) as? NSNumber,
+              let displayFutureSliderKey = dataStore.retrieve(key: UserDefaultKeys.themeKey) as? NSNumber,
+              let showAppInForeground = dataStore.retrieve(key: UserDefaultKeys.showAppInForeground) as? NSNumber,
+              let relativeDateKey = dataStore.retrieve(key: UserDefaultKeys.relativeDateKey) as? NSNumber,
+              let fontSize = dataStore.retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber,
+              let sunriseTime = dataStore.retrieve(key: UserDefaultKeys.sunriseSunsetTime) as? NSNumber,
+              let showDayInMenu = dataStore.retrieve(key: UserDefaultKeys.showDayInMenu) as? NSNumber,
+              let showDateInMenu = dataStore.retrieve(key: UserDefaultKeys.showDateInMenu) as? NSNumber,
+              let showPlaceInMenu = dataStore.retrieve(key: UserDefaultKeys.showPlaceInMenu) as? NSNumber,
+              let showUpcomingEventView = dataStore.retrieve(key: UserDefaultKeys.showUpcomingEventView) as? String,
               let country = Locale.autoupdatingCurrent.region?.identifier
         else {
             return
@@ -231,9 +231,9 @@ class PanelController: ParentPanelController {
     }
 
     private func stopMenubarTimerIfNeccesary() {
-        let count = DataStore.shared().menubarTimezones()?.count ?? 0
+        let count = dataStore.menubarTimezones()?.count ?? 0
 
-        if count >= 1 || DataStore.shared().shouldDisplay(.showMeetingInMenubar) {
+        if count >= 1 || dataStore.shouldDisplay(.showMeetingInMenubar) {
             if let delegate = NSApplication.shared.delegate as? AppDelegate {
                 Logger.info("We will be invalidating the menubar timer as we want the parent timer to take care of both panel and menubar ")
 

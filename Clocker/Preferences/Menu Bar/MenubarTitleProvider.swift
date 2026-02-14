@@ -6,10 +6,10 @@ import CoreModelKit
 import EventKit
 
 class MenubarTitleProvider: NSObject {
-    private let store: DataStore
+    private let store: DataStoring
     private let eventCenter: EventCenter
 
-    init(with dataStore: DataStore, eventStore: EventCenter) {
+    init(with dataStore: DataStoring, eventStore: EventCenter) {
         store = dataStore
         eventCenter = eventStore
         super.init()

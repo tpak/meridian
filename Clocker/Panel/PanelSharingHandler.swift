@@ -5,10 +5,10 @@ import CoreLoggerKit
 import CoreModelKit
 
 class PanelSharingHandler: NSObject, NSSharingServicePickerDelegate {
-    private let store: DataStore
+    private let store: DataStoring
     private weak var datasource: TimezoneDataSource?
 
-    init(store: DataStore, datasource: TimezoneDataSource?) {
+    init(store: DataStoring, datasource: TimezoneDataSource?) {
         self.store = store
         self.datasource = datasource
     }

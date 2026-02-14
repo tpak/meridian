@@ -77,7 +77,7 @@ class CalendarViewController: ParentViewController {
         super.viewWillAppear()
 
         verifyCalendarAccess()
-        showSegmentedControl.selectedSegment = DataStore.shared().shouldDisplay(ViewType.upcomingEventView) ? 0 : 1
+        showSegmentedControl.selectedSegment = dataStore.shouldDisplay(ViewType.upcomingEventView) ? 0 : 1
     }
 
     private func verifyCalendarAccess() {
@@ -163,7 +163,7 @@ class CalendarViewController: ParentViewController {
 
         UserDefaults.standard.set(showUpcomingEventView, forKey: UserDefaultKeys.showUpcomingEventView)
 
-        if DataStore.shared().shouldDisplay(ViewType.showAppInForeground) {
+        if dataStore.shouldDisplay(ViewType.showAppInForeground) {
             let floatingWindow = FloatingWindowController.shared()
             floatingWindow.determineUpcomingViewVisibility()
             return

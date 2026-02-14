@@ -20,7 +20,23 @@ enum ViewType {
     case sync
 }
 
-class DataStore: NSObject {
+protocol DataStoring: AnyObject {
+    func timezones() -> [Data]
+    func setTimezones(_ timezones: [Data]?)
+    func menubarTimezones() -> [Data]?
+    func shouldDisplay(_ type: ViewType) -> Bool
+    func retrieve(key: String) -> Any?
+    func addTimezone(_ timezone: TimezoneData)
+    func removeLastTimezone()
+    func timezoneFormat() -> NSNumber
+    func isBufferRequiredForTwelveHourFormats() -> Bool
+    func selectedCalendars() -> [String]?
+    func setupSyncNotification()
+    func shouldShowDateInMenubar() -> Bool
+    func shouldShowDayInMenubar() -> Bool
+}
+
+class DataStore: NSObject, DataStoring {
     private static var sharedStore = DataStore(with: UserDefaults.standard)
     private var userDefaults: UserDefaults!
     private var ubiquitousStore: NSUbiquitousKeyValueStore?

@@ -3,6 +3,8 @@
 import Cocoa
 
 class ParentViewController: NSViewController {
+    var dataStore: DataStoring = DataStore.shared()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if let view = view as? ParentView {

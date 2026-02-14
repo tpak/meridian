@@ -48,7 +48,7 @@ class PreferencesViewController: ParentViewController {
     private let sortingManager = TimezoneSortingManager()
 
     private var selectedTimeZones: [Data] {
-        return DataStore.shared().timezones()
+        return dataStore.timezones()
     }
 
     private var themeDidChangeNotification: NSObjectProtocol?
@@ -92,7 +92,7 @@ class PreferencesViewController: ParentViewController {
 
         searchField.placeholderString = "Enter city, state, country or timezone name"
 
-        selectionsDataSource = PreferencesDataSource(with: DataStore.shared(), callbackDelegate: self)
+        selectionsDataSource = PreferencesDataSource(with: dataStore, callbackDelegate: self)
         timezoneTableView.dataSource = selectionsDataSource
         timezoneTableView.delegate = selectionsDataSource
 
@@ -100,7 +100,7 @@ class PreferencesViewController: ParentViewController {
         availableTimezoneTableView.dataSource = searchResultsDataSource
         availableTimezoneTableView.delegate = searchResultsDataSource
 
-        timezoneAdditionHandler = TimezoneAdditionHandler(host: self)
+        timezoneAdditionHandler = TimezoneAdditionHandler(host: self, dataStore: dataStore)
     }
 
     deinit {
@@ -143,7 +143,7 @@ class PreferencesViewController: ParentViewController {
     }
 
     private func refresh() {
-        if DataStore.shared().shouldDisplay(ViewType.showAppInForeground) {
+        if dataStore.shouldDisplay(ViewType.showAppInForeground) {
             updateFloatingWindow()
         } else {
             guard let panel = PanelController.panel() else { return }
@@ -159,7 +159,7 @@ class PreferencesViewController: ParentViewController {
     }
 
     private func build(_ shouldSelectLastRow: Bool = false) {
-        if DataStore.shared().timezones() == [] {
+        if dataStore.timezones() == [] {
             housekeeping()
             return
         }
@@ -214,7 +214,7 @@ class PreferencesViewController: ParentViewController {
 
         setupColor()
 
-        startupCheckbox.integerValue = DataStore.shared().retrieve(key: UserDefaultKeys.startAtLogin) as? Int ?? 0
+        startupCheckbox.integerValue = dataStore.retrieve(key: UserDefaultKeys.startAtLogin) as? Int ?? 0
 
         searchField.bezelStyle = .roundedBezel
     }
@@ -284,7 +284,7 @@ extension PreferencesViewController: NSTableViewDataSource, NSTableViewDelegate 
             appDelegate.setupMenubarTimer()
         }
 
-        if let menubarTimezones = DataStore.shared().menubarTimezones(), menubarTimezones.count > 1 {
+        if let menubarTimezones = dataStore.menubarTimezones(), menubarTimezones.count > 1 {
             showAlertIfMoreThanOneTimezoneHasBeenAddedToTheMenubar()
         }
     }
@@ -294,9 +294,9 @@ extension PreferencesViewController: NSTableViewDataSource, NSTableViewDelegate 
                    for: "favouriteRemoved")
 
         if let appDelegate = NSApplication.shared.delegate as? AppDelegate,
-           let menubarFavourites = DataStore.shared().menubarTimezones(),
+           let menubarFavourites = dataStore.menubarTimezones(),
            menubarFavourites.isEmpty,
-           DataStore.shared().shouldDisplay(.showMeetingInMenubar) == false {
+           dataStore.shouldDisplay(.showMeetingInMenubar) == false {
             appDelegate.invalidateMenubarTimer(true)
         }
 

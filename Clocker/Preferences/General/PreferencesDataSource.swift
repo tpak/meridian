@@ -22,12 +22,12 @@ protocol PreferenceSelectionUpdates: AnyObject {
 
 class PreferencesDataSource: NSObject {
     private weak var updateDelegate: PreferenceSelectionUpdates?
-    private let store: DataStore
+    private let store: DataStoring
     var selectedTimezones: [Data] {
         return store.timezones()
     }
 
-    init(with store: DataStore, callbackDelegate delegate: PreferenceSelectionUpdates) {
+    init(with store: DataStoring, callbackDelegate delegate: PreferenceSelectionUpdates) {
         self.store = store
         updateDelegate = delegate
         super.init()

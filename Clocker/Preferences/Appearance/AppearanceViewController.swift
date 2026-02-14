@@ -29,7 +29,7 @@ class AppearanceViewController: ParentViewController {
         informationLabel.stringValue = "Favourite a timezone to enable menubar display options.".localized()
         informationLabel.textColor = NSColor.secondaryLabelColor
 
-        let chosenFormat = DataStore.shared().timezoneFormat().intValue
+        let chosenFormat = dataStore.timezoneFormat().intValue
         let supportedTimeFormats = ["h:mm a (7:08 PM)",
                                     "HH:mm (19:08)",
                                     "-- With Seconds --",
@@ -113,20 +113,20 @@ class AppearanceViewController: ParentViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
 
-        if let menubarFavourites = DataStore.shared().menubarTimezones() {
+        if let menubarFavourites = dataStore.menubarTimezones() {
             visualEffectView.isHidden = menubarFavourites.isEmpty ? false : true
             informationLabel.isHidden = menubarFavourites.isEmpty ? false : true
         }
 
-        if let selectedIndex = DataStore.shared().retrieve(key: UserDefaultKeys.futureSliderRange) as? NSNumber {
+        if let selectedIndex = dataStore.retrieve(key: UserDefaultKeys.futureSliderRange) as? NSNumber {
             sliderDayRangePopup.selectItem(at: selectedIndex.intValue)
         }
 
-        let shouldDisplayCompact = DataStore.shared().shouldDisplay(.menubarCompactMode)
+        let shouldDisplayCompact = dataStore.shouldDisplay(.menubarCompactMode)
         menubarMode.setSelected(true, forSegment: shouldDisplayCompact ? 0 : 1)
 
         // True is Menubar Only and False is Menubar + Dock
-        let appDisplayOptions = DataStore.shared().shouldDisplay(.appDisplayOptions)
+        let appDisplayOptions = dataStore.shouldDisplay(.appDisplayOptions)
         appDisplayControl.setSelected(true, forSegment: appDisplayOptions ? 0 : 1)
 
         // Set the Sync value from NSUbiqutousKeyValueStore
@@ -280,7 +280,7 @@ class AppearanceViewController: ParentViewController {
 
     private func refresh(panel: Bool, floating: Bool) {
         OperationQueue.main.addOperation {
-            if panel, DataStore.shared().shouldDisplay(ViewType.showAppInForeground) == false {
+            if panel, self.dataStore.shouldDisplay(ViewType.showAppInForeground) == false {
                 guard let panelController = PanelController.panel() else { return }
 
                 let futureSliderBounds = panelController.modernSlider.bounds
@@ -291,8 +291,8 @@ class AppearanceViewController: ParentViewController {
                 panelController.setupMenubarTimer()
             }
 
-            if floating, DataStore.shared().shouldDisplay(ViewType.showAppInForeground) {
-                if DataStore.shared().shouldDisplay(ViewType.showAppInForeground) {
+            if floating, self.dataStore.shouldDisplay(ViewType.showAppInForeground) {
+                if self.dataStore.shouldDisplay(ViewType.showAppInForeground) {
                     let floatingWindow = FloatingWindowController.shared()
                     floatingWindow.updateTableContent()
                     if let slider = floatingWindow.modernSlider {
@@ -324,7 +324,7 @@ class AppearanceViewController: ParentViewController {
             return
         }
 
-        if DataStore.shared().shouldDisplay(.menubarCompactMode) {
+        if dataStore.shouldDisplay(.menubarCompactMode) {
             statusItem.setupStatusItem()
         } else {
             statusItem.refresh()
@@ -351,7 +351,7 @@ class AppearanceViewController: ParentViewController {
 
     @IBAction func toggleSync(_ sender: NSSegmentedControl) {
         NSUbiquitousKeyValueStore.default.set(sender.selectedSegment == 0, forKey: UserDefaultKeys.enableSyncKey)
-        DataStore.shared().setupSyncNotification()
+        dataStore.setupSyncNotification()
     }
 }
 
@@ -371,7 +371,7 @@ extension AppearanceViewController: NSTableViewDataSource, NSTableViewDelegate {
         }
 
         let currentModel = previewTimezones[row]
-        let operation = TimezoneDataOperations(with: currentModel, store: DataStore.shared())
+        let operation = TimezoneDataOperations(with: currentModel, store: dataStore)
 
         cellView.sunriseSetTime.stringValue = operation.formattedSunriseTime(with: 0)
         cellView.sunriseImage.image = currentModel.isSunriseOrSunset ? Themer.shared().sunriseImage() : Themer.shared().sunsetImage()
@@ -395,7 +395,7 @@ extension AppearanceViewController: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func tableView(_: NSTableView, heightOfRow row: Int) -> CGFloat {
-        if let userFontSize = DataStore.shared().retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber, previewTimezones.count > row {
+        if let userFontSize = dataStore.retrieve(key: UserDefaultKeys.userFontSizePreference) as? NSNumber, previewTimezones.count > row {
             let model = previewTimezones[row]
 
             let rowHeight: Int = userFontSize == 4 ? 60 : 65
