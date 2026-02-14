@@ -1635,7 +1635,7 @@ CA
                                                     <binding destination="3tb-nb-dV1" name="value" keyPath="values.startAtLogin" id="b3h-OK-4dO"/>
                                                 </connections>
                                             </button>
-                                            <customView focusRingType="none" appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="PbD-dt-goz" customClass="ShortcutRecorderButton">
+                                            <customView focusRingType="none" appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="PbD-dt-goz" customClass="ShortcutRecorderButton" customModule="Meridian" customModuleProvider="target">
                                                 <rect key="frame" x="426" y="14" width="180" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="180" id="DIV-g6-Rul"/>
