@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import CoreLoggerKit
 import CoreModelKit
 
 class TimezoneDataSource: NSObject {
@@ -44,12 +45,12 @@ extension TimezoneDataSource: NSTableViewDataSource, NSTableViewDelegate {
                 return addCellView
             }
             
-            assertionFailure("Unable to create AddTableViewCell")
+            Logger.info("Unable to create AddTableViewCell")
             return nil
         }
         
         guard let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "timeZoneCell"), owner: self) as? TimezoneCellView else {
-            assertionFailure("Unable to create tableviewcell")
+            Logger.info("Unable to create tableviewcell")
             return NSView()
         }
         

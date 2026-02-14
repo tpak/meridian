@@ -52,7 +52,7 @@ class OnboardingParentViewController: NSViewController {
 
     private func setupWelcomeScreen() {
         guard let firstVC = welcomeVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate welcomeVC")
             return
         }
 
@@ -87,7 +87,7 @@ class OnboardingParentViewController: NSViewController {
 
     @IBAction func negativeAction(_: Any) {
         guard let fromViewController = startAtLoginVC, let toViewController = onboardingSearchVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate startAtLoginVC or onboardingSearchVC for negativeAction")
             return
         }
 
@@ -122,7 +122,7 @@ class OnboardingParentViewController: NSViewController {
 
     private func navigateToPermissions() {
         guard let fromViewController = welcomeVC, let toViewController = permissionsVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate welcomeVC or permissionsVC for navigateToPermissions")
             return
         }
 
@@ -140,7 +140,7 @@ class OnboardingParentViewController: NSViewController {
 
     private func navigateToStartAtLogin() {
         guard let fromViewController = permissionsVC, let toViewController = startAtLoginVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate permissionsVC or startAtLoginVC for navigateToStartAtLogin")
             return
         }
 
@@ -158,7 +158,7 @@ class OnboardingParentViewController: NSViewController {
 
     private func navigateToSearch() {
         guard let fromViewController = startAtLoginVC, let toViewController = onboardingSearchVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate startAtLoginVC or onboardingSearchVC for navigateToSearch")
             return
         }
 
@@ -198,7 +198,7 @@ class OnboardingParentViewController: NSViewController {
         }
 
         guard let fromViewController = onboardingSearchVC, let toViewController = finalOnboardingVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate onboardingSearchVC or finalOnboardingVC for navigateToFinalStage")
             return
         }
 
@@ -247,7 +247,7 @@ class OnboardingParentViewController: NSViewController {
 
     private func goBackToSearch() {
         guard let fromViewController = finalOnboardingVC, let toViewController = onboardingSearchVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate finalOnboardingVC or onboardingSearchVC for goBackToSearch")
             return
         }
 
@@ -264,7 +264,7 @@ class OnboardingParentViewController: NSViewController {
 
     private func goBackToStartAtLogin() {
         guard let fromViewController = onboardingSearchVC, let toViewController = startAtLoginVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate onboardingSearchVC or startAtLoginVC for goBackToStartAtLogin")
             return
         }
 
@@ -282,7 +282,7 @@ class OnboardingParentViewController: NSViewController {
         // We're on StartAtLogin VC and we have to go back to Permissions
 
         guard let fromViewController = startAtLoginVC, let toViewController = permissionsVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate startAtLoginVC or permissionsVC for goBackToPermissions")
             return
         }
 
@@ -299,7 +299,7 @@ class OnboardingParentViewController: NSViewController {
 
     private func goBackToWelcomeScreen() {
         guard let fromViewController = permissionsVC, let toViewController = welcomeVC else {
-            assertionFailure()
+            Logger.info("Failed to instantiate permissionsVC or welcomeVC for goBackToWelcomeScreen")
             return
         }
 

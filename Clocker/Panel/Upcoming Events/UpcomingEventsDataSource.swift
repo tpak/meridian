@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import AppKit
+import CoreLoggerKit
 import Foundation
 
 class UpcomingEventsDataSource: NSObject, NSCollectionViewDataSource, NSCollectionViewDelegateFlowLayout {
@@ -28,7 +29,7 @@ class UpcomingEventsDataSource: NSObject, NSCollectionViewDataSource, NSCollecti
 
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         guard let item = collectionView.makeItem(withIdentifier: UpcomingEventViewItem.reuseIdentifier, for: indexPath) as? UpcomingEventViewItem else {
-            assertionFailure("Unable to make UpcomingEventViewItem")
+            Logger.info("Unable to make UpcomingEventViewItem")
             return NSCollectionViewItem()
         }
         if eventCenter.calendarAccessNotDetermined() {

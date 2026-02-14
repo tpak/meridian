@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import CoreLoggerKit
 
 func bufferCalculatedWidth() -> Int {
     var totalWidth = 55
@@ -145,7 +146,7 @@ class StatusContainerView: NSView {
 
     func updateTime() {
         if subviews.isEmpty {
-            assertionFailure("Subviews count should > 0")
+            Logger.info("Subviews count should > 0")
         }
 
         // See if frame's width needs any adjustment

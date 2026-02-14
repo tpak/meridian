@@ -29,7 +29,7 @@ class OnboardingSearchController: NSViewController {
         guard let apiKey = Bundle.main.infoDictionary?["GeocodingKey"] as? String,
               !apiKey.isEmpty
         else {
-            assertionFailure("Unable to find the API key")
+            Logger.info("Unable to find the API key")
             return ""
         }
         return apiKey

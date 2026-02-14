@@ -136,7 +136,7 @@ class CalendarViewController: ParentViewController {
     @IBAction func showNextMeetingAction(_ sender: NSSegmentedControl) {
         // We need to start the menubar timer if it hasn't been started already
         guard let delegate = NSApplication.shared.delegate as? AppDelegate else {
-            assertionFailure()
+            Logger.info("Failed to get AppDelegate in showNextMeetingAction")
             return
         }
         

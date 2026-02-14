@@ -368,7 +368,7 @@ extension AppearanceViewController: NSTableViewDataSource, NSTableViewDelegate {
         }
 
         guard let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "previewTimezoneCell"), owner: self) as? TimezoneCellView else {
-            assertionFailure("Unable to create tableviewcell")
+            Logger.info("Unable to create tableviewcell")
             return NSView()
         }
 

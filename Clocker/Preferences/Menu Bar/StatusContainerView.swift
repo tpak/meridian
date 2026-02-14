@@ -209,7 +209,7 @@ class StatusContainerView: NSView {
 
     func updateTime() {
         if subviews.isEmpty {
-            assertionFailure("Subviews count should > 0")
+            Logger.info("Subviews count should > 0")
         }
 
         for view in subviews {
