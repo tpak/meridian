@@ -1,6 +1,6 @@
 /* (No Comment) */
 "CFBundleDisplayName" = "解锁器";
-"Thank you for helping make Clocker even better!" = "感谢您帮助 Clocker 做得更好！";
+"Thank you for helping make Meridian even better!" = "感谢您帮助 Meridian 做得更好！";
 "iRateMessageTitle" = "评价 %@";
 "iRateAppMessage" = "如果您喜欢使用 %@，能否请您抽出时间来对它进行评价？评价不会超过一分钟。感谢您的支持 ！";
 "iRateGameMessage" = "如果您喜欢使用 %@，能否请您抽出时间来对它进行评价？评价不会超过一分钟。感谢您的支持 ！";
@@ -8,11 +8,11 @@
 "iRateRateButton" = "立即评分";
 "iRateRemindButton" = "稍后提醒我";
 "iRateUpdateMessage" = "现在更新？";
-"ClockerVersion" = "版本 %@";
-"CLFeedbackAlertTitle" = "感谢您帮助 Clocker 做得更好！";
-"app-name" = "Clocker";
+"MeridianVersion" = "版本 %@";
+"CLFeedbackAlertTitle" = "感谢您帮助 Meridian 做得更好！";
+"app-name" = "Meridian";
 "start-at-login" = "开启时启动";
-"setup-steps" = "只需要三步来设置 Clocker";
+"setup-steps" = "只需要三步来设置 Meridian";
 "Permissions-Header" = "权限";
 "See your next Calendar event here." = "在这里查看你的下一个日历事件。";
 "Click here to start." = "点此开始。";
@@ -27,7 +27,7 @@
 "Grant Button Text" = "授权";
 
 // Welcome Onboarding
-"It only takes 3 steps to setup Clocker." = "只需要 3 步来设置 Clocker。";
+"It only takes 3 steps to setup Meridian." = "只需要 3 步来设置 Meridian。";
 "Get Started" = "开始";
 
 // Tab Item Titles
@@ -38,7 +38,7 @@
 "Permissions Tab" = "权限";
 
 // General Preferences Screen
-"Start at Login" = "登录时启动 Clocker";
+"Start at Login" = "登录时启动 Meridian";
 "Sort by Time Difference" = "按时间差排序";
 "Sort by Name" = "按名称排序";
 "Sort by Label" = "按标签排序";
@@ -50,11 +50,11 @@
 "Close Button Title" = "关闭";
 
 // Onboarding
-"Open Clocker At Login" = "登录时启动 Clocker";
-"Launch Clocker" = "启动 Clocker";
+"Open Meridian At Login" = "登录时启动 Meridian";
+"Launch Meridian" = "启动 Meridian";
 
 // Welcome Onboarding
-"It only takes 3 steps to set up Clocker." = "只需要三步来设置 Clocker。";
+"It only takes 3 steps to set up Meridian." = "只需要三步来设置 Meridian。";
 "Get Started" = "现在开始";
 
 // Permissions
@@ -63,8 +63,8 @@
 "Later Config Description" = "这些可以稍后在系统偏好设置中配置。";
 "Back" = "返回";
 "Continue" = "继续";
-"Clocker is more useful when it can display events from your calendars." = "Clocker 能显示日历中的事件时会更有用。";
-"Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Clocker 在能显示日历中的事件时更有用。你可以在「系统偏好设置 > 安全性与隐私 > 隐私」中更改设置。";
+"Meridian is more useful when it can display events from your calendars." = "Meridian 能显示日历中的事件时会更有用。";
+"Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Meridian 在能显示日历中的事件时更有用。你可以在「系统偏好设置 > 安全性与隐私 > 隐私」中更改设置。";
 "Launch Preferences" = "打开首选项";
 "Grant Access" = "授予访问权限";
 "Upcoming events from your calendars can be shown in the menubar + panel." = "你个人和共享日历的未来事件将显示在菜单栏和面板上。";
@@ -75,13 +75,13 @@
 
 // Onboarding Search
 "Quick Add Locations" = "快速添加地点";
-"More search options in Clocker Preferences." = "Clocker 首选项中的更多搜索选项。";
+"More search options in Meridian Preferences." = "Meridian 首选项中的更多搜索选项。";
 "Enter 3 or more characters for locations you'll like to add" = "为您想要添加的位置输入 3 个或更多字符";
 
 // Start at Login
 "Launch at Login" = "登录时启动";
-"This can be configured later in Clocker Preferences." = "这可以稍后在 Clocker 首选项中进行配置。";
-"Should Clocker open automatically on startup?" = "是否在启动时自动打开 Clocker？";
+"This can be configured later in Meridian Preferences." = "这可以稍后在 Meridian 首选项中进行配置。";
+"Should Meridian open automatically on startup?" = "是否在启动时自动打开 Meridian？";
 
 // Final Onboarding Screen
 "You're all set!" = "已完成全部设置！";
@@ -116,7 +116,7 @@
 "You have no events scheduled for tomorrow." = "您明天没有安排。";
 
 // Review
-"Enjoy using Clocker?" = "喜欢使用 Clocker 吗？";
+"Enjoy using Meridian?" = "喜欢使用 Meridian 吗？";
 
 // App Feedback
 "Tell us what you think!" = "告诉我们您的想法！";

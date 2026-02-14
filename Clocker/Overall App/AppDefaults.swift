@@ -45,7 +45,7 @@ class AppDefaults {
 
 extension UserDefaults {
     // Use this with caution. Exposing this for debugging purposes only.
-    func wipe(for bundleID: String = "com.abhishek.Clocker") {
+    func wipe(for bundleID: String = "com.tpak.Meridian") {
         removePersistentDomain(forName: bundleID)
     }
 }

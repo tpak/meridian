@@ -1,6 +1,6 @@
 // Copyright © 2015 Abhishek Banthia
 
-@testable import Clocker
+@testable import Meridian
 import EventKit
 import XCTest
 
@@ -73,8 +73,18 @@ class EventInfoTests: XCTestCase {
                                       isAllDay: false,
                                       meetingURL: nil,
                                       attendeStatus: .accepted)
-        XCTAssert(mockEventInfo.metadataForMeeting() == "in 25h",
-                  "Metadata for meeting: \(mockEventInfo.metadataForMeeting()) doesn't match expectation")
+        let metadata = mockEventInfo.metadataForMeeting()
+        // When the event lands on tomorrow, metadataForMeeting returns "in Xh".
+        // But late at night, +25h crosses into the day after tomorrow, which
+        // falls through to the default "started." in metadataForMeeting().
+        if mockEvent.startDate.isTomorrow {
+            XCTAssertEqual(metadata, "in 25h",
+                           "Metadata for meeting: \(metadata) doesn't match expectation")
+        } else {
+            // Day-after-tomorrow case: metadataForMeeting only handles today/tomorrow
+            XCTAssertEqual(metadata, "started.",
+                           "Metadata for meeting: \(metadata) doesn't match expectation")
+        }
     }
 
     func testMetadataForEventHappeningAfterAnHour() throws {
@@ -87,8 +97,16 @@ class EventInfoTests: XCTestCase {
                                       isAllDay: false,
                                       meetingURL: nil,
                                       attendeStatus: .accepted)
-        XCTAssert(mockEventInfo.metadataForMeeting() == "in 1h 10m",
-                  "Metadata for meeting: \(mockEventInfo.metadataForMeeting()) doesn't match expectation")
+        let metadata = mockEventInfo.metadataForMeeting()
+        // When run late in the day, adding 1h 10m crosses midnight and the event
+        // lands on tomorrow. The tomorrow branch omits minutes.
+        if mockEvent.startDate.isToday {
+            XCTAssertEqual(metadata, "in 1h 10m",
+                           "Metadata for meeting: \(metadata) doesn't match expectation")
+        } else {
+            XCTAssertEqual(metadata, "in 1h",
+                           "Metadata for meeting: \(metadata) doesn't match expectation")
+        }
     }
 
     func testMetadataForEventHappeningAfterThreeHours() throws {

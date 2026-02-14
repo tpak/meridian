@@ -1,13 +1,13 @@
 /*
   Localizable.strings
-  Clocker
+  Meridian
 
   Created by Abhishek Banthia on 3/27/16.
 
 */
 
-"CFBundleDisplayName" = "Clocker";
-"Thank you for helping make Clocker even better!" = "Thank you for helping make Clocker even better!";
+"CFBundleDisplayName" = "Meridian";
+"Thank you for helping make Meridian even better!" = "Thank you for helping make Meridian even better!";
 "iRateMessageTitle" = "Оціни %@";
 "iRateAppMessage" = "If you enjoy using %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!";
 "iRateGameMessage" = "If you enjoy playing %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!";
@@ -15,11 +15,11 @@
 "iRateRateButton" = "Оцінити зараз";
 "iRateRemindButton" = "Нагадати пізніше";
 "iRateUpdateMessage" = "Оновити зараз?";
-"ClockerVersion" = "Версія %@";
-"CLFeedbackAlertTitle" = "Дякуємо, що допомагаєте зробити Clocker ще кращим!";
-"app-name" = "Clocker";
+"MeridianVersion" = "Версія %@";
+"CLFeedbackAlertTitle" = "Дякуємо, що допомагаєте зробити Meridian ще кращим!";
+"app-name" = "Meridian";
 "start-at-login" = "Запускати при вході";
-"setup-steps" = "Налаштування Clocker займе лише 3 кроки";
+"setup-steps" = "Налаштування Meridian займе лише 3 кроки";
 "Permissions-Header" = "Дозволи";
 "See your next Calendar event here." = "Побачте вашу наступну подію Календаря тут.";
 "Click here to start." = "Натисніть тут, щоб почати.";
@@ -34,7 +34,7 @@
 "Grant Button Text" = "Надати";
 
 // Welcome Onboarding
-"It only takes 3 steps to setup Clocker." = "Налаштування Clocker займе лише 3 кроки.";
+"It only takes 3 steps to setup Meridian." = "Налаштування Meridian займе лише 3 кроки.";
 "Get Started" = "Почати роботу";
 
 // Tab Item Titles
@@ -45,7 +45,7 @@
 "Permissions Tab" = "Дозволи";
 
 // General Preferences Screen
-"Start at Login" = "Запускати Clocker при вході";
+"Start at Login" = "Запускати Meridian при вході";
 "Sort by Time Difference" = "Сортувати за Різницею у часі";
 "Sort by Name" = "Сортувати за Назвою";
 "Sort by Label" = "Сортувати за Позначенням";
@@ -57,11 +57,11 @@
 "Close Button Title" = "Закрити";
 
 // Onboarding
-"Open Clocker At Login" = "Відкривати Clocker при вході";
-"Launch Clocker" = "Запустити Clocker";
+"Open Meridian At Login" = "Відкривати Meridian при вході";
+"Launch Meridian" = "Запустити Meridian";
 
 // Welcome Onboarding
-"It only takes 3 steps to set up Clocker." = "Налаштування Clocker займе лише 3 кроки.";
+"It only takes 3 steps to set up Meridian." = "Налаштування Meridian займе лише 3 кроки.";
 "Get Started" = "Почати роботу";
 
 // Permissions
@@ -70,9 +70,9 @@
 "Later Config Description" = "Це можна налаштувати пізніше в Системних параметрах.";
 "Back" = "Назад";
 "Continue" = "Continue";
-"Clocker is more useful when it can display events from your calendars." = "Clocker більш корисний, коли може відображати події з ваших календарів.";
-"Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Clocker більш корисний, коли може відображати події з ваших календарів. Ви можете змінити цей параметр у Системні параметри › Безпека та приватність › Приватність.";
-/* Text for button that takes the user to the System Preferences app. In case the user hasn't given Calendar/Reminders access permission, this button takes you to the System Preferences app where the user can give proper permissions to Clocker. */
+"Meridian is more useful when it can display events from your calendars." = "Meridian більш корисний, коли може відображати події з ваших календарів.";
+"Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Meridian більш корисний, коли може відображати події з ваших календарів. Ви можете змінити цей параметр у Системні параметри › Безпека та приватність › Приватність.";
+/* Text for button that takes the user to the System Preferences app. In case the user hasn't given Calendar/Reminders access permission, this button takes you to the System Preferences app where the user can give proper permissions to Meridian. */
 "Launch Preferences" = "Відкрити Системні параметри";
 "Grant Access" = "Надати доступ";
 "Upcoming events from your calendars can be shown in the menubar + panel." = "Upcoming events from your calendars can be shown in the menubar + panel.";
@@ -83,13 +83,13 @@
 
 // Onboarding Search
 "Quick Add Locations" = "Quick Add Locations";
-"More search options in Clocker Preferences." = "Більше варіантів пошуку в налаштуваннях Clocker.";
+"More search options in Meridian Preferences." = "Більше варіантів пошуку в налаштуваннях Meridian.";
 "Enter 3 or more characters for locations you'll like to add" = "Enter 3 or more characters for locations you'll like to add";
 
 // Start at Login
 "Launch at Login" = "Запускати при вході";
-"This can be configured later in Clocker Preferences." = "This can be configured later in Clocker Preferences.";
-"Should Clocker open automatically on startup?" = "Should Clocker open automatically on startup?";
+"This can be configured later in Meridian Preferences." = "This can be configured later in Meridian Preferences.";
+"Should Meridian open automatically on startup?" = "Should Meridian open automatically on startup?";
 
 // Final Onboarding Screen
 "You're all set!" = "You're all set!";
@@ -125,7 +125,7 @@
 "You have no events scheduled for tomorrow." = "You have no events scheduled for tomorrow.";
 
 // Review
-"Enjoy using Clocker?" = "Enjoy using Clocker?";
+"Enjoy using Meridian?" = "Enjoy using Meridian?";
 
 // App Feedback
 "Tell us what you think!" = "Розкажіть нам, що ви думаєте!";

@@ -3,7 +3,7 @@
 import CoreModelKit
 import XCTest
 
-@testable import Clocker
+@testable import Meridian
 
 class AppDelegateTests: XCTestCase {
     override func setUp() {
@@ -110,7 +110,7 @@ class AppDelegateTests: XCTestCase {
         XCTAssertEqual(statusItemHandler?.statusItem.button?.title, UserDefaultKeys.emptyString)
         XCTAssertEqual(statusItemHandler?.statusItem.button?.image?.name(), "LightModeIcon")
         XCTAssertEqual(statusItemHandler?.statusItem.button?.imagePosition, .imageOnly)
-        XCTAssertEqual(statusItemHandler?.statusItem.button?.toolTip, "Clocker")
+        XCTAssertEqual(statusItemHandler?.statusItem.button?.toolTip, "Meridian")
     }
 
     func testCompactModeMenubarSetup() throws {

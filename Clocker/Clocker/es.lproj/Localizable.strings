@@ -1,13 +1,13 @@
 /*
   Localizable.strings
-  Clocker
+  Meridian
 
   Created by Abhishek Banthia on 3/27/16.
 
 */
 
-"CFBundleDisplayName" = "Clocker";
-"Thank you for helping make Clocker even better!" = "¡Gracias por ayudar a mejorar Clocker!";
+"CFBundleDisplayName" = "Meridian";
+"Thank you for helping make Meridian even better!" = "¡Gracias por ayudar a mejorar Meridian!";
 "iRateMessageTitle" = "Valora %@";
 "iRateAppMessage" = "Si te gusta %@, ¿podrías escribirnos una reseña? No te tomará más de un minuto. ¡Gracias por tu apoyo!";
 "iRateGameMessage" = "Si te gusta %@, ¿te importaría dedicar un momento para valorarla? No tardarás nada. ¡Gracias por tu apoyo!";
@@ -15,11 +15,11 @@
 "iRateRateButton" = "Califícalo ahora";
 "iRateRemindButton" = "Recordarme más tarde";
 "iRateUpdateMessage" = "¿Actualizar ahora?";
-"ClockerVersion" = "Versión %@";
-"CLFeedbackAlertTitle" = "¡Gracias por ayudar a mejorar Clocker!";
-"app-name" = "Clocker";
+"MeridianVersion" = "Versión %@";
+"CLFeedbackAlertTitle" = "¡Gracias por ayudar a mejorar Meridian!";
+"app-name" = "Meridian";
 "start-at-login" = "Abrir en el inicio de sesión";
-"setup-steps" = "Sólo te tomará 3 pasos configurar Clocker";
+"setup-steps" = "Sólo te tomará 3 pasos configurar Meridian";
 "Permissions-Header" = "Permisos";
 "See your next Calendar event here." = "Vea aquí su próximo evento del calendario.";
 "Click here to start." = "Haga clic aquí para comenzar.";
@@ -34,7 +34,7 @@
 "Grant Button Text" = "Permitir";
 
 // Welcome Onboarding
-"It only takes 3 steps to setup Clocker." = "Sólo te tomará 3 pasos configurar Clocker.";
+"It only takes 3 steps to setup Meridian." = "Sólo te tomará 3 pasos configurar Meridian.";
 "Get Started" = "Comenzar ahora";
 
 // Tab Item Titles
@@ -45,7 +45,7 @@
 "Permissions Tab" = "Permisos";
 
 // General Preferences Screen
-"Start at Login" = "Abrir Clocker al inicio de sesión";
+"Start at Login" = "Abrir Meridian al inicio de sesión";
 "Sort by Time Difference" = "Ordenar por diferencia horaria";
 "Sort by Name" = "Ordenar por nombre";
 "Sort by Label" = "Ordenar por etiqueta";
@@ -57,11 +57,11 @@
 "Close Button Title" = "Cerrar";
 
 // Onboarding
-"Open Clocker At Login" = "Abrir Clocker al iniciar sesión";
-"Launch Clocker" = "Abrir Clocker";
+"Open Meridian At Login" = "Abrir Meridian al iniciar sesión";
+"Launch Meridian" = "Abrir Meridian";
 
 // Welcome Onboarding
-"It only takes 3 steps to set up Clocker." = "Sólo te tomará 3 pasos configurar Clocker.";
+"It only takes 3 steps to set up Meridian." = "Sólo te tomará 3 pasos configurar Meridian.";
 "Get Started" = "Comenzar ahora";
 
 // Permissions
@@ -70,9 +70,9 @@
 "Later Config Description" = "Se puede configurar más tarde en Preferencias del sistema.";
 "Back" = "Regresar";
 "Continue" = "Continuar";
-"Clocker is more useful when it can display events from your calendars." = "Clocker es más útil cuando puede mostrar eventos de tus calendarios.";
-"Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Clocker es más útil cuando puede mostrar eventos de tus calendarios. Puede cambiar esta configuración en Preferencias del Sistema › Seguridad y privacidad › Privacidad.";
-/* Text for button that takes the user to the System Preferences app. In case the user hasn't given Calendar/Reminders access permission, this button takes you to the System Preferences app where the user can give proper permissions to Clocker. */
+"Meridian is more useful when it can display events from your calendars." = "Meridian es más útil cuando puede mostrar eventos de tus calendarios.";
+"Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Meridian es más útil cuando puede mostrar eventos de tus calendarios. Puede cambiar esta configuración en Preferencias del Sistema › Seguridad y privacidad › Privacidad.";
+/* Text for button that takes the user to the System Preferences app. In case the user hasn't given Calendar/Reminders access permission, this button takes you to the System Preferences app where the user can give proper permissions to Meridian. */
 "Launch Preferences" = "Abrir las preferencias";
 "Grant Access" = "Permitir acceso";
 "Upcoming events from your calendars can be shown in the menubar + panel." = "Los próximos eventos de sus calendarios personales y compartidos pueden mostrarse en la barra de menú y en el panel.";
@@ -83,13 +83,13 @@
 
 // Onboarding Search
 "Quick Add Locations" = "Agregar ubicaciones rápidamente";
-"More search options in Clocker Preferences." = "Más opciones de búsqueda en las preferencias de Clocker.";
+"More search options in Meridian Preferences." = "Más opciones de búsqueda en las preferencias de Meridian.";
 "Enter 3 or more characters for locations you'll like to add" = "Introduce 3 o más caracteres de las ubicaciones que quisiera añadir";
 
 // Start at Login
 "Launch at Login" = "Ejecutar cuando inicia la sesión";
-"This can be configured later in Clocker Preferences." = "Esto se puede configurar más tarde en las Preferencias de Clocker.";
-"Should Clocker open automatically on startup?" = "¿Quieres que Clocker se abra automáticamente al inicio?";
+"This can be configured later in Meridian Preferences." = "Esto se puede configurar más tarde en las Preferencias de Meridian.";
+"Should Meridian open automatically on startup?" = "¿Quieres que Meridian se abra automáticamente al inicio?";
 
 // Final Onboarding Screen
 "You're all set!" = "¡Todo listo!";
@@ -124,7 +124,7 @@
 "You have no events scheduled for tomorrow." = "No tienes eventos programados para mañana.";
 
 // Review
-"Enjoy using Clocker?" = "¿Te gusta Clocker?";
+"Enjoy using Meridian?" = "¿Te gusta Meridian?";
 
 // App Feedback
 "Tell us what you think!" = "¡Queremos conocer tu opinión!";

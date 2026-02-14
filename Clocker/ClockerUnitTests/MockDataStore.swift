@@ -2,7 +2,7 @@
 
 import Foundation
 import CoreModelKit
-@testable import Clocker
+@testable import Meridian
 
 /// Mock implementation of DataStoring protocol for isolated unit tests
 class MockDataStore: DataStoring {

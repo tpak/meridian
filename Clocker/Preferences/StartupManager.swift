@@ -5,20 +5,20 @@ import ServiceManagement
 
 struct StartupManager {
     func toggleLogin(_ shouldStartAtLogin: Bool) {
-        if !SMLoginItemSetEnabled("com.abhishek.ClockerHelper" as CFString, shouldStartAtLogin) {
-            Logger.log(object: ["Successful": "NO"], for: "Start Clocker Login")
-            addClockerToLoginItemsManually()
+        if !SMLoginItemSetEnabled("com.tpak.MeridianHelper" as CFString, shouldStartAtLogin) {
+            Logger.log(object: ["Successful": "NO"], for: "Start Meridian Login")
+            addMeridianToLoginItemsManually()
         } else {
-            Logger.log(object: ["Successful": "YES"], for: "Start Clocker Login")
+            Logger.log(object: ["Successful": "YES"], for: "Start Meridian Login")
         }
     }
 
-    private func addClockerToLoginItemsManually() {
+    private func addMeridianToLoginItemsManually() {
         NSApplication.shared.activate(ignoringOtherApps: true)
 
         let alert = NSAlert()
-        alert.messageText = "Clocker is unable to set to start at login. 😅"
-        alert.informativeText = "You can manually set it to start at startup by adding Clocker to your login items."
+        alert.messageText = "Meridian is unable to set to start at login. 😅"
+        alert.informativeText = "You can manually set it to start at startup by adding Meridian to your login items."
         alert.addButton(withTitle: "Add Manually")
         alert.addButton(withTitle: "Cancel")
 

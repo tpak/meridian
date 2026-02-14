@@ -2,12 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 env:
-  SCHEME: Clocker
+  SCHEME: Meridian
   PROJECT: Clocker/Clocker.xcodeproj
   CODE_SIGNING_REQUIRED: "NO"
   CODE_SIGNING_ALLOWED: "NO"

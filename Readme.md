@@ -1,27 +1,47 @@
-<p align="center">
-	<a href="https://github.com/n0shake/Clocker/releases/latest">
- 		<img src="https://img.shields.io/badge/download-latest-brightgreen.svg" alt="download">
-	</a>
-	<a href="https://crowdin.com/project/clocker">
- 		<img src="https://badges.crowdin.net/clocker/localized.svg" alt="localization">
-	</a>
-	<a href="https://twitter.com/clocker_support">
- 		<img src="https://img.shields.io/badge/contact-@clocker_support-blue.svg?style=flat" alt="app support">
-	</a>
-</p>
+# Meridian
 
+A macOS menu bar world clock. Track time across zones for your team, friends, and family.
 
-**Clocker** is an macOS menubar utility designed to help you keep track of your friends in different time zones.  It's written using ~~Objective-C~~ Swift 5 and is completely ad-free. If you'd like to help translate Clocker in your language, [here's the invite link](https://crwd.in/clocker).
+## Features
 
-If you'd like to donate, you can do so [here](https://www.paypal.me/AbhishekBanthia). You can find detailed reviews [here](https://www.podfeet.com/blog/2020/07/clocker/) and [slightly older here](https://lifehacker.com/clocker-crams-a-world-clock-into-your-menu-bar-1794709422). Need any help? Open an issue!
+- **Menu bar native** — lives in your macOS menu bar, one click away
+- **Multiple time zones** — add as many locations as you need
+- **Time scrubbing** — slide to see what time it will be elsewhere
+- **Calendar integration** — see upcoming events alongside your clocks
+- **Sunrise/sunset** — know when the sun rises and sets in each zone
+- **17+ languages** — localized for a global audience
+- **Dark mode** — follows your system appearance
+- **Compact & standard** — choose your preferred menu bar display
+- **Keyboard shortcuts** — global hotkey to toggle the panel
+- **Ad-free & open source**
 
 ## Install
-```shell
-brew install --cask clocker
+
+Download the latest release from [GitHub Releases](https://github.com/tpak/meridian/releases).
+
+## Build from Source
+
+```bash
+# Clone and set up API keys
+git clone https://github.com/tpak/meridian.git
+cd meridian
+cp Clocker/Config/Keys.xcconfig.example Clocker/Config/Keys.xcconfig
+
+# Build
+xcodebuild -project Clocker/Clocker.xcodeproj -scheme Meridian -configuration Debug build \
+  CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY=
 ```
 
-# Contributing
-**Clocker** is open for pull requests.
+Requires Xcode 15+ and macOS 13 (Ventura) or later.
 
-# License
-Copyright (c) 2022 **Abhishek Banthia**. Released under the MIT License.
+## Contributing
+
+Meridian is open for pull requests. If you'd like to help translate, [join the Crowdin project](https://crwd.in/clocker).
+
+## Acknowledgments
+
+Meridian is forked from [Clocker](https://github.com/n0shake/Clocker) by [Abhishek Banthia](https://github.com/n0shake), originally released under the MIT License. We're grateful for the foundation that made this project possible.
+
+## License
+
+Copyright (c) 2024 Chris Pak. Copyright (c) 2022 Abhishek Banthia. Released under the MIT License.

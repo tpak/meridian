@@ -64,7 +64,7 @@
     [menuElement click];
     [self.app/*@START_MENU_TOKEN@*/.tables[@"mainTableView"]/*[[".dialogs",".scrollViews.tables[@\"mainTableView\"]",".tables[@\"mainTableView\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/ typeKey:@"," modifierFlags:XCUIKeyModifierCommand];
     
-    XCUIElement *clockerWindow = self.app.windows[@"Clocker"];
+    XCUIElement *clockerWindow = self.app.windows[@"Meridian"];
     
     if (clockerWindow.tables.count == 0) {
         XCTFail("We don't have any timezones added");

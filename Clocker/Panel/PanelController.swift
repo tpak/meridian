@@ -13,8 +13,8 @@ class PanelController: ParentPanelController {
 
         enablePerformanceLoggingIfNeccessary()
 
-        window?.title = "Clocker Panel"
-        window?.setAccessibilityIdentifier("Clocker Panel")
+        window?.title = "Meridian Panel"
+        window?.setAccessibilityIdentifier("Meridian Panel")
         // Otherwise, the panel can be dragged around while we try to scroll through the modern slider
         window?.isMovableByWindowBackground = false
 
@@ -183,7 +183,7 @@ class PanelController: ParentPanelController {
         let panelEvent: [String: Any] = [
             "Theme": theme.isEqual(to: NSNumber(value: 0)) ? "Default" : "Black",
             "Display Future Slider": displayFutureSliderKey.isEqual(to: NSNumber(value: 0)) ? "Yes" : "No",
-            "Clocker mode": showAppInForeground.isEqual(to: NSNumber(value: 0)) ? "Menubar" : "Floating",
+            "Meridian mode": showAppInForeground.isEqual(to: NSNumber(value: 0)) ? "Menubar" : "Floating",
             "Relative Date": relativeDate,
             "Font Size": fontSize,
             "Sunrise Sunset": sunriseTime.isEqual(to: NSNumber(value: 0)) ? "Yes" : "No",

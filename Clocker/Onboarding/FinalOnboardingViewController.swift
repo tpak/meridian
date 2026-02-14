@@ -6,7 +6,7 @@ import CoreLoggerKit
 struct EmailSignupConstants {
     static let CLEmailSignupEmailProperty = "email"
     static let CLOperatingSystemVersion = "OS"
-    static let CLClockerVersion = "Clocker version"
+    static let CLMeridianVersion = "Meridian version"
     static let CLAppFeedbackDateProperty = "date"
     static let CLAppLanguageKey = "language"
 }
@@ -33,26 +33,27 @@ class FinalOnboardingViewController: NSViewController {
         let mutableParaghStyle = NSMutableParagraphStyle()
         mutableParaghStyle.alignment = .center
 
-        let underlineRange = NSRange(location: 0, length: 9)
-        let originalText = NSMutableAttributedString(string: "Follow us on Twitter for occasional updates!")
+        let buttonText = "Help translate Meridian into your language!"
+        let underlineRange = NSRange(location: 0, length: 14)
+        let originalText = NSMutableAttributedString(string: buttonText)
         originalText.addAttribute(NSAttributedString.Key.underlineStyle,
                                   value: NSNumber(value: Int8(NSUnderlineStyle.single.rawValue)),
                                   range: underlineRange)
         originalText.addAttribute(NSAttributedString.Key.foregroundColor,
                                   value: Themer.shared().mainTextColor(),
-                                  range: NSRange(location: 0, length: localizationButton.attributedTitle.string.count))
+                                  range: NSRange(location: 0, length: buttonText.count))
         originalText.addAttribute(NSAttributedString.Key.font,
                                   value: (localizationButton?.font)!,
-                                  range: NSRange(location: 0, length: localizationButton.attributedTitle.string.count))
+                                  range: NSRange(location: 0, length: buttonText.count))
         originalText.addAttribute(NSAttributedString.Key.paragraphStyle,
                                   value: mutableParaghStyle,
-                                  range: NSRange(location: 0, length: localizationButton.attributedTitle.string.count))
+                                  range: NSRange(location: 0, length: buttonText.count))
 
         localizationButton.attributedTitle = originalText
     }
 
     @IBAction func localizationAction(_: Any) {
-        guard let localizationURL = URL(string: AboutUsConstants.TwitterFollowIntentLink),
+        guard let localizationURL = URL(string: AboutUsConstants.CrowdInLocalizationLink),
               let languageCode = Locale.preferredLanguages.first else { return }
 
         NSWorkspace.shared.open(localizationURL)

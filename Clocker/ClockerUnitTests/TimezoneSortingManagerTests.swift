@@ -2,7 +2,7 @@
 
 import XCTest
 import CoreModelKit
-@testable import Clocker
+@testable import Meridian
 
 class TimezoneSortingManagerTests: XCTestCase {
     var manager: TimezoneSortingManager!

@@ -5,7 +5,7 @@ import CoreLoggerKit
 
 struct AboutView: View {
     private let versionString: String = {
-        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") ?? "Clocker"
+        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") ?? "Meridian"
         let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "N/A"
         let buildVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "N/A"
         return "\(appName) \(shortVersion) (\(buildVersion))"
@@ -26,8 +26,8 @@ struct AboutView: View {
                 .font(.custom("Avenir-Light", size: 15))
 
             linkButton(
-                title: "Help localize Clocker in your language by clicking here!",
-                underlineRange: 42..<56,
+                title: "Help localize Meridian in your language by clicking here!",
+                underlineRange: 43..<57,
                 font: .custom("Avenir-Light", size: 15),
                 accessibilityID: "ClockerOpenSourceText"
             ) {
@@ -36,31 +36,21 @@ struct AboutView: View {
             }
 
             linkButton(
-                title: "You can support Clocker by leaving a review on the App Store! :)",
-                underlineRange: 27..<60,
-                font: .custom("Avenir-Heavy", size: 15),
-                accessibilityID: "ClockerSupportText"
-            ) {
-                openURL(AboutUsConstants.AppStoreLink, logEvent: "Open App Store to Review",
-                        metadata: ["Country": Locale.autoupdatingCurrent.region?.identifier ?? ""])
-            }
-
-            linkButton(
-                title: "1. @clocker_support on Twitter for quick comments",
-                underlineRange: 3..<19,
-                font: .custom("Avenir-Light", size: 15)
-            ) {
-                openURL(AboutUsConstants.TwitterLink, logEvent: "Opened Twitter",
-                        metadata: ["Country": Locale.autoupdatingCurrent.region?.identifier ?? ""])
-            }
-
-            linkButton(
-                title: "2. For Private Feedback",
-                underlineRange: 7..<22,
+                title: "1. Open an issue on GitHub",
+                underlineRange: 3..<26,
                 font: .custom("Avenir-Light", size: 15),
                 accessibilityID: "ClockerPrivateFeedback"
             ) {
-                openURL("https://github.com/nickhumbir/clocker/issues", logEvent: "Report Issue Opened",
+                openURL(AboutUsConstants.GitHubIssuesURL, logEvent: "Opened GitHub Issues",
+                        metadata: ["Country": Locale.autoupdatingCurrent.region?.identifier ?? ""])
+            }
+
+            linkButton(
+                title: "2. View source on GitHub",
+                underlineRange: 3..<24,
+                font: .custom("Avenir-Light", size: 15)
+            ) {
+                openURL(AboutUsConstants.GitHubURL, logEvent: "Opened GitHub",
                         metadata: ["Country": Locale.autoupdatingCurrent.region?.identifier ?? ""])
             }
         }

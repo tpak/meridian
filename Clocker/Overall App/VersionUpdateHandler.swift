@@ -171,7 +171,7 @@ final class VersionUpdateHandler {
     private func fetchLatestRelease(from url: URL) async throws -> GitHubRelease {
         var request = URLRequest(url: url)
         request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
-        request.setValue("Clocker-macOS-App", forHTTPHeaderField: "User-Agent")
+        request.setValue("Meridian-macOS-App", forHTTPHeaderField: "User-Agent")
 
         // Use the protocol-based fetcher
         let (data, response) = try await networkFetcher.fetchData(from: url)

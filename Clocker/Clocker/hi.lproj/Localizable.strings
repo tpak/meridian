@@ -1,13 +1,13 @@
 /* 
   Localizable.strings
-  Clocker
+  Meridian
 
   Created by Abhishek Banthia on 3/27/16.
 
 */
 
 "CFBundleDisplayName" = "विश्व का समय";
-"Thank you for helping make Clocker even better!" = "Thank you for helping make Clocker even better!";
+"Thank you for helping make Meridian even better!" = "Thank you for helping make Meridian even better!";
 "iRateMessageTitle" = "Rate %@";
 "iRateAppMessage" = "If you enjoy using %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!";
 "iRateGameMessage" = "If you enjoy playing %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!";
@@ -15,11 +15,11 @@
 "iRateRateButton" = "Rate It Now";
 "iRateRemindButton" = "Remind Me Later";
 "iRateUpdateMessage" = "Update now?";
-"ClockerVersion" = "Version %@";
-"CLFeedbackAlertTitle" = "Thank you for helping make Clocker even better!";
-"app-name" = "Clocker";
+"MeridianVersion" = "Version %@";
+"CLFeedbackAlertTitle" = "Thank you for helping make Meridian even better!";
+"app-name" = "Meridian";
 "start-at-login" = "Start At Login";
-"setup-steps" = "It only takes 3 steps to set up Clocker";
+"setup-steps" = "It only takes 3 steps to set up Meridian";
 "Permissions-Header" = "अनुमति";
 "See your next Calendar event here." = "अपना अगला कैलेंडर कार्यक्रम यहां देखें।";
 "Click here to start." = "शुरू करने के लिए यहाँ क्लिक करें।";
@@ -53,11 +53,11 @@
 "Close Button Title" = "बंद करे";
 
 // Onboarding
-"Open Clocker At Login" = "Open Clocker At Login";
-"Launch Clocker" = "Launch Clocker";
+"Open Meridian At Login" = "Open Meridian At Login";
+"Launch Meridian" = "Launch Meridian";
 
 // Welcome Onboarding
-"It only takes 3 steps to set up Clocker." = "बस तीन स्टेप् और एप्लिकेशन तैयार।";
+"It only takes 3 steps to set up Meridian." = "बस तीन स्टेप् और एप्लिकेशन तैयार।";
 "Get Started" = "शुरु करे";
 
 // Permissions
@@ -66,8 +66,8 @@
 "Later Config Description" = "इन्हें बाद में सिस्टम प्राथमिकता में कॉन्फ़िगर किया जा सकता है।";
 "Back" = "वापस";
 "Continue" = "जारी रखें";
-"Clocker is more useful when it can display events from your calendars." = "Clocker is more useful when it can display events from your calendars.";
-"Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy.";
+"Meridian is more useful when it can display events from your calendars." = "Meridian is more useful when it can display events from your calendars.";
+"Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy.";
 "Launch Preferences" = "Launch Preferences";
 "Grant Access" = "Grant Access";
 "Upcoming events from your calendars can be shown in the menubar + panel." = "Upcoming events from your calendars can be shown in the menubar + panel.";
@@ -78,13 +78,13 @@
 
 // Onboarding Search
 "Quick Add Locations" = "Quick Add Locations";
-"More search options in Clocker Preferences." = "More search options in Clocker Preferences.";
+"More search options in Meridian Preferences." = "More search options in Meridian Preferences.";
 "Enter 3 or more characters for locations you'll like to add" = "Enter 3 or more characters for locations you'll like to add";
 
 // Start at Login
 "Launch at Login" = "Launch at Login";
-"This can be configured later in Clocker Preferences." = "This can be configured later in Clocker Preferences.";
-"Should Clocker open automatically on startup?" = "Should Clocker open automatically on startup?";
+"This can be configured later in Meridian Preferences." = "This can be configured later in Meridian Preferences.";
+"Should Meridian open automatically on startup?" = "Should Meridian open automatically on startup?";
 
 // Final Onboarding Screen
 "You're all set!" = "You're all set!";
@@ -119,7 +119,7 @@
 "You have no events scheduled for tomorrow." = "You have no events scheduled for tomorrow.";
 
 // Review
-"Enjoy using Clocker?" = "Enjoy using Clocker?";
+"Enjoy using Meridian?" = "Enjoy using Meridian?";
 
 // App Feedback
 "Tell us what you think!" = "Tell us what you think!";

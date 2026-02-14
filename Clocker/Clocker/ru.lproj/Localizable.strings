@@ -1,6 +1,6 @@
 /* (No Comment) */
-"CFBundleDisplayName" = "Clocker";
-"Thank you for helping make Clocker even better!" = "Спасибо, что помогаете сделать Clocker еще лучше!";
+"CFBundleDisplayName" = "Meridian";
+"Thank you for helping make Meridian even better!" = "Спасибо, что помогаете сделать Meridian еще лучше!";
 "iRateMessageTitle" = "Оцените";
 "iRateAppMessage" = "Если вам нравится %@, просьба уделить время, чтобы поставить оценку? Это займет не больше минуты. Спасибо за вашу поддержку!";
 "iRateGameMessage" = "Если вам нравится%@, просьба уделить время, чтобы поставить оценку? Это займет не больше минуты. Спасибо за вашу поддержку!";
@@ -8,11 +8,11 @@
 "iRateRateButton" = "Поставьте рейтинг сейчас";
 "iRateRemindButton" = "Напомнить позже";
 "iRateUpdateMessage" = "Обновить сейчас?";
-"ClockerVersion" = "Версия";
-"CLFeedbackAlertTitle" = "Благодарю! Вы помогаете мне сделать Clocker лучше!";
-"app-name" = "Clocker";
+"MeridianVersion" = "Версия";
+"CLFeedbackAlertTitle" = "Благодарю! Вы помогаете мне сделать Meridian лучше!";
+"app-name" = "Meridian";
 "start-at-login" = "Запустить при логине";
-"setup-steps" = "Нужно всего 3 шага что бы настроить Clocker";
+"setup-steps" = "Нужно всего 3 шага что бы настроить Meridian";
 "Permissions-Header" = "Права доступа";
 "See your next Calendar event here." = "Отображать здесь Ваше следующее событие из календаря.";
 "Click here to start." = "Нажмите здесь что бы начать.";
@@ -27,7 +27,7 @@
 "Grant Button Text" = "Разрешение";
 
 // Welcome Onboarding
-"It only takes 3 steps to setup Clocker." = "Для настройки Clocker требуется всего 3 шага.";
+"It only takes 3 steps to setup Meridian." = "Для настройки Meridian требуется всего 3 шага.";
 "Get Started" = "Начнем";
 
 // Tab Item Titles
@@ -50,11 +50,11 @@
 "Close Button Title" = "Закрыть";
 
 // Onboarding
-"Open Clocker At Login" = "Открыть Clocker при входе";
-"Launch Clocker" = "Запустить Clocker";
+"Open Meridian At Login" = "Открыть Meridian при входе";
+"Launch Meridian" = "Запустить Meridian";
 
 // Welcome Onboarding
-"It only takes 3 steps to set up Clocker." = "Нужно всего 3 шага что бы настроить Clocker.";
+"It only takes 3 steps to set up Meridian." = "Нужно всего 3 шага что бы настроить Meridian.";
 "Get Started" = "Начало работы";
 
 // Permissions
@@ -63,8 +63,8 @@
 "Later Config Description" = "Это можно настроить позже в Системных Настройках.";
 "Back" = "Назад";
 "Continue" = "Продолжить";
-"Clocker is more useful when it can display events from your calendars." = "Clocker полезнее когда он может отображать события из ваших календарей.";
-"Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Clocker полезнее когда он может отображать предстоящие события из ваших календарей. Вы можете изменить эти настройки перейдя в  Системные настройки › Защита и безопасность › Приватность.";
+"Meridian is more useful when it can display events from your calendars." = "Meridian полезнее когда он может отображать события из ваших календарей.";
+"Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Meridian полезнее когда он может отображать предстоящие события из ваших календарей. Вы можете изменить эти настройки перейдя в  Системные настройки › Защита и безопасность › Приватность.";
 "Launch Preferences" = "Параметры запуска";
 "Grant Access" = "Разрешить доступ";
 "Upcoming events from your calendars can be shown in the menubar + panel." = "Предстоящие события из ваших персонального и общего календарей могут быть показаны в верхнем меню и панели.";
@@ -75,13 +75,13 @@
 
 // Onboarding Search
 "Quick Add Locations" = "Быстрое добавление мест";
-"More search options in Clocker Preferences." = "Больше вариантов поиска в настройках Clocker.";
+"More search options in Meridian Preferences." = "Больше вариантов поиска в настройках Meridian.";
 "Enter 3 or more characters for locations you'll like to add" = "Введите 3 или более символов для локаций, которые вы хотите добавить";
 
 // Start at Login
 "Launch at Login" = "Запуск при входе";
-"This can be configured later in Clocker Preferences." = "Это можно изменить позже в настройках Clocker.";
-"Should Clocker open automatically on startup?" = "Должен ли Clocker автоматически открываться при запуске?";
+"This can be configured later in Meridian Preferences." = "Это можно изменить позже в настройках Meridian.";
+"Should Meridian open automatically on startup?" = "Должен ли Meridian автоматически открываться при запуске?";
 
 // Final Onboarding Screen
 "You're all set!" = "Все готово!";
@@ -116,7 +116,7 @@
 "You have no events scheduled for tomorrow." = "У вас нет запланированных на завтра событий.";
 
 // Review
-"Enjoy using Clocker?" = "Понравилось приложения Clocker?";
+"Enjoy using Meridian?" = "Понравилось приложения Meridian?";
 
 // App Feedback
 "Tell us what you think!" = "Расскажите нам, что вы думаете!";

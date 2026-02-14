@@ -17,7 +17,7 @@ class EventCenter: NSObject {
 
     var filteredEvents: [Date: [EventInfo]] = [:]
 
-    private let fetchQueue = DispatchQueue(label: "com.abhishek.fetch")
+    private let fetchQueue = DispatchQueue(label: "com.tpak.meridian.fetch")
 
     @discardableResult class func sharedCenter() -> EventCenter {
         return shared

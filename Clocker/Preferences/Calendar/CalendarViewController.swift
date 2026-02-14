@@ -86,7 +86,7 @@ class CalendarViewController: ParentViewController {
         noAccessView.isHidden = hasCalendarAccess
 
         if hasNotDeterminedCalendarAccess {
-            informationField.stringValue = "Clocker is more useful when it can display events from your calendars.".localized()
+            informationField.stringValue = "Meridian is more useful when it can display events from your calendars.".localized()
             setGrantAccess(title: "Grant Access".localized())
         } else if hasDeniedCalendarAccess {
             // The informationField text is taken care off in the XIB. Just set the grant button to empty because we can't do anything.

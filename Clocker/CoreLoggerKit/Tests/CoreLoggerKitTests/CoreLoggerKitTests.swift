@@ -155,7 +155,7 @@ final class PerfLoggerTests: XCTestCase {
     // Reset panelLog after disable test to avoid affecting other tests
     override func tearDown() {
         // Re-enable by restoring the log (PerfLogger.panelLog is settable)
-        PerfLogger.panelLog = OSLog(subsystem: "com.abhishek.Clocker",
+        PerfLogger.panelLog = OSLog(subsystem: "com.tpak.Meridian",
                                     category: "Open Panel")
         super.tearDown()
     }

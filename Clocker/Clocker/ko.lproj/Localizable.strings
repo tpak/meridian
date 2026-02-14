@@ -1,13 +1,13 @@
 /* 
   Localizable.strings
-  Clocker
+  Meridian
 
   Created by Abhishek Banthia on 3/27/16.
 
 */
 
 "CFBundleDisplayName" = "시계";
-"Thank you for helping make Clocker even better!" = "Clocker가 더 발전할 수 있도록 도와주셔서 정말 감사합니다!";
+"Thank you for helping make Meridian even better!" = "Meridian가 더 발전할 수 있도록 도와주셔서 정말 감사합니다!";
 "iRateMessageTitle" = "비율 %@ ";
 "iRateAppMessage" = "%@을 즐기고 계신다면, 잠시 평가를 위해 시간을 내주시겠습니까? 단 1분도 걸리지 않겠습니다. 지원해주셔서 감사합니다!";
 "iRateGameMessage" = "%@을 즐기고 계신다면, 잠시 평가를 위해 시간을 내주시겠습니까? 단 1분도 걸리지 않겠습니다. 지원해주셔서 감사합니다!";
@@ -15,8 +15,8 @@
 "iRateRateButton" = "지금 평가하기";
 "iRateRemindButton" = "나중에 다시 알리기";
 "iRateUpdateMessage" = "지금 업데이트를 진행할까요?";
-"ClockerVersion" = "버전 %@";
-"CLFeedbackAlertTitle" = "Clocker가 더 발전할 수 있도록 도와주셔서 정말 감사합니다!";
+"MeridianVersion" = "버전 %@";
+"CLFeedbackAlertTitle" = "Meridian가 더 발전할 수 있도록 도와주셔서 정말 감사합니다!";
 "app-name" = "시계";
 "start-at-login" = "로그인을 해주세요";
 "setup-steps" = "시계를 설정하는데 3가지만 하시면 됩니다";
@@ -34,7 +34,7 @@
 "Grant Button Text" = "Grant";
 
 // Welcome Onboarding
-"It only takes 3 steps to setup Clocker." = "It only takes 3 steps to setup Clocker.";
+"It only takes 3 steps to setup Meridian." = "It only takes 3 steps to setup Meridian.";
 "Get Started" = "Get Started";
 
 // Tab Item Titles
@@ -45,7 +45,7 @@
 "Permissions Tab" = "Permissions";
 
 // General Preferences Screen
-"Start at Login" = "Start Clocker at Login";
+"Start at Login" = "Start Meridian at Login";
 "Sort by Time Difference" = "Sort by Time Difference";
 "Sort by Name" = "Sort by Name";
 "Sort by Label" = "Sort by Label";
@@ -57,11 +57,11 @@
 "Close Button Title" = "닫기";
 
 // Onboarding
-"Open Clocker At Login" = "로그인해서 Clocker 열기";
-"Launch Clocker" = "Clocker 실행하기";
+"Open Meridian At Login" = "로그인해서 Meridian 열기";
+"Launch Meridian" = "Meridian 실행하기";
 
 // Welcome Onboarding
-"It only takes 3 steps to set up Clocker." = "It only takes 3 steps to setup Clocker.";
+"It only takes 3 steps to set up Meridian." = "It only takes 3 steps to setup Meridian.";
 "Get Started" = "Get Started";
 
 // Permissions
@@ -70,8 +70,8 @@
 "Later Config Description" = "이것들은 나중에 설정에서 바꾸실 수 있습니다";
 "Back" = "Back";
 "Continue" = "Continue";
-"Clocker is more useful when it can display events from your calendars." = "Clocker is more useful when it can display events from your calendars.";
-"Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy.";
+"Meridian is more useful when it can display events from your calendars." = "Meridian is more useful when it can display events from your calendars.";
+"Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy.";
 "Launch Preferences" = "Launch Preferences";
 "Grant Access" = "Grant Access";
 "Upcoming events from your calendars can be shown in the menubar + panel." = "Upcoming events from your calendars can be shown in the menubar + panel.";
@@ -82,13 +82,13 @@
 
 // Onboarding Search
 "Quick Add Locations" = "Quick Add Locations";
-"More search options in Clocker Preferences." = "More search options in Clocker Preferences.";
+"More search options in Meridian Preferences." = "More search options in Meridian Preferences.";
 "Enter 3 or more characters for locations you'll like to add" = "Enter 3 or more characters for locations you'll like to add";
 
 // Start at Login
 "Launch at Login" = "Launch at Login";
-"This can be configured later in Clocker Preferences." = "This can be configured later in Clocker Preferences.";
-"Should Clocker open automatically on startup?" = "Should Clocker open automatically on startup?";
+"This can be configured later in Meridian Preferences." = "This can be configured later in Meridian Preferences.";
+"Should Meridian open automatically on startup?" = "Should Meridian open automatically on startup?";
 
 // Final Onboarding Screen
 "You're all set!" = "You're all set!";
@@ -123,7 +123,7 @@
 "You have no events scheduled for tomorrow." = "내일 일정이 없어요!";
 
 // Review
-"Enjoy using Clocker?" = "Clocker 사용에 만족하십니까?";
+"Enjoy using Meridian?" = "Meridian 사용에 만족하십니까?";
 
 // App Feedback
 "Tell us what you think!" = "여러분의 의견을 들려주세요.";

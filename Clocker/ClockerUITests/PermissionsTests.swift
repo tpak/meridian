@@ -19,9 +19,9 @@ class PermissionsTests: XCTestCase {
         }
 
         app.tapMenubarIcon()
-        app/*@START_MENU_TOKEN@*/ .buttons["Preferences"]/*[[".dialogs[\"Clocker Panel\"].buttons[\"Preferences\"]",".buttons[\"Preferences\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/ .click()
+        app/*@START_MENU_TOKEN@*/ .buttons["Preferences"]/*[[".dialogs[\"Meridian Panel\"].buttons[\"Preferences\"]",".buttons[\"Preferences\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/ .click()
 
-        let clockerWindow = app.windows["Clocker"]
+        let clockerWindow = app.windows["Meridian"]
 
         // Check Permissions first
         let permissionsTab = clockerWindow.toolbars.buttons["Permissions"]
@@ -61,9 +61,9 @@ class PermissionsTests: XCTestCase {
             app.buttons["FloatingPin"].click()
         }
         app.tapMenubarIcon()
-        app/*@START_MENU_TOKEN@*/ .buttons["Preferences"]/*[[".dialogs[\"Clocker Panel\"].buttons[\"Preferences\"]",".buttons[\"Preferences\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/ .click()
+        app/*@START_MENU_TOKEN@*/ .buttons["Preferences"]/*[[".dialogs[\"Meridian Panel\"].buttons[\"Preferences\"]",".buttons[\"Preferences\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/ .click()
 
-        let clockerWindow = app.windows["Clocker"]
+        let clockerWindow = app.windows["Meridian"]
 
         // Check Permissions first
         let permissionsTab = clockerWindow.toolbars.buttons["Permissions"]

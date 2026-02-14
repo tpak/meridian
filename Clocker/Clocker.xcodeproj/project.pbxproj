@@ -101,7 +101,7 @@
 		9A13BAEA1CA88A76007C6CBE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A13BAEC1CA88A76007C6CBE /* Localizable.strings */; };
 		9A20A04B1C4DEED200FB45AB /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A20A04A1C4DEED200FB45AB /* IOKit.framework */; };
 		9A24A1881ED902CC0095201E /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A24A1871ED902CC0095201E /* EventKit.framework */; };
-		9A3169C11D2CC5AA0079FDF8 /* com.abhishek.ClockerHelper.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3169C01D2CC5AA0079FDF8 /* com.abhishek.ClockerHelper.plist */; };
+		9A3169C11D2CC5AA0079FDF8 /* com.tpak.MeridianHelper.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3169C01D2CC5AA0079FDF8 /* com.tpak.MeridianHelper.plist */; };
 		9A43792A1BEC230A00F4E27F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4379291BEC230A00F4E27F /* libc++.tbd */; };
 		9A56DB801C1CFB73004CE6AF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A56DB7D1C1CFB73004CE6AF /* MainMenu.xib */; };
 		9A6D93371CF3E82F005A8690 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6D93361CF3E82F005A8690 /* CoreImage.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -316,7 +316,7 @@
 		9A20A04A1C4DEED200FB45AB /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		9A20A06F1C4E804D00FB45AB /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9A24A1871ED902CC0095201E /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
-		9A3169C01D2CC5AA0079FDF8 /* com.abhishek.ClockerHelper.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = com.abhishek.ClockerHelper.plist; path = Clocker/com.abhishek.ClockerHelper.plist; sourceTree = "<group>"; };
+		9A3169C01D2CC5AA0079FDF8 /* com.tpak.MeridianHelper.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = com.tpak.MeridianHelper.plist; path = Clocker/com.tpak.MeridianHelper.plist; sourceTree = "<group>"; };
 		9A4379291BEC230A00F4E27F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9A43792B1BEC231100F4E27F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		9A4DC4DF2337F2EB00F03FA4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -629,7 +629,7 @@
 		9A2000C61BFBCEF6002BFDE8 /* Utilties */ = {
 			isa = PBXGroup;
 			children = (
-				9A3169C01D2CC5AA0079FDF8 /* com.abhishek.ClockerHelper.plist */,
+				9A3169C01D2CC5AA0079FDF8 /* com.tpak.MeridianHelper.plist */,
 				9A13BAE21CA882FA007C6CBE /* InfoPlist.strings */,
 				9A13BAEC1CA88A76007C6CBE /* Localizable.strings */,
 				C2CCCD8120619C4C00F2DFC2 /* LocationController.swift */,
@@ -1100,7 +1100,7 @@
 				3548C45A26BECF1B00AFB533 /* UpcomingEventViewItem.xib in Resources */,
 				35C36EF822595F14002FA5C6 /* Onboarding.storyboard in Resources */,
 				35C36F612259DE67002FA5C6 /* NotesPopover.xib in Resources */,
-				9A3169C11D2CC5AA0079FDF8 /* com.abhishek.ClockerHelper.plist in Resources */,
+				9A3169C11D2CC5AA0079FDF8 /* com.tpak.MeridianHelper.plist in Resources */,
 				9A56DB801C1CFB73004CE6AF /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1472,8 +1472,8 @@
 				MARKETING_VERSION = 22.03;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.Clocker;
-				PRODUCT_NAME = Clocker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.Meridian;
+				PRODUCT_NAME = Meridian;
 				PROVISIONING_PROFILE = "71701bee-fee7-4927-b6e9-20d9a78ef29c";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -1516,7 +1516,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.ClockerHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.MeridianHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1554,7 +1554,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.ClockerHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.MeridianHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1592,7 +1592,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.ClockerHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.MeridianHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1637,13 +1637,13 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.ClockerUnitTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.MeridianUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Clocker.app/Contents/MacOS/Clocker";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Meridian.app/Contents/MacOS/Meridian";
 			};
 			name = Debug;
 		};
@@ -1686,11 +1686,11 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.ClockerUnitTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.MeridianUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Clocker.app/Contents/MacOS/Clocker";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Meridian.app/Contents/MacOS/Meridian";
 			};
 			name = Release;
 		};
@@ -1733,11 +1733,11 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.ClockerUnitTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.MeridianUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Clocker.app/Contents/MacOS/Clocker";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Meridian.app/Contents/MacOS/Meridian";
 			};
 			name = Distribution;
 		};
@@ -1776,7 +1776,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.ClockerUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.MeridianUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ClockerUITests/ClockerUITests-Bridging-Header.h";
@@ -1823,7 +1823,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.ClockerUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.MeridianUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ClockerUITests/ClockerUITests-Bridging-Header.h";
@@ -1869,7 +1869,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.ClockerUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.MeridianUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ClockerUITests/ClockerUITests-Bridging-Header.h";
@@ -2048,8 +2048,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.Clocker;
-				PRODUCT_NAME = Clocker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.Meridian;
+				PRODUCT_NAME = Meridian;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -2058,7 +2058,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
-				"TEST_HOST[sdk=*]" = Clocker;
+				"TEST_HOST[sdk=*]" = Meridian;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2128,8 +2128,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.abhishek.Clocker;
-				PRODUCT_NAME = Clocker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tpak.Meridian;
+				PRODUCT_NAME = Meridian;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;

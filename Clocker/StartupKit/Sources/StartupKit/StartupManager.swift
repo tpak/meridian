@@ -5,17 +5,17 @@ import ServiceManagement
 public struct StartupManager {
     public init() {}
     public func toggleLogin(_ shouldStartAtLogin: Bool) {
-        if !SMLoginItemSetEnabled("com.abhishek.ClockerHelper" as CFString, shouldStartAtLogin) {
-            addClockerToLoginItemsManually()
+        if !SMLoginItemSetEnabled("com.tpak.MeridianHelper" as CFString, shouldStartAtLogin) {
+            addMeridianToLoginItemsManually()
         }
     }
 
-    private func addClockerToLoginItemsManually() {
+    private func addMeridianToLoginItemsManually() {
         NSApplication.shared.activate(ignoringOtherApps: true)
 
         let alert = NSAlert()
-        alert.messageText = "Clocker is unable to set to start at login. 😅"
-        alert.informativeText = "You can manually set it to start at startup by adding Clocker to your login items."
+        alert.messageText = "Meridian is unable to set to start at login. 😅"
+        alert.informativeText = "You can manually set it to start at startup by adding Meridian to your login items."
         alert.addButton(withTitle: "Add Manually")
         alert.addButton(withTitle: "Cancel")
 

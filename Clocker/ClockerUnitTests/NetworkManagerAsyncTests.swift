@@ -1,7 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import XCTest
-@testable import Clocker
+@testable import Meridian
 
 class NetworkManagerAsyncTests: XCTestCase {
     var mockSession: URLSession!

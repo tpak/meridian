@@ -10,16 +10,16 @@ enum PanelContextMenu {
 
         let openPreferences = NSMenuItem(title: "Settings",
                                          action: #selector(ParentPanelController.openPreferencesWindow), keyEquivalent: "")
-        let rateClocker = NSMenuItem(title: "Support Clocker...",
-                                     action: #selector(ParentPanelController.rate), keyEquivalent: "")
+        let rateMeridian = NSMenuItem(title: "Support Meridian...",
+                                      action: #selector(ParentPanelController.rate), keyEquivalent: "")
         let sendFeedback = NSMenuItem(title: "Send Feedback...",
                                       action: #selector(ParentPanelController.reportIssue), keyEquivalent: "")
-        let localizeClocker = NSMenuItem(title: "Localize Clocker...",
-                                         action: #selector(ParentPanelController.openCrowdin), keyEquivalent: "")
-        let terminateOption = NSMenuItem(title: "Quit Clocker",
+        let localizeMeridian = NSMenuItem(title: "Localize Meridian...",
+                                           action: #selector(ParentPanelController.openCrowdin), keyEquivalent: "")
+        let terminateOption = NSMenuItem(title: "Quit Meridian",
                                          action: #selector(ParentPanelController.terminateClocker), keyEquivalent: "")
 
-        let appDisplayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") ?? "Clocker"
+        let appDisplayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") ?? "Meridian"
         let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "N/A"
         let longVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "N/A"
         let versionInfo = "\(appDisplayName) \(shortVersion) (\(longVersion))"
@@ -27,10 +27,10 @@ enum PanelContextMenu {
         clockerVersionInfo.isEnabled = false
 
         menu.addItem(openPreferences)
-        menu.addItem(rateClocker)
+        menu.addItem(rateMeridian)
         menu.addItem(withTitle: "FAQs", action: #selector(ParentPanelController.openFAQs), keyEquivalent: "")
         menu.addItem(sendFeedback)
-        menu.addItem(localizeClocker)
+        menu.addItem(localizeMeridian)
         menu.addItem(NSMenuItem.separator())
         menu.addItem(clockerVersionInfo)
         menu.addItem(NSMenuItem.separator())

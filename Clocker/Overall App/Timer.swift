@@ -170,7 +170,7 @@ open class Repeater: Equatable {
         self.interval = interval
         self.tolerance = tolerance
         remainingIterations = mode.countIterations
-        self.queue = (queue ?? DispatchQueue(label: "com.abhishek.Clocker"))
+        self.queue = (queue ?? DispatchQueue(label: "com.tpak.Meridian"))
         timer = configureTimer()
         observe(observer)
     }

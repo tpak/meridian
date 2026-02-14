@@ -4,14 +4,12 @@ import Cocoa
 import SwiftUI
 
 struct AboutUsConstants {
-    static let GitHubURL = "https://github.com/abhishekbanthia/Clocker/?ref=ClockerApp"
-    static let PayPalURL = "https://paypal.me/abhishekbanthia1712"
-    static let TwitterLink = "https://twitter.com/clocker_support/?ref=ClockerApp"
-    static let TwitterFollowIntentLink = "https://twitter.com/intent/follow?screen_name=clocker_support"
-    static let AppStoreLink = "macappstore://itunes.apple.com/us/app/clocker/id1056643111?action=write-review"
-    static let AppStoreUpdateLink = "macappstore://itunes.apple.com/us/app/clocker/id1056643111"
+    static let GitHubURL = "https://github.com/tpak/meridian"
+    static let GitHubIssuesURL = "https://github.com/tpak/meridian/issues"
+    static let AppStoreLink = "https://github.com/tpak/meridian"
+    static let FAQsLink = "https://github.com/tpak/meridian/wiki"
+    static let OriginalProjectURL = "https://github.com/n0shake/Clocker"
     static let CrowdInLocalizationLink = "https://crwd.in/clocker"
-    static let FAQsLink = "https://abhishekbanthia.com/clocker/faq"
 }
 
 class AboutViewController: ParentViewController {

@@ -4,7 +4,7 @@ import CoreModelKit
 import EventKit
 import XCTest
 
-@testable import Clocker
+@testable import Meridian
 
 class StandardMenubarHandlerTests: XCTestCase {
     private let eventStore = EKEventStore()
@@ -19,7 +19,7 @@ class StandardMenubarHandlerTests: XCTestCase {
 
     private func makeMockStore(with menubarMode: Int = 1) -> DataStore {
         // Wipe all timezones from UserDefaults
-        let defaults = UserDefaults(suiteName: "com.abhishek.Clocker.StandardMenubarHandlerTests")!
+        let defaults = UserDefaults(suiteName: "com.tpak.Meridian.StandardMenubarHandlerTests")!
         defaults.set(menubarMode, forKey: UserDefaultKeys.menubarCompactMode)
         defaults.set(0, forKey: UserDefaultKeys.showMeetingInMenubar)
         XCTAssertNotEqual(defaults, UserDefaults.standard)

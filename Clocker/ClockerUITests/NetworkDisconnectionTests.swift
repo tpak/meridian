@@ -26,7 +26,7 @@ class NetworkDisconnectionTests: XCTestCase {
         app.buttons["FloatingPreferences"].click()
 
         if app.sheets.count == 0 {
-            app.windows["Clocker"].checkBoxes["AddTimezone"].click()
+            app.windows["Meridian"].checkBoxes["AddTimezone"].click()
         }
 
         XCTAssertFalse(app.sheets.staticTexts["ErrorPlaceholder"].exists)
@@ -44,7 +44,7 @@ class NetworkDisconnectionTests: XCTestCase {
         app.buttons["FloatingPreferences"].click()
 
         if app.sheets.count == 0 {
-            app.windows["Clocker"].checkBoxes["AddTimezone"].click()
+            app.windows["Meridian"].checkBoxes["AddTimezone"].click()
         }
 
         XCTAssertFalse(app.sheets.staticTexts["ErrorPlaceholder"].exists)

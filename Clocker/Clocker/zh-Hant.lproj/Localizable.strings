@@ -13,15 +13,15 @@
 
 /* 
   Localizable.strings
-  Clocker
+  Meridian
 
   Created by Abhishek Banthia on 3/27/16.
 
  */
-"CFBundleDisplayName" = "Clocker";
+"CFBundleDisplayName" = "Meridian";
 
 
-"CLFeedbackAlertTitle" = "感謝您的幫助，讓 Clocker 變得更好！";
+"CLFeedbackAlertTitle" = "感謝您的幫助，讓 Meridian 變得更好！";
 
 
 "Calendar Access" = "取用您的行事曆";
@@ -39,13 +39,13 @@
 "Click here to start." = "開始";
 
 
-"Clocker is more useful when it can display events from your calendars." = "從您的行事曆顯示行程將使 Clocker 更實用。";
+"Meridian is more useful when it can display events from your calendars." = "從您的行事曆顯示行程將使 Meridian 更實用。";
 
 
-"Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "從您的行事曆顯示行程將使 Clocker 更實用。您可以在「系統偏好設定」>「安全性與隱私」>「隱私權」更改此設定。";
+"Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "從您的行事曆顯示行程將使 Meridian 更實用。您可以在「系統偏好設定」>「安全性與隱私」>「隱私權」更改此設定。";
 
 
-"ClockerVersion" = "版本：%@";
+"MeridianVersion" = "版本：%@";
 
 
 "Close Button Title" = "關閉";
@@ -78,7 +78,7 @@
 "Display the time in seconds" = "顯示時間秒數";
 
 /* Review */
-"Enjoy using Clocker?" = "喜歡使用 Clocker 嗎？";
+"Enjoy using Meridian?" = "喜歡使用 Meridian 嗎？";
 
 
 "Enter 3 or more characters for locations you'll like to add" = "為您想加入的位置輸入 3 個或更多字元";
@@ -138,10 +138,10 @@
 "Include Place Name" = "包含位置名稱";
 
 /* Welcome Onboarding */
-"It only takes 3 steps to set up Clocker." = "設定 Clocker 只需要 3 個步驟。";
+"It only takes 3 steps to set up Meridian." = "設定 Meridian 只需要 3 個步驟。";
 
 /* Welcome Onboarding */
-"It only takes 3 steps to setup Clocker." = "設定 Clocker 只需要 3 個步驟。";
+"It only takes 3 steps to setup Meridian." = "設定 Meridian 只需要 3 個步驟。";
 
 
 "Larger Text" = "文字大小";
@@ -150,9 +150,9 @@
 "Later Config Description" = "這些可以稍後在「系統偏好設定」中進行設置。";
 
 
-"Launch Clocker" = "啟動 Clocker";
+"Launch Meridian" = "啟動 Meridian";
 
-/* Text for button that takes the user to the System Preferences app. In case the user hasn't given Calendar/Reminders access permission, this button takes you to the System Preferences app where the user can give proper permissions to Clocker. */
+/* Text for button that takes the user to the System Preferences app. In case the user hasn't given Calendar/Reminders access permission, this button takes you to the System Preferences app where the user can give proper permissions to Meridian. */
 "Launch Preferences" = "啟動偏好設定";
 
 /* Start at Login */
@@ -177,7 +177,7 @@
 "Miscellaneous" = "其他設定";
 
 
-"More search options in Clocker Preferences." = "在 Clocker 偏好設定中更多的搜尋選項。";
+"More search options in Meridian Preferences." = "在 Meridian 偏好設定中更多的搜尋選項。";
 
 /* UI Tests */
 "New Zealand" = "紐西蘭";
@@ -195,7 +195,7 @@
 "No upcoming events for today!" = "No upcoming events for today 🎉";
 
 /* Onboarding */
-"Open Clocker At Login" = "在登入時打開 Clocker";
+"Open Meridian At Login" = "在登入時打開 Meridian";
 
 /* Appearance Tab */
 "Panel Theme" = "面板主題";
@@ -243,7 +243,7 @@
 "See your next Calendar event here." = "在此查看你的下一個日曆活動。";
 
 
-"Should Clocker open automatically on startup?" = "啟動時自動打開 Clocker？";
+"Should Meridian open automatically on startup?" = "啟動時自動打開 Meridian？";
 
 
 "Show All Day Meetings" = "顯示整日的行程";
@@ -273,7 +273,7 @@
 "Sort by Time Difference" = "按時差排序";
 
 /* General Preferences Screen */
-"Start at Login" = "登入時打開 Clocker";
+"Start at Login" = "登入時打開 Meridian";
 
 
 "Successfully set." = "設定成功。";
@@ -282,7 +282,7 @@
 "Tell us what you think!" = "告訴我們您的想法！";
 
 
-"Thank you for helping make Clocker even better!" = "感謝您的幫助，讓 Clocker 變得更好！";
+"Thank you for helping make Meridian even better!" = "感謝您的幫助，讓 Meridian 變得更好！";
 
 
 "Thank you for the details." = "Thank you for the details.";
@@ -291,7 +291,7 @@
 "The Internet connection appears to be offline." = "Internet連線已斷開。";
 
 
-"This can be configured later in Clocker Preferences." = "這可以稍後在 Clocker 偏好設定中進行設置。";
+"This can be configured later in Meridian Preferences." = "這可以稍後在 Meridian 偏好設定中進行設置。";
 
 
 "Time Format" = "時間格式";
@@ -315,7 +315,7 @@
 "You have no events scheduled for tomorrow." = "您明天沒有排任何行程。";
 
 
-"You'll see a clock icon in your Menu Bar when you launch the app. If you'd like to see a dock icon, go to Preferences." = "當應用程式啟動時，您將會在選單列看到 Clocker 圖像。如果您想在 Dock 上看到圖像，請前往偏好設定。";
+"You'll see a clock icon in your Menu Bar when you launch the app. If you'd like to see a dock icon, go to Preferences." = "當應用程式啟動時，您將會在選單列看到 Meridian 圖像。如果您想在 Dock 上看到圖像，請前往偏好設定。";
 
 /* Final Onboarding Screen */
 "You're all set!" = "設定完成。";
@@ -324,7 +324,7 @@
 "You're offline, maybe?" = "You're offline, maybe?";
 
 
-"app-name" = "Clocker";
+"app-name" = "Meridian";
 
 
 "characters" = "字元";
@@ -351,7 +351,7 @@
 "iRateUpdateMessage" = "立即更新";
 
 
-"setup-steps" = "設定 Clocker 只需要 3 個步驟";
+"setup-steps" = "設定 Meridian 只需要 3 個步驟";
 
 
 "start-at-login" = "在登入時啟動";

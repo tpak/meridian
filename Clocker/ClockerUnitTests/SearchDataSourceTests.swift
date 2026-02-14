@@ -3,7 +3,7 @@
 import CoreModelKit
 import XCTest
 
-@testable import Clocker
+@testable import Meridian
 
 class SearchDataSourceTests: XCTestCase {
     private var subject: SearchDataSource!

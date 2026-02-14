@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>Program</key>
-	<string>/Applications/Clocker.app/Contents/MacOS/Clocker</string>
+	<string>/Applications/Meridian.app/Contents/MacOS/Meridian</string>
 	<key>Label</key>
-	<string>com.abhishek.ClockerHelper</string>
+	<string>com.tpak.MeridianHelper</string>
 	<key>RunAtLoad</key>
 	<true/>
 	<key>KeepAlive</key>

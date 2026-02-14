@@ -277,7 +277,7 @@ class NotesPopover: NSViewController {
             let source = """
             tell application \"Reminders\"
             tell default account
-            show (first list where name is \"Clocker Reminders\")
+            show (first list where name is \"Meridian Reminders\")
             activate application
             end tell
             end tell
@@ -408,8 +408,8 @@ class NotesPopover: NSViewController {
         NSApplication.shared.activate(ignoringOtherApps: true)
 
         let alert = NSAlert()
-        alert.messageText = "Clocker needs access to Reminders 😅"
-        alert.informativeText = "Please go to System Preferences -> Security & Privacy -> Privacy -> Reminders to allow Clocker to set reminders."
+        alert.messageText = "Meridian needs access to Reminders"
+        alert.informativeText = "Please go to System Preferences -> Security & Privacy -> Privacy -> Reminders to allow Meridian to set reminders."
         alert.addButton(withTitle: "Okay")
 
         let alertResponse = alert.runModal()

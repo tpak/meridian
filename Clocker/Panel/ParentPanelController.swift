@@ -685,7 +685,7 @@ class ParentPanelController: NSWindowController {
 
         let mode = inverseSelection.isEqual(to: NSNumber(value: 1)) ? "Floating Mode" : "Menubar Mode"
 
-        Logger.log(object: ["displayMode": mode], for: "Clocker Mode")
+        Logger.log(object: ["displayMode": mode], for: "Meridian Mode")
     }
 
     func showUpcomingEventView() {

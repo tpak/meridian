@@ -12,8 +12,8 @@ class OnboardingWelcomeViewController: NSViewController {
     }
 
     private func setup() {
-        appLabel.stringValue = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Clocker"
-        accessoryLabel.stringValue = NSLocalizedString("It only takes 3 steps to set up Clocker.",
+        appLabel.stringValue = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Meridian"
+        accessoryLabel.stringValue = NSLocalizedString("It only takes 3 steps to set up Meridian.",
                                                        comment: "App Setup Description")
 
         [appLabel, accessoryLabel].forEach { $0?.textColor = Themer.shared().mainTextColor() }

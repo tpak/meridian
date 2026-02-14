@@ -272,7 +272,7 @@ class OnboardingSearchController: NSViewController {
 
     private func setup() {
         appName.stringValue = "Quick Add Locations".localized()
-        onboardingTypeLabel.stringValue = "More search options in Clocker Preferences.".localized()
+        onboardingTypeLabel.stringValue = "More search options in Meridian Preferences.".localized()
         setInfoLabel(UserDefaultKeys.emptyString)
         searchBar.bezelStyle = .roundedBezel
         searchBar.placeholderString = "Press Enter to Search!"

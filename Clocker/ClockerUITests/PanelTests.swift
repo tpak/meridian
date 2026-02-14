@@ -74,11 +74,11 @@ class PanelTests: XCTestCase {
 
         app.buttons["Preferences"].click()
 
-        let clockerWindow = app.windows["Clocker"]
+        let clockerWindow = app.windows["Meridian"]
         let toolbarsQuery = clockerWindow.toolbars.buttons
         toolbarsQuery.element(boundBy: 2).click()
 
-        if app.windows["Clocker"].staticTexts["InfoField"].exists {
+        if app.windows["Meridian"].staticTexts["InfoField"].exists {
             /* We haven't provided calendar access to the app*/
             return
         }

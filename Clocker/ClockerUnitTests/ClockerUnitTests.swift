@@ -2,7 +2,7 @@
 
 import CoreModelKit
 
-@testable import Clocker
+@testable import Meridian
 import XCTest
 
 class ClockerUnitTests: XCTestCase {

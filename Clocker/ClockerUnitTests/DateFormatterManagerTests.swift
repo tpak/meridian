@@ -2,7 +2,7 @@
 
 import XCTest
 
-@testable import Clocker
+@testable import Meridian
 
 class DateFormatterManagerTests: XCTestCase {
     func testRegularDateFormatter() throws {

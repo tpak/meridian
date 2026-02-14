@@ -9,7 +9,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Clocker - World Clock</string>
+	<string>Meridian</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -27,19 +27,19 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Clocker can be more useful when it can display upcoming events from your calendars. You can change this setting in System Preferences › Security &amp; Privacy › Privacy</string>
+	<string>Meridian can be more useful when it can display upcoming events from your calendars. You can change this setting in System Preferences › Security &amp; Privacy › Privacy</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2024, Abhishek Banthia</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Clocker can be more useful when it can use your location to determine your current timezone.</string>
+	<string>Meridian can be more useful when it can use your location to determine your current timezone.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Clocker can be more useful when it can use your location to determine your current timezone.</string>
+	<string>Meridian can be more useful when it can use your location to determine your current timezone.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSRemindersUsageDescription</key>
-	<string>Clocker can be more useful when it can set reminders for your selected timezone(s). You can change this setting in System Preferences › Security &amp; Privacy › Privacy.</string>
+	<string>Meridian can be more useful when it can set reminders for your selected timezone(s). You can change this setting in System Preferences › Security &amp; Privacy › Privacy.</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
 	<key>RequestsOpenAccess</key>

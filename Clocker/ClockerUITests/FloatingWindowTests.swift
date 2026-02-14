@@ -128,7 +128,7 @@ class FloatingWindowTests: XCTestCase {
         }
 
         app.buttons["FloatingPreferences"].click()
-        app.windows["Clocker"].toolbars.buttons["Preferences Tab".localizedString()].click()
+        app.windows["Meridian"].toolbars.buttons["Preferences Tab".localizedString()].click()
 
         let menubarDisplayQuery = app.tables.checkBoxes.matching(NSPredicate(format: "value == 1", ""))
         let menubarDisplayQueryCount = menubarDisplayQuery.count

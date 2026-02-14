@@ -24,7 +24,7 @@ class ReviewTests: XCTestCase {
         let _ = XCTWaiter.wait(for: [expectation(description: "wait")], timeout: 2.0)
         app.buttons["Yes?"].click()
         XCTAssertFalse(app.staticTexts["ReviewLabel"].exists)
-        XCTAssertTrue(app.windows["Clocker Feedback"].exists)
+        XCTAssertTrue(app.windows["Meridian Feedback"].exists)
     }
 
     func testIfReviewIsNegativeAndNoFeedback() {

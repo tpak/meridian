@@ -9,7 +9,7 @@ extension EventCenter {
     private func retrieveCalendar() -> EKCalendar? {
         if calendar == nil {
             let calendars = eventStore.calendars(for: .reminder)
-            let calendarTitle = "Clocker Reminders"
+            let calendarTitle = "Meridian Reminders"
             let predicate = NSPredicate(format: "title matches %@", calendarTitle)
             let filtered = calendars.filter { predicate.evaluate(with: $0) }
 
@@ -17,7 +17,7 @@ extension EventCenter {
                 calendar = filtered.first
             } else {
                 calendar = EKCalendar(for: .reminder, eventStore: eventStore)
-                calendar?.title = "Clocker Reminders"
+                calendar?.title = "Meridian Reminders"
                 calendar?.source = eventStore.defaultCalendarForNewReminders()?.source
 
                 guard let calendar = calendar else { return nil }
@@ -66,7 +66,7 @@ extension EventCenter {
 
         let reminderEvent = EKReminder(eventStore: eventStore)
         reminderEvent.calendar = retrieveCalendar()
-        reminderEvent.title = "\(title) - Clocker"
+        reminderEvent.title = "\(title) - Meridian"
         reminderEvent.startDateComponents = reminderComponents
         reminderEvent.dueDateComponents = reminderComponents
         reminderEvent.notes = additionalNotes

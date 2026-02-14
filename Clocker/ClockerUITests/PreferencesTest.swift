@@ -26,7 +26,7 @@ class PreferencesTest: XCTestCase {
         app.tables["mainTableView"].typeKey(",", modifierFlags: .command)
 
         let predicate = NSPredicate(format: "identifier BEGINSWITH 'DeleteTimezone'", "")
-        let beforeTimezoneSelected = app.windows["Clocker"].checkBoxes.matching(predicate).firstMatch
+        let beforeTimezoneSelected = app.windows["Meridian"].checkBoxes.matching(predicate).firstMatch
 
         XCTAssertFalse(beforeTimezoneSelected.isEnabled)
 
@@ -35,7 +35,7 @@ class PreferencesTest: XCTestCase {
             return
         }
 
-        app.windows["Clocker"].tables["TimezoneTableView"].tableRows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0)).click()
+        app.windows["Meridian"].tables["TimezoneTableView"].tableRows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0)).click()
 
         XCTAssertTrue(app.checkBoxes["DeleteTimezone"].isEnabled)
     }
@@ -45,7 +45,7 @@ class PreferencesTest: XCTestCase {
         app.tables["mainTableView"].typeKey(",", modifierFlags: .command)
 
         if app.sheets.count == 0 {
-            app.windows["Clocker"].checkBoxes["AddTimezone"].click()
+            app.windows["Meridian"].checkBoxes["AddTimezone"].click()
         }
 
         addAPlace(place: "UTC", to: app)
@@ -67,12 +67,12 @@ class PreferencesTest: XCTestCase {
         addAPlace(place: "San Francisco", to: app)
         addAPlace(place: "Florida", to: app, shouldSleep: false) // Last elements don't need to sleep
 
-        XCTAssertTrue(app.windows["Clocker"].checkBoxes["Sort by Time Difference".localizedString()].exists)
+        XCTAssertTrue(app.windows["Meridian"].checkBoxes["Sort by Time Difference".localizedString()].exists)
 
-        app.windows["Clocker"].checkBoxes["Sort by Time Difference".localizedString()].click()
+        app.windows["Meridian"].checkBoxes["Sort by Time Difference".localizedString()].click()
 
         var actualLabels: [String] = []
-        let newFormattedAddressQuery = app.windows["Clocker"].textFields
+        let newFormattedAddressQuery = app.windows["Meridian"].textFields
 
         for elementIndex in 0 ..< newFormattedAddressQuery.count {
             if let currentValue = newFormattedAddressQuery.element(boundBy: elementIndex).value as? String, elementIndex % 2 == 0 {
@@ -85,10 +85,10 @@ class PreferencesTest: XCTestCase {
                         "Florida".localizedString(),
                         "San Francisco".localizedString()])
 
-        app.windows["Clocker"].checkBoxes["Sort by Time Difference".localizedString()].click()
+        app.windows["Meridian"].checkBoxes["Sort by Time Difference".localizedString()].click()
 
         var actualReversedLabels: [String] = []
-        let newReversedQuery = app.windows["Clocker"].textFields
+        let newReversedQuery = app.windows["Meridian"].textFields
 
         for elementIndex in 0 ..< newReversedQuery.count {
             if let currentValue = newReversedQuery.element(boundBy: elementIndex).value as? String, elementIndex % 2 == 0 {
@@ -108,13 +108,13 @@ class PreferencesTest: XCTestCase {
         app.tapMenubarIcon()
         app.tables["mainTableView"].typeKey(",", modifierFlags: .command)
 
-        XCTAssertTrue(app.windows["Clocker"].checkBoxes["Sort by Time Difference".localizedString()].exists)
-        XCTAssertTrue(app.windows["Clocker"].checkBoxes["Sort by Label".localizedString()].exists)
-        XCTAssertTrue(app.windows["Clocker"].checkBoxes["Sort by Name".localizedString()].exists)
+        XCTAssertTrue(app.windows["Meridian"].checkBoxes["Sort by Time Difference".localizedString()].exists)
+        XCTAssertTrue(app.windows["Meridian"].checkBoxes["Sort by Label".localizedString()].exists)
+        XCTAssertTrue(app.windows["Meridian"].checkBoxes["Sort by Name".localizedString()].exists)
 
         var formattedAddress: [String] = []
 
-        let formattedAddressQuery = app.windows["Clocker"].textFields
+        let formattedAddressQuery = app.windows["Meridian"].textFields
 
         for elementIndex in 0 ..< formattedAddressQuery.count {
             if let currentValue = formattedAddressQuery.element(boundBy: elementIndex).value as? String, elementIndex % 2 == 0 {
@@ -124,12 +124,12 @@ class PreferencesTest: XCTestCase {
 
         formattedAddress.sort()
 
-        if let value = app.windows["Clocker"].checkBoxes["Sort by Name".localizedString()].value as? Int, value == 0 {
-            app.windows["Clocker"].checkBoxes["Sort by Name".localizedString()].click()
+        if let value = app.windows["Meridian"].checkBoxes["Sort by Name".localizedString()].value as? Int, value == 0 {
+            app.windows["Meridian"].checkBoxes["Sort by Name".localizedString()].click()
         }
 
         var newformattedAddress: [String] = []
-        let newFormattedAddressQuery = app.windows["Clocker"].textFields
+        let newFormattedAddressQuery = app.windows["Meridian"].textFields
 
         for elementIndex in 0 ..< newFormattedAddressQuery.count {
             if let currentValue = newFormattedAddressQuery.element(boundBy: elementIndex).value as? String, elementIndex % 2 == 0 {
@@ -150,11 +150,11 @@ class PreferencesTest: XCTestCase {
         addAPlace(place: "Asia/Calcutta", to: app)
         addAPlace(place: "Anywhere on Earth", to: app, shouldSleep: false)
 
-        XCTAssertTrue(app.windows["Clocker"].checkBoxes["Sort by Label".localizedString()].exists)
+        XCTAssertTrue(app.windows["Meridian"].checkBoxes["Sort by Label".localizedString()].exists)
 
         var expectedLabels: [String] = []
 
-        let formattedAddressQuery = app.windows["Clocker"].textFields
+        let formattedAddressQuery = app.windows["Meridian"].textFields
 
         for elementIndex in 0 ..< formattedAddressQuery.count {
             if let currentValue = formattedAddressQuery.element(boundBy: elementIndex).value as? String, elementIndex % 2 == 1 {
@@ -164,12 +164,12 @@ class PreferencesTest: XCTestCase {
 
         expectedLabels.sort()
 
-        if let value = app.windows["Clocker"].checkBoxes["Sort by Label".localizedString()].value as? Int, value == 0 {
-            app.windows["Clocker"].checkBoxes["Sort by Label".localizedString()].click()
+        if let value = app.windows["Meridian"].checkBoxes["Sort by Label".localizedString()].value as? Int, value == 0 {
+            app.windows["Meridian"].checkBoxes["Sort by Label".localizedString()].click()
         }
 
         var actualLabels: [String] = []
-        let newFormattedAddressQuery = app.windows["Clocker"].textFields
+        let newFormattedAddressQuery = app.windows["Meridian"].textFields
 
         for elementIndex in 0 ..< newFormattedAddressQuery.count {
             if let currentValue = newFormattedAddressQuery.element(boundBy: elementIndex).value as? String, elementIndex % 2 == 1 {
@@ -194,11 +194,11 @@ class PreferencesTest: XCTestCase {
         addAPlace(place: "Asia/Calcutta", to: app)
         addAPlace(place: "Anywhere on Earth", to: app, shouldSleep: false)
 
-        XCTAssertTrue(app.windows["Clocker"].checkBoxes["Sort by Label".localizedString()].exists)
+        XCTAssertTrue(app.windows["Meridian"].checkBoxes["Sort by Label".localizedString()].exists)
 
         var expectedLabels: [String] = []
 
-        let formattedAddressQuery = app.windows["Clocker"].textFields
+        let formattedAddressQuery = app.windows["Meridian"].textFields
 
         for elementIndex in 0 ..< formattedAddressQuery.count {
             if let currentValue = formattedAddressQuery.element(boundBy: elementIndex).value as? String, elementIndex % 2 == 1 {
@@ -208,12 +208,12 @@ class PreferencesTest: XCTestCase {
 
         expectedLabels.sort()
 
-        if let value = app.windows["Clocker"].checkBoxes["Sort by Label".localizedString()].value as? Int, value == 0 {
-            app.windows["Clocker"].checkBoxes["Sort by Label".localizedString()].click()
+        if let value = app.windows["Meridian"].checkBoxes["Sort by Label".localizedString()].value as? Int, value == 0 {
+            app.windows["Meridian"].checkBoxes["Sort by Label".localizedString()].click()
         }
 
         var actualLabels: [String] = []
-        let newFormattedAddressQuery = app.windows["Clocker"].textFields
+        let newFormattedAddressQuery = app.windows["Meridian"].textFields
 
         for elementIndex in 0 ..< newFormattedAddressQuery.count {
             if let currentValue = newFormattedAddressQuery.element(boundBy: elementIndex).value as? String, elementIndex % 2 == 1 {
@@ -233,7 +233,7 @@ class PreferencesTest: XCTestCase {
         app.tables["mainTableView"].typeKey(",", modifierFlags: .command)
 
         if app.sheets.count == 0 {
-            app.windows["Clocker"].checkBoxes["AddTimezone"].click()
+            app.windows["Meridian"].checkBoxes["AddTimezone"].click()
         }
 
         let searchField = app.searchFields["AvailableSearchField"]
@@ -337,7 +337,7 @@ class PreferencesTest: XCTestCase {
     }
 
     private func deleteAllTimezones() {
-        let clockerWindow = app.windows["Clocker"]
+        let clockerWindow = app.windows["Meridian"]
         let rowQueryCount = clockerWindow.tables["TimezoneTableView"].tableRows.count
 
         if rowQueryCount > 0 {
@@ -381,13 +381,13 @@ extension XCTestCase {
         // Let's first check if the place is already present in the list
 
         let matchPredicate = NSPredicate(format: "value contains %@", place)
-        let matchingFields = app.windows["Clocker"].tables["TimezoneTableView"].textFields.matching(matchPredicate)
+        let matchingFields = app.windows["Meridian"].tables["TimezoneTableView"].textFields.matching(matchPredicate)
         if matchingFields.count > 0 {
             return
         }
 
         if app.sheets.count == 0 {
-            app.windows["Clocker"].checkBoxes["AddTimezone"].click()
+            app.windows["Meridian"].checkBoxes["AddTimezone"].click()
         }
 
         let searchField = app.searchFields["AvailableSearchField"]
@@ -420,16 +420,16 @@ extension XCTestCase {
     }
 
     func deleteAllPlaces(app: XCUIApplication) {
-        var rowQueryCount = app.windows["Clocker"].tables["TimezoneTableView"].tableRows.count
+        var rowQueryCount = app.windows["Meridian"].tables["TimezoneTableView"].tableRows.count
         if rowQueryCount == 0 {
             return
         }
 
-        let currentElement = app.windows["Clocker"].tableRows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+        let currentElement = app.windows["Meridian"].tableRows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
         currentElement.click()
 
         while rowQueryCount > 0 {
-            app.windows["Clocker"].typeKey(XCUIKeyboardKey.delete, modifierFlags: XCUIElement.KeyModifierFlags())
+            app.windows["Meridian"].typeKey(XCUIKeyboardKey.delete, modifierFlags: XCUIElement.KeyModifierFlags())
             rowQueryCount -= 1
         }
     }

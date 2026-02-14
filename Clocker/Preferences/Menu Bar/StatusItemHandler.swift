@@ -18,7 +18,7 @@ class StatusItemHandler: NSObject {
 
     var statusItem: NSStatusItem = {
         let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusItem.button?.toolTip = "Clocker"
+        statusItem.button?.toolTip = "Meridian"
         (statusItem.button?.cell as? NSButtonCell)?.highlightsBy = NSCell.StyleMask(rawValue: 0)
         return statusItem
     }()
@@ -356,7 +356,7 @@ class StatusItemHandler: NSObject {
         statusItem.button?.title = UserDefaultKeys.emptyString
         statusItem.button?.image = NSImage(named: .menubarIcon)
         statusItem.button?.imagePosition = .imageOnly
-        statusItem.button?.toolTip = "Clocker"
+        statusItem.button?.toolTip = "Meridian"
     }
 
     private func setupForStandardText() {

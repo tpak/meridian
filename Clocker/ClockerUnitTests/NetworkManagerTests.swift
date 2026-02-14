@@ -1,6 +1,6 @@
 // Copyright © 2015 Abhishek Banthia
 
-@testable import Clocker
+@testable import Meridian
 import CoreModelKit
 import XCTest
 

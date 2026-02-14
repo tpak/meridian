@@ -3,7 +3,7 @@
 import Cocoa
 import os
 public class Logger: NSObject {
-    let logObjc = OSLog(subsystem: "com.abhishek.Clocker", category: "app")
+    let logObjc = OSLog(subsystem: "com.tpak.Meridian", category: "app")
 
     public class func log(object annotations: [String: Any]?, for event: NSString) {
         #if DEBUG
@@ -19,7 +19,7 @@ public class Logger: NSObject {
 }
 
 public class PerfLogger: NSObject {
-    static var panelLog = OSLog(subsystem: "com.abhishek.Clocker",
+    static var panelLog = OSLog(subsystem: "com.tpak.Meridian",
                                 category: "Open Panel")
     static let signpostID = OSSignpostID(log: panelLog)
 

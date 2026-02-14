@@ -13,15 +13,15 @@
 
 /* 
   Localizable.strings
-  Clocker
+  Meridian
 
   Created by Abhishek Banthia on 3/27/16.
 
  */
-"CFBundleDisplayName" = "Clocker";
+"CFBundleDisplayName" = "Meridian";
 
 
-"CLFeedbackAlertTitle" = "Clocker の品質向上にご協力いただきありがとうございます!";
+"CLFeedbackAlertTitle" = "Meridian の品質向上にご協力いただきありがとうございます!";
 
 
 "Calendar Access" = "カレンダーアクセス";
@@ -39,13 +39,13 @@
 "Click here to start." = "ここをクリックして開始します。";
 
 
-"Clocker is more useful when it can display events from your calendars." = "Clocker is more useful when it can display events from your calendars.";
+"Meridian is more useful when it can display events from your calendars." = "Meridian is more useful when it can display events from your calendars.";
 
 
-"Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy.";
+"Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy.";
 
 
-"ClockerVersion" = "バージョン %@";
+"MeridianVersion" = "バージョン %@";
 
 
 "Close Button Title" = "閉じる";
@@ -78,7 +78,7 @@
 "Display the time in seconds" = "Display the time in seconds";
 
 /* Review */
-"Enjoy using Clocker?" = "Enjoy using Clocker?";
+"Enjoy using Meridian?" = "Enjoy using Meridian?";
 
 
 "Enter 3 or more characters for locations you'll like to add" = "Enter 3 or more characters for locations you'll like to add";
@@ -138,10 +138,10 @@
 "Include Place Name" = "Include Place Name";
 
 /* Welcome Onboarding */
-"It only takes 3 steps to set up Clocker." = "Clocker のセットアップは3ステップのみです。";
+"It only takes 3 steps to set up Meridian." = "Meridian のセットアップは3ステップのみです。";
 
 /* Welcome Onboarding */
-"It only takes 3 steps to setup Clocker." = "Clocker のセットアップは3ステップのみです。";
+"It only takes 3 steps to setup Meridian." = "Meridian のセットアップは3ステップのみです。";
 
 
 "Larger Text" = "Larger Text";
@@ -150,7 +150,7 @@
 "Later Config Description" = "これらはシステム環境設定で後から設定できます。";
 
 
-"Launch Clocker" = "Clocker を起動";
+"Launch Meridian" = "Meridian を起動";
 
 
 "Launch Preferences" = "Launch Preferences";
@@ -177,7 +177,7 @@
 "Miscellaneous" = "その他";
 
 
-"More search options in Clocker Preferences." = "More search options in Clocker Preferences.";
+"More search options in Meridian Preferences." = "More search options in Meridian Preferences.";
 
 /* UI Tests */
 "New Zealand" = "New Zealand";
@@ -195,7 +195,7 @@
 "No upcoming events for today!" = "No upcoming events for today 🎉";
 
 /* Onboarding */
-"Open Clocker At Login" = "ログイン時に Clocker を開始";
+"Open Meridian At Login" = "ログイン時に Meridian を開始";
 
 /* Appearance Tab */
 "Panel Theme" = "Panel Theme";
@@ -243,7 +243,7 @@
 "See your next Calendar event here." = "次回のカレンダーイベントはこちらをご覧ください。";
 
 
-"Should Clocker open automatically on startup?" = "Should Clocker open automatically on startup?";
+"Should Meridian open automatically on startup?" = "Should Meridian open automatically on startup?";
 
 
 "Show All Day Meetings" = "Show All Day Meetings";
@@ -273,7 +273,7 @@
 "Sort by Time Difference" = "時差で並べ替え";
 
 /* General Preferences Screen */
-"Start at Login" = "ログイン時に Clocker を開始";
+"Start at Login" = "ログイン時に Meridian を開始";
 
 
 "Successfully set." = "Successfully set.";
@@ -282,7 +282,7 @@
 "Tell us what you think!" = "Tell us what you think!";
 
 
-"Thank you for helping make Clocker even better!" = "Clocker の品質向上にご協力いただきありがとうございます!";
+"Thank you for helping make Meridian even better!" = "Meridian の品質向上にご協力いただきありがとうございます!";
 
 
 "Thank you for the details." = "Thank you for the details.";
@@ -291,7 +291,7 @@
 "The Internet connection appears to be offline." = "The Internet connection appears to be offline.";
 
 
-"This can be configured later in Clocker Preferences." = "This can be configured later in Clocker Preferences.";
+"This can be configured later in Meridian Preferences." = "This can be configured later in Meridian Preferences.";
 
 
 "Time Format" = "表示フォーマット";
@@ -324,7 +324,7 @@
 "You're offline, maybe?" = "オフラインのようです。";
 
 
-"app-name" = "Clocker";
+"app-name" = "Meridian";
 
 
 "characters" = "characters";
@@ -351,7 +351,7 @@
 "iRateUpdateMessage" = "今すぐアップデートしますか?";
 
 
-"setup-steps" = "Clocker のセットアップは3ステップのみです";
+"setup-steps" = "Meridian のセットアップは3ステップのみです";
 
 
 "start-at-login" = "ログイン時に開始";

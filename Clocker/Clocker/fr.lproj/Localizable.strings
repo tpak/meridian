@@ -1,13 +1,13 @@
 /*
   Localizable.strings
-  Clocker
+  Meridian
 
   Created by Abhishek Banthia on 3/27/16.
 
 */
 
-"CFBundleDisplayName" = "Clocker";
-"Thank you for helping make Clocker even better!" = "Merci d'aider à améliorer Clocker !";
+"CFBundleDisplayName" = "Meridian";
+"Thank you for helping make Meridian even better!" = "Merci d'aider à améliorer Meridian !";
 "iRateMessageTitle" = "Noter %@";
 "iRateAppMessage" = "Si vous aimez utiliser %@, pourriez-vous prendre un moment pour l'évaluer ? Cela ne prendra pas plus d'une minute. Merci pour votre soutien !";
 "iRateGameMessage" = "Si vous aimez utiliser %@, pourriez-vous prendre un moment pour l'évaluer ? Cela ne prendra pas plus d'une minute. Merci pour votre soutien !";
@@ -15,11 +15,11 @@
 "iRateRateButton" = "Évaluez-le maintenant";
 "iRateRemindButton" = "Me le rappeler ultérieurement";
 "iRateUpdateMessage" = "Mettre à jour maintenant ?";
-"ClockerVersion" = "Version %@";
-"CLFeedbackAlertTitle" = "Merci pour votre aide à rendre Clocker encore meilleur!";
-"app-name" = "Clocker";
+"MeridianVersion" = "Version %@";
+"CLFeedbackAlertTitle" = "Merci pour votre aide à rendre Meridian encore meilleur!";
+"app-name" = "Meridian";
 "start-at-login" = "Activer avec la session";
-"setup-steps" = "Plus que trois marches à gravir et vous aurez ajusté Clocker";
+"setup-steps" = "Plus que trois marches à gravir et vous aurez ajusté Meridian";
 "Permissions-Header" = "Droits d'accès";
 "See your next Calendar event here." = "Retrouvez votre prochain événement de calendrier ici.";
 "Click here to start." = "Cliquez ici pour commencer.";
@@ -34,7 +34,7 @@
 "Grant Button Text" = "Autoriser";
 
 // Welcome Onboarding
-"It only takes 3 steps to setup Clocker." = "Cela ne prend que 3 étapes pour configurer Clocker.";
+"It only takes 3 steps to setup Meridian." = "Cela ne prend que 3 étapes pour configurer Meridian.";
 "Get Started" = "Get Started";
 
 // Tab Item Titles
@@ -45,7 +45,7 @@
 "Permissions Tab" = "Autorisations";
 
 // General Preferences Screen
-"Start at Login" = "Démarrer Clocker à la connexion";
+"Start at Login" = "Démarrer Meridian à la connexion";
 "Sort by Time Difference" = "Trier par différence de temps";
 "Sort by Name" = "Tri par nom";
 "Sort by Label" = "Trier par étiquette";
@@ -57,11 +57,11 @@
 "Close Button Title" = "Fermer";
 
 // Onboarding
-"Open Clocker At Login" = "Ouvrir Clocker à la connexion";
-"Launch Clocker" = "Lancer Clocker";
+"Open Meridian At Login" = "Ouvrir Meridian à la connexion";
+"Launch Meridian" = "Lancer Meridian";
 
 // Welcome Onboarding
-"It only takes 3 steps to set up Clocker." = "Cela ne prend que 3 étapes pour configurer Clocker.";
+"It only takes 3 steps to set up Meridian." = "Cela ne prend que 3 étapes pour configurer Meridian.";
 "Get Started" = "Commencer";
 
 // Permissions
@@ -70,9 +70,9 @@
 "Later Config Description" = "Ces paramètres peuvent être configurés plus tard dans les Préférences Système.";
 "Back" = "Retour";
 "Continue" = "Continuer";
-"Clocker is more useful when it can display events from your calendars." = "Clocker est plus utile quand il peut afficher des événements de vos calendriers.";
-"Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Clocker est plus utile quand il peut afficher des événements de vos calendriers. Vous pouvez modifier ce paramètre dans Préférences Système › Sécurité & Confidentialité › Confidentialité.";
-/* Text for button that takes the user to the System Preferences app. In case the user hasn't given Calendar/Reminders access permission, this button takes you to the System Preferences app where the user can give proper permissions to Clocker. */
+"Meridian is more useful when it can display events from your calendars." = "Meridian est plus utile quand il peut afficher des événements de vos calendriers.";
+"Meridian is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security & Privacy › Privacy." = "Meridian est plus utile quand il peut afficher des événements de vos calendriers. Vous pouvez modifier ce paramètre dans Préférences Système › Sécurité & Confidentialité › Confidentialité.";
+/* Text for button that takes the user to the System Preferences app. In case the user hasn't given Calendar/Reminders access permission, this button takes you to the System Preferences app where the user can give proper permissions to Meridian. */
 "Launch Preferences" = "Préférences de démarrage";
 "Grant Access" = "Autoriser l'accès";
 "Upcoming events from your calendars can be shown in the menubar + panel." = "Les événements à venir de vos calendriers personnels et partagés peuvent être affichés dans la barre de menus et dans le panneau.";
@@ -83,13 +83,13 @@
 
 // Onboarding Search
 "Quick Add Locations" = "Ajouter rapidement des emplacements";
-"More search options in Clocker Preferences." = "Plus d'options de recherche dans les Préférences de Clocker.";
+"More search options in Meridian Preferences." = "Plus d'options de recherche dans les Préférences de Meridian.";
 "Enter 3 or more characters for locations you'll like to add" = "Entrez 3 caractères ou plus pour les emplacements que vous souhaitez ajouter";
 
 // Start at Login
 "Launch at Login" = "Démarrer à la connexion";
-"This can be configured later in Clocker Preferences." = "Ceci peut être configuré plus tard dans les préférences de Clocker.";
-"Should Clocker open automatically on startup?" = "Clocker doit-il s'ouvrir automatiquement au démarrage ?";
+"This can be configured later in Meridian Preferences." = "Ceci peut être configuré plus tard dans les préférences de Meridian.";
+"Should Meridian open automatically on startup?" = "Meridian doit-il s'ouvrir automatiquement au démarrage ?";
 
 // Final Onboarding Screen
 "You're all set!" = "Tout est prêt !";
@@ -124,7 +124,7 @@
 "You have no events scheduled for tomorrow." = "You have no events scheduled for tomorrow.";
 
 // Review
-"Enjoy using Clocker?" = "Enjoy using Clocker?";
+"Enjoy using Meridian?" = "Enjoy using Meridian?";
 
 // App Feedback
 "Tell us what you think!" = "Tell us what you think!";
