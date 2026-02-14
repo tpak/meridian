@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Meridian** (formerly Clocker) — macOS menu bar world clock app. Directory structure uses `Clocker/` on disk (renaming would break Xcode project refs). Bundle ID: `com.tpak.Meridian`. Forked from [Clocker](https://github.com/n0shake/Clocker) by Abhishek Banthia.
 
+## Git Workflow
+
+**Always create a feature branch before making changes.** Never commit directly to `main`. Use descriptive branch names like `fix/icloud-cache-bug` or `feature/accessibility-labels`. Open a PR when the work is ready for review. This applies to all work — bug fixes, features, refactors, doc updates.
+
 ## Build & Test Commands
 
 ```bash

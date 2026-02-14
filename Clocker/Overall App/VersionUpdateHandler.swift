@@ -221,7 +221,7 @@ final class VersionUpdateHandler {
         Logger.info("VersionUpdateHandler: Showing update alert for version \(release.version)")
 
         let alert = NSAlert()
-        alert.messageText = "A new version of Clocker is available!"
+        alert.messageText = "A new version of Meridian is available!"
         alert.addButton(withTitle: "Download")
         alert.addButton(withTitle: "Skip This Version")
         alert.addButton(withTitle: "Remind Me Later")
