@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 import CoreModelKit
 
@@ -42,6 +43,7 @@ class DataStore: NSObject, DataStoring {
     private var ubiquitousStore: NSUbiquitousKeyValueStore?
     private var cachedTimezones: [Data]
     private var cachedMenubarTimezones: [Data]
+    private var cancellables = Set<AnyCancellable>()
     private static let timeFormatsWithSuffix: Set<NSNumber> = Set([NSNumber(integerLiteral: 0),
                                                                    NSNumber(integerLiteral: 3),
                                                                    NSNumber(integerLiteral: 4),
@@ -67,17 +69,20 @@ class DataStore: NSObject, DataStoring {
     func setupSyncNotification() {
         if shouldDisplay(.sync) {
             ubiquitousStore = NSUbiquitousKeyValueStore.default
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(ubiquitousKeyValueStoreChanged),
-                                                   name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-                                                   object: NSUbiquitousKeyValueStore.default)
+
+            // Remove existing subscription if any
+            cancellables.removeAll()
+
+            NotificationCenter.default.publisher(for: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: NSUbiquitousKeyValueStore.default)
+                .receive(on: RunLoop.main)
+                .sink { [weak self] notification in self?.ubiquitousKeyValueStoreChanged(notification) }
+                .store(in: &cancellables)
+
             let synchronizationResult = ubiquitousStore?.synchronize() ?? false
             let resultString = synchronizationResult ? "successfully" : "unsuccessfully"
             Logger.info("Ubiquitous Store synchronized \(resultString)")
         } else {
-            NotificationCenter.default.removeObserver(self,
-                                                      name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-                                                      object: nil)
+            cancellables.removeAll()
         }
     }
 

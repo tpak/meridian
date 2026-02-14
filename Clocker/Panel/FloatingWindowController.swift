@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 
 class FloatingWindowController: ParentPanelController {
@@ -25,10 +26,10 @@ class FloatingWindowController: ParentPanelController {
         dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeChanges),
-                                               name: Notification.Name.themeDidChange,
-                                               object: nil)
+        NotificationCenter.default.publisher(for: Notification.Name.themeDidChange)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.themeChanges() }
+            .store(in: &cancellables)
 
         updateTheme()
 

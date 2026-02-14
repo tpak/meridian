@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 import CoreModelKit
 import EventKit
@@ -10,11 +11,7 @@ struct PanelConstants {
 }
 
 class ParentPanelController: NSWindowController {
-    private var futureSliderObserver: NSKeyValueObservation?
-    private var userFontSizeSelectionObserver: NSKeyValueObservation?
-    private var futureSliderRangeObserver: NSKeyValueObservation?
-
-    private var eventStoreChangedNotification: NSObjectProtocol?
+    var cancellables = Set<AnyCancellable>()
 
     var dateFormatter = DateFormatter()
 
@@ -76,52 +73,37 @@ class ParentPanelController: NSWindowController {
 
     deinit {
         datasource = nil
-
-        if let eventStoreNotif = eventStoreChangedNotification {
-            NotificationCenter.default.removeObserver(eventStoreNotif)
-        }
-
-        [futureSliderObserver, userFontSizeSelectionObserver, futureSliderRangeObserver].forEach {
-            $0?.invalidate()
-        }
     }
 
     private func setupObservers() {
-        futureSliderObserver = UserDefaults.standard.observe(\.displayFutureSlider, options: [.new]) { _, change in
-            if let changedValue = change.newValue {
+        UserDefaults.standard.publisher(for: \.displayFutureSlider)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] changedValue in
+                guard let self = self, let containerView = self.modernContainerView else { return }
                 if changedValue == 0 {
-                    if self.modernContainerView != nil {
-                        self.modernContainerView.isHidden = false
-                    }
-                } else if changedValue == 1 {
-                    if self.modernContainerView != nil {
-                        self.modernContainerView.isHidden = true
-                    }
-
+                    containerView.isHidden = false
                 } else {
-                    if self.modernContainerView != nil {
-                        self.modernContainerView.isHidden = true
-                    }
+                    containerView.isHidden = true
                 }
             }
-        }
+            .store(in: &cancellables)
 
-        userFontSizeSelectionObserver = UserDefaults.standard.observe(\.userFontSize, options: [.new]) { _, change in
-            if let newFontSize = change.newValue {
+        UserDefaults.standard.publisher(for: \.userFontSize)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] newFontSize in
                 Logger.log(object: ["FontSize": newFontSize], for: "User Font Size Preference")
-                self.mainTableView.reloadData()
-                self.setScrollViewConstraint()
+                self?.mainTableView.reloadData()
+                self?.setScrollViewConstraint()
             }
-        }
+            .store(in: &cancellables)
 
-        futureSliderRangeObserver = UserDefaults.standard.observe(\.sliderDayRange, options: [.new]) { _, change in
-            if change.newValue != nil {
-                self.adjustFutureSliderBasedOnPreferences()
-                if self.modernSlider != nil {
-                    self.modernSlider.reloadData()
-                }
+        UserDefaults.standard.publisher(for: \.sliderDayRange)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.adjustFutureSliderBasedOnPreferences()
+                self?.modernSlider?.reloadData()
             }
-        }
+            .store(in: &cancellables)
     }
 
     override func awakeFromNib() {
@@ -154,23 +136,23 @@ class ParentPanelController: NSWindowController {
 #endif
 
         // Setup notifications
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeChanged),
-                                               name: Notification.Name.themeDidChange,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(systemTimezoneDidChange),
-                                               name: NSNotification.Name.NSSystemTimeZoneDidChange,
-                                               object: nil)
+        NotificationCenter.default.publisher(for: Notification.Name.themeDidChange)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.themeChanged() }
+            .store(in: &cancellables)
 
-        NotificationCenter.default.addObserver(forName: DataStore.didSyncFromExternalSourceNotification,
-                                               object: self,
-                                               queue: OperationQueue.main) { [weak self] _ in
-            if let sSelf = self {
-                sSelf.mainTableView.reloadData()
-                sSelf.setScrollViewConstraint()
+        NotificationCenter.default.publisher(for: NSNotification.Name.NSSystemTimeZoneDidChange)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.systemTimezoneDidChange() }
+            .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: DataStore.didSyncFromExternalSourceNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.mainTableView.reloadData()
+                self?.setScrollViewConstraint()
             }
-        }
+            .store(in: &cancellables)
 
         // Setup upcoming events view
         upcomingEventContainerView.setAccessibility("UpcomingEventView")
@@ -273,9 +255,10 @@ class ParentPanelController: NSWindowController {
         } else {
             upcomingEventContainerView?.isHidden = false
             setupUpcomingEventView()
-            eventStoreChangedNotification = NotificationCenter.default.addObserver(forName: NSNotification.Name.EKEventStoreChanged, object: self, queue: OperationQueue.main) { _ in
-                self.fetchCalendarEvents()
-            }
+            NotificationCenter.default.publisher(for: NSNotification.Name.EKEventStoreChanged)
+                .receive(on: RunLoop.main)
+                .sink { [weak self] _ in self?.fetchCalendarEvents() }
+                .store(in: &cancellables)
         }
     }
 

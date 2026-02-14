@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 import CoreModelKit
 import StartupKit
@@ -51,7 +52,7 @@ class PreferencesViewController: ParentViewController {
         return dataStore.timezones()
     }
 
-    private var themeDidChangeNotification: NSObjectProtocol?
+    private var cancellables = Set<AnyCancellable>()
     // Selected Timezones Data Source
     private var selectionsDataSource: PreferencesDataSource!
     // Search Results Data Source Handler
@@ -65,18 +66,20 @@ class PreferencesViewController: ParentViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(refreshTimezoneTableView),
-                                               name: NSNotification.Name.customLabelChanged,
-                                               object: nil)
+        NotificationCenter.default.publisher(for: .customLabelChanged)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.refreshTimezoneTableView() }
+            .store(in: &cancellables)
 
-        NotificationCenter.default.addObserver(forName: DataStore.didSyncFromExternalSourceNotification,
-                                               object: self,
-                                               queue: OperationQueue.main) { [weak self] _ in
-            if let sSelf = self {
-                sSelf.refreshTimezoneTableView()
-            }
-        }
+        NotificationCenter.default.publisher(for: DataStore.didSyncFromExternalSourceNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.refreshTimezoneTableView() }
+            .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.setup() }
+            .store(in: &cancellables)
 
         refreshTimezoneTableView()
 
@@ -85,10 +88,6 @@ class PreferencesViewController: ParentViewController {
         setupShortcutObserver()
 
         darkModeChanges()
-
-        themeDidChangeNotification = NotificationCenter.default.addObserver(forName: .themeDidChangeNotification, object: nil, queue: OperationQueue.main) { _ in
-            self.setup()
-        }
 
         searchField.placeholderString = "Enter city, state, country or timezone name"
 
@@ -101,13 +100,6 @@ class PreferencesViewController: ParentViewController {
         availableTimezoneTableView.delegate = searchResultsDataSource
 
         timezoneAdditionHandler = TimezoneAdditionHandler(host: self, dataStore: dataStore)
-    }
-
-    deinit {
-        // We still need to remove observers set using NotificationCenter block: APIs
-        if let themeDidChangeNotif = themeDidChangeNotification {
-            NotificationCenter.default.removeObserver(themeDidChangeNotif)
-        }
     }
 
     private func darkModeChanges() {

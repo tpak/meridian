@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 import CoreModelKit
 
@@ -24,7 +25,7 @@ class OnboardingSearchController: NSViewController {
 
     private var searchResultsDataSource: SearchDataSource?
     private var searchTask: Task<Void, Never>?
-    private var themeDidChangeNotification: NSObjectProtocol?
+    private var cancellables = Set<AnyCancellable>()
 
     var dataStore: DataStoring = DataStore.shared()
 
@@ -55,11 +56,14 @@ class OnboardingSearchController: NSViewController {
 
         setup()
 
-        themeDidChangeNotification = NotificationCenter.default.addObserver(forName: .themeDidChangeNotification, object: nil, queue: OperationQueue.main) { [weak self] _ in
-            Task { @MainActor in
-                self?.setup()
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.setup()
+                }
             }
-        }
+            .store(in: &cancellables)
 
         resultsTableView.reloadData()
 
@@ -72,12 +76,6 @@ class OnboardingSearchController: NSViewController {
         }
 
         setupUndoButton()
-    }
-
-    deinit {
-        if let themeDidChangeNotif = themeDidChangeNotification {
-            NotificationCenter.default.removeObserver(themeDidChangeNotif)
-        }
     }
 
     @objc func doubleClickAction(_ tableView: NSTableView) {

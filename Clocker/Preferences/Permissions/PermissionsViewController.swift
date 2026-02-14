@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 
 class PermissionsViewController: ParentViewController {
@@ -22,28 +23,25 @@ class PermissionsViewController: ParentViewController {
     @IBOutlet private var privacyLabel: NSTextField!
     @IBOutlet private var headerLabel: NSTextField!
 
-    private var themeDidChangeNotification: NSObjectProtocol?
+    private var cancellables = Set<AnyCancellable>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         [calendarContainerView, remindersContainerView].forEach { $0?.applyShadow() }
         setupLocalizedText()
 
-        themeDidChangeNotification = NotificationCenter.default.addObserver(forName: .themeDidChangeNotification, object: nil, queue: OperationQueue.main) { _ in
-            self.setupLocalizedText()
-            [self.calendarContainerView, self.remindersContainerView].forEach { $0?.applyShadow() }
-        }
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.setupLocalizedText()
+                [self?.calendarContainerView, self?.remindersContainerView].forEach { $0?.applyShadow() }
+            }
+            .store(in: &cancellables)
     }
 
     override func viewWillAppear() {
         super.viewDidLoad()
         setup()
-    }
-
-    deinit {
-        if let themeDidChangeNotif = themeDidChangeNotification {
-            NotificationCenter.default.removeObserver(themeDidChangeNotif)
-        }
     }
 
     private func setup() {

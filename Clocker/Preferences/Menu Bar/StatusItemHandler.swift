@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 import CoreModelKit
 
@@ -30,7 +31,7 @@ class StatusItemHandler: NSObject {
 
     private lazy var units: Set<Calendar.Component> = Set([.era, .year, .month, .day, .hour, .minute])
 
-    private var userNotificationsDidChangeNotif: NSObjectProtocol?
+    private var cancellables = Set<AnyCancellable>()
 
     private let store: DataStore
 
@@ -100,37 +101,30 @@ class StatusItemHandler: NSObject {
     }
 
     private func setupNotificationObservers() {
-        let center = NotificationCenter.default
-        let mainQueue = OperationQueue.main
+        NotificationCenter.default.publisher(for: NSWorkspace.didWakeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.updateMenubar() }
+            .store(in: &cancellables)
 
-        center.addObserver(self,
-                           selector: #selector(updateMenubar),
-                           name: NSWorkspace.didWakeNotification,
-                           object: nil)
+        DistributedNotificationCenter.default.publisher(for: .interfaceStyleDidChange)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.respondToInterfaceStyleChange() }
+            .store(in: &cancellables)
 
-        DistributedNotificationCenter.default.addObserver(self, selector: #selector(respondToInterfaceStyleChange),
-                                                          name: .interfaceStyleDidChange,
-                                                          object: nil)
+        NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.setupStatusItem() }
+            .store(in: &cancellables)
 
-        userNotificationsDidChangeNotif = center.addObserver(forName: UserDefaults.didChangeNotification,
-                                                             object: self,
-                                                             queue: mainQueue) { _ in
-            self.setupStatusItem()
-        }
+        NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.willSleepNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.menubarTimer?.invalidate() }
+            .store(in: &cancellables)
 
-        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.willSleepNotification, object: nil, queue: OperationQueue.main) { _ in
-            self.menubarTimer?.invalidate()
-        }
-
-        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: OperationQueue.main) { _ in
-            self.setupStatusItem()
-        }
-    }
-
-    deinit {
-        if let userNotifsDidChange = userNotificationsDidChangeNotif {
-            NotificationCenter.default.removeObserver(userNotifsDidChange)
-        }
+        NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didWakeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.setupStatusItem() }
+            .store(in: &cancellables)
     }
 
     private func constructCompactView(with upcomingEventView: Bool = false) {

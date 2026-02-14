@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 import CoreModelKit
 
@@ -19,7 +20,7 @@ class AppearanceViewController: ParentViewController {
     @IBOutlet var syncLabel: NSTextField!
     @IBOutlet var syncSegementedControl: NSSegmentedControl!
 
-    private var themeDidChangeNotification: NSObjectProtocol?
+    private var cancellables = Set<AnyCancellable>()
 
     private var previewTimezones: [TimezoneData] = []
 
@@ -67,12 +68,15 @@ class AppearanceViewController: ParentViewController {
 
         setup()
 
-        themeDidChangeNotification = NotificationCenter.default.addObserver(forName: .themeDidChangeNotification, object: nil, queue: OperationQueue.main) { _ in
-            self.setup()
-            self.animateBackgroundColorChange()
-            self.view.needsDisplay = true // Let's make the color change permanent.
-            self.previewPanelTableView.reloadData()
-        }
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.setup()
+                self?.animateBackgroundColorChange()
+                self?.view.needsDisplay = true
+                self?.previewPanelTableView.reloadData()
+            }
+            .store(in: &cancellables)
 
         previewTimezones = [TimezoneData(with: ["customLabel": "San Francisco",
                                                 "formattedAddress": "San Francisco",
@@ -94,12 +98,6 @@ class AppearanceViewController: ParentViewController {
         previewPanelTableView.enclosingScrollView?.hasVerticalScroller = false
         previewPanelTableView.enclosingScrollView?.wantsLayer = true
         previewPanelTableView.enclosingScrollView?.layer?.cornerRadius = 12
-    }
-
-    deinit {
-        if let themeDidChangeNotif = themeDidChangeNotification {
-            NotificationCenter.default.removeObserver(themeDidChangeNotif)
-        }
     }
 
     private func animateBackgroundColorChange() {

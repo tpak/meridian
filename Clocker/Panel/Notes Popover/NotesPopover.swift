@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 import CoreModelKit
 import UserNotifications
@@ -43,6 +44,8 @@ class NotesPopover: NSViewController {
 
     @IBOutlet var notesTextView: TextViewWithPlaceholder!
 
+    private var cancellables = Set<AnyCancellable>()
+
     private func convertOverrideFormatToPopupControlSelection() -> Int {
         var chosenFormat: Int = dataObject?.overrideFormat.rawValue ?? 0
         if chosenFormat == 3 {
@@ -61,10 +64,10 @@ class NotesPopover: NSViewController {
         setupAlarmTextField()
         setupUI()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeChanged),
-                                               name: NSNotification.Name.themeDidChange,
-                                               object: nil)
+        NotificationCenter.default.publisher(for: NSNotification.Name.themeDidChange)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.themeChanged() }
+            .store(in: &cancellables)
 
         let titles = [
             "None",

@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 
 class CenteredTabViewController: NSTabViewController {
     override func viewDidLoad() {
@@ -16,28 +17,24 @@ class CenteredTabViewController: NSTabViewController {
 }
 
 class OneWindowController: NSWindowController {
-    private var themeDidChangeNotification: NSObjectProtocol?
+    private var cancellables = Set<AnyCancellable>()
 
     override func windowDidLoad() {
         super.windowDidLoad()
         setup()
 
-        themeDidChangeNotification = NotificationCenter.default.addObserver(forName: .themeDidChangeNotification, object: nil, queue: OperationQueue.main) { _ in
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                NSAnimationContext.runAnimationGroup { context in
+                    context.duration = 1
+                    context.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+                    self?.window?.animator().backgroundColor = Themer.shared().mainBackgroundColor()
+                }
 
-            NSAnimationContext.runAnimationGroup { context in
-                context.duration = 1
-                context.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
-                self.window?.animator().backgroundColor = Themer.shared().mainBackgroundColor()
+                self?.setupToolbarImages()
             }
-
-            self.setupToolbarImages()
-        }
-    }
-
-    deinit {
-        if let themeDidChangeNotif = themeDidChangeNotification {
-            NotificationCenter.default.removeObserver(themeDidChangeNotif)
-        }
+            .store(in: &cancellables)
     }
 
     private func setup() {

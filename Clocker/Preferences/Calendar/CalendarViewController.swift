@@ -1,19 +1,22 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 import EventKit
 
 class ClockerTextBackgroundView: NSView {
+    private var cancellables = Set<AnyCancellable>()
+
     override func awakeFromNib() {
         wantsLayer = true
         layer?.cornerRadius = 8.0
         layer?.masksToBounds = false
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateBackgroundColor),
-                                               name: .themeDidChangeNotification,
-                                               object: nil)
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.updateBackgroundColor() }
+            .store(in: &cancellables)
     }
 
     override func updateLayer() {
@@ -21,7 +24,7 @@ class ClockerTextBackgroundView: NSView {
         layer?.backgroundColor = Themer.shared().textBackgroundColor().cgColor
     }
 
-    @objc func updateBackgroundColor() {
+    func updateBackgroundColor() {
         layer?.backgroundColor = Themer.shared().textBackgroundColor().cgColor
     }
 }
@@ -38,7 +41,7 @@ class CalendarViewController: ParentViewController {
     @IBOutlet var showNextMeetingInMenubarControl: NSSegmentedControl!
     @IBOutlet var backgroundView: NSView!
     @IBOutlet var nextMeetingBackgroundView: NSView!
-    private var themeDidChangeNotification: NSObjectProtocol?
+    private var cancellables = Set<AnyCancellable>()
 
     private lazy var calendars: [Any] = EventCenter.sharedCenter().fetchSourcesAndCalendars()
 
@@ -47,23 +50,18 @@ class CalendarViewController: ParentViewController {
 
         setup()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(calendarAccessStatusChanged),
-                                               name: .calendarAccessGranted,
-                                               object: nil)
+        NotificationCenter.default.publisher(for: .calendarAccessGranted)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.calendarAccessStatusChanged() }
+            .store(in: &cancellables)
 
-        themeDidChangeNotification = NotificationCenter.default.addObserver(forName: .themeDidChangeNotification, object: nil, queue: OperationQueue.main) { _ in
-            self.setup()
-        }
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.setup() }
+            .store(in: &cancellables)
 
         noAccessView.material = .contentBackground
         upcomingEventView.setAccessibility("UpcomingEventView")
-    }
-
-    deinit {
-        if let themeDidChangeNotif = themeDidChangeNotification {
-            NotificationCenter.default.removeObserver(themeDidChangeNotif)
-        }
     }
 
     @objc func calendarAccessStatusChanged() {

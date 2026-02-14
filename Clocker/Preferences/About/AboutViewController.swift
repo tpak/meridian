@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import Combine
 import CoreLoggerKit
 
 struct AboutUsConstants {
@@ -22,7 +23,7 @@ class AboutViewController: ParentViewController {
     @IBOutlet var openSourceButton: PointingHandCursorButton!
     @IBOutlet var versionField: NSTextField!
 
-    private var themeDidChangeNotification: NSObjectProtocol?
+    private var cancellables = Set<AnyCancellable>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,15 +38,10 @@ class AboutViewController: ParentViewController {
 
         setup()
 
-        themeDidChangeNotification = NotificationCenter.default.addObserver(forName: .themeDidChangeNotification, object: nil, queue: OperationQueue.main) { _ in
-            self.setup()
-        }
-    }
-
-    deinit {
-        if let themeDidChangeNotif = themeDidChangeNotification {
-            NotificationCenter.default.removeObserver(themeDidChangeNotif)
-        }
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.setup() }
+            .store(in: &cancellables)
     }
 
     private func underlineTextForActionButton() {
