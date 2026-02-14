@@ -91,6 +91,7 @@ jobs:
 
       - name: Test Results Summary
         if: always()
+        continue-on-error: true
         uses: kishikawakatsumi/xcresulttool@v1
         with:
           path: TestResults/unit-tests.xcresult
