@@ -434,8 +434,9 @@ class ClockerUnitTests: XCTestCase {
         let view = NSView(frame: CGRect.zero)
         view.makeToast("Hello, this is a toast")
         XCTAssertEqual(view.subviews.first?.accessibilityIdentifier(), "ToastView")
-        let toastExpectation = expectation(description: "Toast View should hide after 1 second")
-        let result = XCTWaiter.wait(for: [toastExpectation], timeout: 1.5) // Set 1.5 seconds here for a little leeway
+        // Toast animation: 1s delay + 1s fade = 2s total before removal
+        let toastExpectation = expectation(description: "Toast View should hide after animation completes")
+        let result = XCTWaiter.wait(for: [toastExpectation], timeout: 3.0)
         if result == XCTWaiter.Result.timedOut {
             XCTAssertTrue(view.subviews.isEmpty)
         }

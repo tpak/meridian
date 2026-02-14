@@ -351,12 +351,13 @@ class PreferencesTest: XCTestCase {
 
 extension XCUIApplication {
     func tapMenubarIcon() {
-        if menuBars.count < 2 {
+        // Wait briefly for the menu bar status item to appear
+        let statusItem = statusItems.firstMatch
+        if statusItem.waitForExistence(timeout: 5), menuBars.count >= 2 {
+            statusItem.click()
+        } else {
             XCTFail("Unable to find menubar options")
-            return
         }
-
-        statusItems.firstMatch.click()
     }
 }
 
