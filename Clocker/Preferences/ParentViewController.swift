@@ -19,9 +19,5 @@ class ParentView: NSView {
     override func updateLayer() {
         super.updateLayer()
         layer?.backgroundColor = Themer.shared().mainBackgroundColor().cgColor
-
-        if let controller = window?.windowController?.contentViewController as? PermissionsViewController {
-            [controller.calendarContainerView, controller.remindersContainerView].forEach { $0?.applyShadow() }
-        }
     }
 }

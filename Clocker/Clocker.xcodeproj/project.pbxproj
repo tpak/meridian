@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA000001SWIFTUI00000001 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002SWIFTUI00000001 /* AboutView.swift */; };
+		AA000003SWIFTUI00000001 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000004SWIFTUI00000001 /* PermissionsView.swift */; };
 		35C11E2124873A550031F18C /* VersionUpdateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C11E2024873A550031F18C /* VersionUpdateHandler.swift */; };
 		35C11E2224873A660031F18C /* VersionUpdateHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C11E2324873A660031F18C /* VersionUpdateHandlerTests.swift */; };
 		3508CC942599FFEC000E3530 /* MenubarTitleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3508CC932599FFEC000E3530 /* MenubarTitleProvider.swift */; };
@@ -206,6 +208,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA000002SWIFTUI00000001 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		AA000004SWIFTUI00000001 /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		3508CC932599FFEC000E3530 /* MenubarTitleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenubarTitleProvider.swift; sourceTree = "<group>"; };
 		3508CC99259A0001000E3530 /* StatusItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemView.swift; sourceTree = "<group>"; };
 		3508CC9E259A000E000E3530 /* StatusItemHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemHandler.swift; sourceTree = "<group>"; };
@@ -717,6 +721,7 @@
 			children = (
 				35C36F4A2259D971002FA5C6 /* PointingHandCursorButton.swift */,
 				9AB6F1572259CFFC00A44663 /* AboutViewController.swift */,
+				AA000002SWIFTUI00000001 /* AboutView.swift */,
 			);
 			path = About;
 			sourceTree = "<group>";
@@ -725,6 +730,7 @@
 			isa = PBXGroup;
 			children = (
 				9AB6F1662259D23200A44663 /* PermissionsViewController.swift */,
+				AA000004SWIFTUI00000001 /* PermissionsView.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";
@@ -1187,6 +1193,8 @@
 				35C36EF422595F14002FA5C6 /* StartAtLoginViewController.swift in Sources */,
 				35C36F702259E185002FA5C6 /* BackgroundPanelView.swift in Sources */,
 				9AB6F1582259CFFC00A44663 /* AboutViewController.swift in Sources */,
+				AA000001SWIFTUI00000001 /* AboutView.swift in Sources */,
+				AA000003SWIFTUI00000001 /* PermissionsView.swift in Sources */,
 				35C36F2122596253002FA5C6 /* AppearanceViewController.swift in Sources */,
 				35C36F1B225961DA002FA5C6 /* Date+Format.swift in Sources */,
 				35C36F372259D7C3002FA5C6 /* AddTableViewCell.swift in Sources */,
