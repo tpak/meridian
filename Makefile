@@ -25,6 +25,8 @@ lint:
 install: build
 	@app=$$(find $(BUILD_DIR) -name "Meridian.app" -type d | head -1); \
 	if [ -z "$$app" ]; then echo "Error: Meridian.app not found. Run 'make build' first."; exit 1; fi; \
+	pkill -x Meridian 2>/dev/null; sleep 0.5; \
+	rm -rf /Applications/Meridian.app; \
 	cp -R "$$app" /Applications/Meridian.app; \
 	echo "Installed to /Applications/Meridian.app"
 

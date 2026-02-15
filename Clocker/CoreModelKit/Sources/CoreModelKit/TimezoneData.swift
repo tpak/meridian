@@ -136,11 +136,11 @@ public class TimezoneData: NSObject, NSCoding, NSSecureCoding {
             return TimezoneData()
         }
 
-        if let timezoneObject = NSKeyedUnarchiver.unarchiveObject(with: dataObject) as? TimezoneData {
-            return timezoneObject
-        }
-
-        return nil
+        guard let unarchiver = try? NSKeyedUnarchiver(forReadingFrom: dataObject) else { return nil }
+        unarchiver.requiresSecureCoding = false
+        let result = unarchiver.decodeObject(of: TimezoneData.self, forKey: NSKeyedArchiveRootObjectKey)
+        unarchiver.finishDecoding()
+        return result
     }
 
     public func encode(with aCoder: NSCoder) {

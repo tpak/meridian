@@ -8,7 +8,6 @@ excluded:
   - Clocker/Dependencies
   - Clocker/ClockerUnitTests
   - Clocker/ClockerUITests
-  - Clocker/Clocker/ShortcutRecorder-master
   - Clocker/CoreLoggerKit/.build
 
 analyzer_rules:
