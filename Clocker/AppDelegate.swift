@@ -60,16 +60,66 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         let store = DataStore.shared()
         let timezones = store.timezones()
 
+        // Collect timezone IDs that need coordinate backfill
+        var idsToBackfill: [String] = []
         for data in timezones {
             guard let tz = TimezoneData.customObject(from: data),
                   tz.selectionType == .timezone,
                   tz.latitude == nil || tz.longitude == nil,
                   let timezoneID = tz.timezoneID
             else { continue }
+            idsToBackfill.append(timezoneID)
+        }
 
-            Task { @MainActor in
-                await TimezoneAdditionHandler.backfillCoordinates(for: timezoneID, in: store)
+        guard !idsToBackfill.isEmpty else { return }
+
+        // Geocode all in parallel, then write a single store update
+        Task {
+            let coordinates = await withTaskGroup(
+                of: (String, CLLocationCoordinate2D)?.self
+            ) { group in
+                for id in idsToBackfill {
+                    group.addTask { await Self.geocodeTimezone(id) }
+                }
+                var results: [String: CLLocationCoordinate2D] = [:]
+                for await result in group {
+                    if let (id, coord) = result {
+                        results[id] = coord
+                    }
+                }
+                return results
             }
+
+            guard !coordinates.isEmpty else { return }
+
+            await MainActor.run {
+                let allTimezones = store.timezones()
+                let updated: [Data] = allTimezones.compactMap { data in
+                    guard let tz = TimezoneData.customObject(from: data),
+                          tz.selectionType == .timezone,
+                          tz.latitude == nil || tz.longitude == nil,
+                          let id = tz.timezoneID,
+                          let coord = coordinates[id]
+                    else { return data }
+                    tz.latitude = coord.latitude
+                    tz.longitude = coord.longitude
+                    return NSKeyedArchiver.clocker_archive(with: tz)
+                }
+                store.setTimezones(updated)
+            }
+        }
+    }
+
+    private static func geocodeTimezone(_ timezoneID: String) async -> (String, CLLocationCoordinate2D)? {
+        let components = timezoneID.components(separatedBy: "/")
+        guard let city = components.last else { return nil }
+        let cityName = city.replacingOccurrences(of: "_", with: " ")
+        do {
+            let placemark = try await NetworkManager.geocodeAddress(cityName)
+            guard let location = placemark.location else { return nil }
+            return (timezoneID, location.coordinate)
+        } catch {
+            return nil
         }
     }
 

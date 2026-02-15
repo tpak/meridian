@@ -88,8 +88,11 @@ class StatusItemHandler: NSObject {
             }
         }
 
-        // Initial state has been figured out. Time to set it!
-        currentState = menubarState
+        if currentState != menubarState {
+            currentState = menubarState
+        } else if menubarState != .icon {
+            refresh()
+        }
 
         func setSelector() {
             statusItem.button?.action = #selector(menubarIconClicked(_:))
@@ -112,7 +115,7 @@ class StatusItemHandler: NSObject {
             .store(in: &cancellables)
 
         NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
-            .receive(on: RunLoop.main)
+            .debounce(for: .milliseconds(250), scheduler: RunLoop.main)
             .sink { [weak self] _ in self?.setupStatusItem() }
             .store(in: &cancellables)
 
