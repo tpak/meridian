@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## App Identity
 
-**Meridian** (formerly Clocker) — macOS menu bar world clock app. Directory structure uses `Clocker/` on disk (renaming would break Xcode project refs). Bundle ID: `com.tpak.Meridian`. Forked from [Clocker](https://github.com/n0shake/Clocker) by Abhishek Banthia.
+**Meridian** (formerly Clocker) — macOS menu bar world clock app. ~11K lines of Swift across 77 files. Directory structure uses `Clocker/` on disk (renaming would break Xcode project refs). Bundle ID: `com.tpak.Meridian`. Forked from [Clocker](https://github.com/n0shake/Clocker) by Abhishek Banthia.
 
 ## Git Workflow
 
-**Always create a feature branch before making changes.** Never commit directly to `main`. Use descriptive branch names like `fix/icloud-cache-bug` or `feature/accessibility-labels`. Open a PR when the work is ready for review. This applies to all work — bug fixes, features, refactors, doc updates.
+**Always create a feature branch before making changes.** Never commit directly to `main`. Use descriptive branch names like `fix/sunrise-bug` or `feature/accessibility-labels`. Open a PR when the work is ready for review. This applies to all work — bug fixes, features, refactors, doc updates.
 
 ## Build & Test Commands
 
@@ -33,9 +33,6 @@ xcodebuild -project Clocker/Clocker.xcodeproj -scheme Meridian -configuration De
 
 # Lint
 swiftlint
-
-# API key setup (required before building)
-cp Clocker/Config/Keys.xcconfig.example Clocker/Config/Keys.xcconfig
 ```
 
 **Critical**: Always use `-parallel-testing-enabled NO` for unit tests. Parallel runners crash with "exit code 0" on macOS 15 due to Launch Services failures.
@@ -46,41 +43,44 @@ cp Clocker/Config/Keys.xcconfig.example Clocker/Config/Keys.xcconfig
 
 `DataStore` (singleton) → `TimezoneData` (model, NSSecureCoding) → `TimezoneDataOperations` (computed display values)
 
-- **DataStore** (`Overall App/DataStore.swift`) — central state hub, stores timezone list in UserDefaults, syncs to iCloud via NSUbiquitousKeyValueStore. Protocol `DataStoring` enables test injection.
+- **DataStore** (`Overall App/DataStore.swift`) — central state hub, stores timezone list in UserDefaults. Protocol `DataStoring` enables test injection.
 - **TimezoneData** (`CoreModelKit/Sources/CoreModelKit/TimezoneData.swift`) — core model persisted as Data blobs in UserDefaults. Holds timezone ID, coordinates, custom label, format overrides.
-- **TimezoneDataOperations** (`Panel/Data Layer/TimezoneDataOperations.swift`) — takes a TimezoneData + slider offset, produces formatted time/date strings.
+- **TimezoneDataOperations** (`Panel/Data Layer/TimezoneDataOperations.swift`) — takes a TimezoneData + slider offset, produces formatted time/date strings, sunrise/sunset via Solar.
 
 ### UI Layers
 
 **Menu bar panel** (main UI):
-- `PanelController` → `ParentPanelController` (base class, manages table + slider + events)
+- `PanelController` → `ParentPanelController` (base class, manages table + slider)
 - `TimezoneDataSource` drives the NSTableView of `TimezoneCellView` rows
 - Modern slider scrubs ±48h; extensions in `ParentPanelController+ModernSlider.swift`
 
-**Floating window** (alternative mode): `FloatingWindowController.shared()` — toggled via preferences.
+**Preferences** (3 tabs: General, Appearance, About):
+- `PreferencesViewController` manages timezone list add/remove/reorder
+- `TimezoneAdditionHandler` and `TimezoneSearchService` handle search (`@MainActor`, async/await)
+- `AppearanceViewController` — time format, menubar mode, display options
+- `AboutView` (SwiftUI) — version info and links
 
-**Preferences**: `PreferencesViewController` manages timezone list. Search/add logic extracted to `TimezoneAdditionHandler` and `TimezoneSearchService` (shared with onboarding, `@MainActor`, async/await).
+### Network & Geocoding
 
-### Network & APIs
+- `NetworkManager` — async/await HTTP client + `CLGeocoder` wrapper for address geocoding
+- `TimezoneSearchService` — searches `TimeZone.knownTimeZoneIdentifiers` locally + geocodes via CLGeocoder
+- No external API keys or third-party services required
 
-- `NetworkManager` — async/await, Google Geocoding + Timezone APIs
-- `TimezoneSearchService` — shared search client for preferences and onboarding
-- `VersionUpdateHandler` — checks GitHub Releases API for updates (HTTPS-only)
-- API key stored in gitignored `Clocker/Config/Keys.xcconfig` (build var `GEOCODING_API_KEY`)
+### Start at Login
 
-### Calendar Integration
-
-`EventCenter` (singleton) observes EventKit changes → `CalendarHandler` fetches upcoming events → displayed in `UpcomingEventsDataSource` collection view in the panel.
+`StartupManager` uses `SMAppService.mainApp` (macOS 13+). No helper app needed.
 
 ### SPM Packages (local, under `Clocker/`)
 
 - **CoreLoggerKit** — OSLog wrapper
 - **CoreModelKit** — TimezoneData model (depends on CoreLoggerKit)
-- **StartupKit** — Login item management via SMLoginItemSetEnabled
 
 ### Vendored Dependencies (no package managers)
 
-ShortcutRecorder, PTHotKey (Obj-C), DateTools, Solar (Swift). All in `Clocker/Dependencies/`.
+- **DateTools** (Swift) — date formatting utilities
+- **Solar** (Swift) — sunrise/sunset calculations
+
+All in `Clocker/Dependencies/`.
 
 ## Key Files
 
@@ -88,22 +88,29 @@ ShortcutRecorder, PTHotKey (Obj-C), DateTools, Solar (Swift). All in `Clocker/De
 |------|------|
 | `Panel/ParentPanelController.swift` | Main panel — largest UI file |
 | `Preferences/General/PreferencesViewController.swift` | Timezone management |
-| `Overall App/DataStore.swift` | Singleton state hub (150+ call sites) |
-| `Overall App/Themer.swift` | Colors/fonts/images singleton |
-| `Menu Bar/StatusItemHandler.swift` | NSStatusBar item management |
-| `Clocker/Clocker-Info.plist` | App plist (ATS, permissions) |
+| `Overall App/DataStore.swift` | Singleton state hub |
+| `Preferences/Menu Bar/StatusItemHandler.swift` | NSStatusBar item + menubar timer |
+| `Panel/Data Layer/TimezoneDataOperations.swift` | Time/date formatting + sunrise/sunset |
+| `Preferences/General/TimezoneAdditionHandler.swift` | Search + add timezone logic |
+| `AppDelegate.swift` | App entry point (`@main`), global shortcut, startup |
 
 ## Test Notes
 
-- Unit tests in `Clocker/ClockerUnitTests/` (~145 tests)
+- Unit tests in `Clocker/ClockerUnitTests/` (102 tests)
 - `MockDataStore` available for DI; `MockURLProtocol` for network mocking
-- UI tests back up/restore UserDefaults via pre/post actions
-- Time-dependent tests (e.g., `EventInfoTests`) handle midnight-crossing edge cases
+- UI tests in `Clocker/ClockerUITests/` (panel interactions)
+- `@testable import Meridian` (module follows PRODUCT_NAME)
 
 ## SwiftLint Rules
 
 Config in `.swiftlint.yml`. Key limits: line length 160/200, type body 300/600, function body 50/100, `force_cast` and `force_try` are errors. `Clocker/Dependencies/` and test directories are excluded.
 
-## Analysis & TODO
+## Directory Structure Note
 
-Detailed analysis and prioritized TODO plan in `ANALYSIS_AND_TODO.md` (repo root, gitignored) and `memory/ANALYSIS_AND_TODO.md` (persistent). Keep both in sync.
+On-disk directories still named `Clocker/`, `ClockerHelper/`, `ClockerUnitTests/`, `ClockerUITests/`. Renaming would break hundreds of pbxproj references. User-facing names (product, bundle, scheme) are all "Meridian".
+
+## Rebrand Artifacts Kept
+
+- `ClockerStatusItem` autosave name on `NSStatusItem` (preserves user's menu bar position)
+- `ClockerIcon-512` asset name (xcassets internal)
+- `terminateClocker()` method name (avoids #selector cascade)
