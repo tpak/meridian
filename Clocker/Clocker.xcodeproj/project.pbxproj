@@ -62,7 +62,6 @@
 		35C36F792259E1D0002FA5C6 /* String + Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36F762259E1CF002FA5C6 /* String + Additions.swift */; };
 		35C36F912259EAF4002FA5C6 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35C36F902259EAF4002FA5C6 /* Preferences.storyboard */; };
 		35C36FA42259EEC2002FA5C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C36FA32259EEC2002FA5C6 /* AppDelegate.swift */; };
-		35DFBCEF26A8468900D6648B /* ConfigExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DFBCEE26A8468900D6648B /* ConfigExport.swift */; };
 		35E65125268EDD2E00E3E1E3 /* Toasty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E65124268EDD2E00E3E1E3 /* Toasty.swift */; };
 		9A0385BB269E3434003B5E72 /* StandardMenubarHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0385BA269E3434003B5E72 /* StandardMenubarHandlerTests.swift */; };
 		9A0A1C8C20903DBD0012003B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A9E87651C1FEDC500A7A2DF /* CoreLocation.framework */; };
@@ -190,7 +189,6 @@
 		35C36F762259E1CF002FA5C6 /* String + Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String + Additions.swift"; sourceTree = "<group>"; };
 		35C36F902259EAF4002FA5C6 /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		35C36FA32259EEC2002FA5C6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = SOURCE_ROOT; };
-		35DFBCEE26A8468900D6648B /* ConfigExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigExport.swift; sourceTree = "<group>"; };
 		35E65124268EDD2E00E3E1E3 /* Toasty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toasty.swift; sourceTree = "<group>"; };
 		9A0385BA269E3434003B5E72 /* StandardMenubarHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardMenubarHandlerTests.swift; sourceTree = "<group>"; };
 		9A13BAD71CA87F08007C6CBE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Panel.xib; sourceTree = "<group>"; };
@@ -381,7 +379,6 @@
 				A1B2C3D4E5F60001SEARCH01 /* TimezoneSearchService.swift */,
 				35C36F3A2259D892002FA5C6 /* Timer.swift */,
 				3595FACF227F88BC0044A12A /* UserDefaults + KVOExtensions.swift */,
-				35DFBCEE26A8468900D6648B /* ConfigExport.swift */,
 			);
 			path = "Overall App";
 			sourceTree = "<group>";
@@ -425,13 +422,6 @@
 				AA000010MODERN00000001 /* UpcomingEventView.swift */,
 			);
 			path = "Rate Controller";
-			sourceTree = "<group>";
-		};
-		35C36F9B2259EC97002FA5C6 /* Events and Reminders */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Events and Reminders";
 			sourceTree = "<group>";
 		};
 		9A2000C61BFBCEF6002BFDE8 /* Utilties */ = {
@@ -528,13 +518,6 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
-		C2021B89219F30960036C247 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Onboarding;
-			sourceTree = "<group>";
-		};
 		C20839C821515C1E00C86589 /* ClockerUnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -575,12 +558,10 @@
 			children = (
 				35B2FEE4259A2C25005DA84D /* CoreModelKit */,
 				35B2FED4259A2244005DA84D /* CoreLoggerKit */,
-				35C36F9B2259EC97002FA5C6 /* Events and Reminders */,
 				35C36F382259D80C002FA5C6 /* Overall App */,
 				35C36F242259D64D002FA5C6 /* Panel */,
 				35C36F1D22596212002FA5C6 /* Preferences */,
 				35C36EB522595834002FA5C6 /* Dependencies */,
-				C2021B89219F30960036C247 /* Onboarding */,
 				9AB89E021CE97A4900EC8EB1 /* Media.xcassets */,
 				9A5B1A8D1BECDFB700A77C68 /* Clocker.entitlements */,
 				9A2000C61BFBCEF6002BFDE8 /* Utilties */,
@@ -842,7 +823,6 @@
 				35C36F2C2259D6FA002FA5C6 /* PanelController.swift in Sources */,
 				35C36F10225961DA002FA5C6 /* Constants.swift in Sources */,
 				35C36FA42259EEC2002FA5C6 /* AppDelegate.swift in Sources */,
-				35DFBCEF26A8468900D6648B /* ConfigExport.swift in Sources */,
 				35C36F19225961DA002FA5C6 /* Enums.swift in Sources */,
 				35C36F5A2259DD8A002FA5C6 /* CustomPanel.swift in Sources */,
 				35C36F712259E185002FA5C6 /* NoTimezoneView.swift in Sources */,

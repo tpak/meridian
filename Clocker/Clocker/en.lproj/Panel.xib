@@ -20,7 +20,6 @@
                 <outlet property="preferencesButton" destination="Ctq-BV-GPN" id="cdL-5h-qmx"/>
                 <outlet property="resetModernSliderButton" destination="TK5-db-7bd" id="Mie-WC-5YN"/>
                 <outlet property="scrollViewHeight" destination="dff-DX-W1o" id="vYe-lb-h9x"/>
-                <outlet property="sharingButton" destination="Hc7-fH-V7i" id="sXz-Cx-VaA"/>
                 <outlet property="shutdownButton" destination="1cR-pI-osG" id="ZFz-9l-yNi"/>
                 <outlet property="stackView" destination="OZA-6o-SbE" id="lIT-4b-8WZ"/>
                 <outlet property="upcomingEventCollectionView" destination="Tp2-pl-yIm" id="gLE-03-1cZ"/>
@@ -443,21 +442,6 @@
                                             <action selector="convertToFloatingWindow:" target="-2" id="cuu-WJ-Sd9"/>
                                         </connections>
                                     </button>
-                                    <button toolTip="Copy All Times" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hc7-fH-V7i">
-                                        <rect key="frame" x="95" y="10" width="30" height="21"/>
-                                        <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="SharingDarkIcon" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jZm-RN-msv">
-                                            <behavior key="behavior" lightByContents="YES"/>
-                                            <font key="font" metaFont="systemBold" size="12"/>
-                                        </buttonCell>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="Bnf-E1-uaE"/>
-                                            <constraint firstAttribute="width" constant="30" id="pke-4M-ob5"/>
-                                        </constraints>
-                                        <accessibility identifier="Share"/>
-                                        <connections>
-                                            <action selector="shareAction:" target="-2" id="Wvh-61-gkx"/>
-                                        </connections>
-                                    </button>
                                     <button toolTip="Add Location" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ctq-BV-GPN">
                                         <rect key="frame" x="10" y="10" width="30" height="19"/>
                                         <buttonCell key="cell" type="recessed" bezelStyle="recessed" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SIv-Ve-UkG">
@@ -477,14 +461,12 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="YXE-4J-5cn" firstAttribute="leading" secondItem="Hc7-fH-V7i" secondAttribute="trailing" constant="55" id="0Zd-fd-Ove"/>
                                     <constraint firstItem="Ctq-BV-GPN" firstAttribute="centerY" secondItem="B8X-sx-cjT" secondAttribute="centerY" id="6Q7-jc-cTL"/>
                                     <constraint firstItem="YXE-4J-5cn" firstAttribute="centerY" secondItem="B8X-sx-cjT" secondAttribute="centerY" id="OHe-Tc-b0V"/>
-                                    <constraint firstItem="Hc7-fH-V7i" firstAttribute="leading" secondItem="Ctq-BV-GPN" secondAttribute="trailing" constant="55" id="bL5-Kt-zaC"/>
+                                    <constraint firstItem="YXE-4J-5cn" firstAttribute="leading" secondItem="Ctq-BV-GPN" secondAttribute="trailing" constant="55" id="bL5-Kt-zaC"/>
                                     <constraint firstAttribute="height" constant="40" id="iYW-fj-EE2"/>
                                     <constraint firstItem="1cR-pI-osG" firstAttribute="centerY" secondItem="B8X-sx-cjT" secondAttribute="centerY" id="oVJ-Xa-cTw"/>
                                     <constraint firstAttribute="trailing" secondItem="1cR-pI-osG" secondAttribute="trailing" constant="10" id="rb9-gW-QZS"/>
-                                    <constraint firstItem="Hc7-fH-V7i" firstAttribute="centerY" secondItem="B8X-sx-cjT" secondAttribute="centerY" constant="-1" id="vPp-mQ-wgE"/>
                                     <constraint firstItem="Ctq-BV-GPN" firstAttribute="leading" secondItem="B8X-sx-cjT" secondAttribute="leading" constant="10" id="ydm-oF-sVc"/>
                                 </constraints>
                             </customView>
@@ -531,7 +513,6 @@
         <image name="Float-White" width="15" height="13"/>
         <image name="PowerIcon" width="350" height="350"/>
         <image name="PowerIcon-White" width="350" height="350"/>
-        <image name="SharingDarkIcon" width="19" height="22"/>
         <namedColor name="Accent Color">
             <color red="0.092000000178813934" green="0.0" blue="0.99900001287460327" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
