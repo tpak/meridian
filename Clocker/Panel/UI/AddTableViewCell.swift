@@ -8,26 +8,13 @@ class AddTableViewCell: NSTableCellView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeChanges),
-                                               name: .themeDidChangeNotification,
-                                               object: nil)
-
         if let addCell = addTimezone.cell as? NSButtonCell {
             addCell.highlightsBy = .contentsCellMask
             addCell.showsStateBy = .pushInCellMask
         }
 
-        updateAddButton()
+        addTimezone.image = NSImage(systemSymbolName: "plus", accessibilityDescription: "Add")
 
         addTimezone.setAccessibility("EmptyAddTimezone")
-    }
-
-    @objc func themeChanges() {
-        updateAddButton()
-    }
-
-    private func updateAddButton() {
-        addTimezone.image = Themer.shared().addImage()
     }
 }

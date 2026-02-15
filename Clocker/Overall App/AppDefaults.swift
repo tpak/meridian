@@ -10,17 +10,14 @@ class AppDefaults {
 
     private class func initializeDefaults(with store: DataStore, defaults: UserDefaults) {
         let timezones = store.timezones()
-        let selectedCalendars = store.selectedCalendars()
 
         // Register the usual suspects
         defaults.register(defaults: defaultsDictionary())
 
         store.setTimezones(timezones)
-        defaults.set(selectedCalendars, forKey: UserDefaultKeys.selectedCalendars)
     }
 
     private class func defaultsDictionary() -> [String: Any] {
-        let calendars: [String] = []
         return [UserDefaultKeys.themeKey: 0,
                 UserDefaultKeys.displayFutureSliderKey: 0,
                 UserDefaultKeys.selectedTimeZoneFormatKey: 0, // 12-hour format
@@ -31,13 +28,9 @@ class AppDefaults {
                 UserDefaultKeys.startAtLogin: 0,
                 UserDefaultKeys.sunriseSunsetTime: 1,
                 UserDefaultKeys.userFontSizePreference: 4,
-                UserDefaultKeys.showUpcomingEventView: "YES",
                 UserDefaultKeys.showAppInForeground: 0,
                 UserDefaultKeys.futureSliderRange: 0,
-                UserDefaultKeys.showAllDayEventsInUpcomingView: 1,
-                UserDefaultKeys.showMeetingInMenubar: 0,
                 UserDefaultKeys.truncateTextLength: 30,
-                UserDefaultKeys.selectedCalendars: calendars,
                 UserDefaultKeys.appDisplayOptions: 0,
                 UserDefaultKeys.menubarCompactMode: 1]
     }

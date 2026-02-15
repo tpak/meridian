@@ -9,7 +9,6 @@ class MockDataStore: DataStoring {
     var storedTimezones: [Data] = []
     var preferences: [String: Any] = [:]
     var viewTypeDisplayPreferences: [ViewType: Bool] = [:]
-    var didCallSetupSyncNotification = false
 
     func timezones() -> [Data] {
         return storedTimezones
@@ -60,14 +59,6 @@ class MockDataStore: DataStoring {
             NSNumber(integerLiteral: 7)
         ])
         return timeFormatsWithSuffix.contains(timezoneFormat())
-    }
-
-    func selectedCalendars() -> [String]? {
-        return preferences[UserDefaultKeys.selectedCalendars] as? [String]
-    }
-
-    func setupSyncNotification() {
-        didCallSetupSyncNotification = true
     }
 
     func shouldShowDateInMenubar() -> Bool {

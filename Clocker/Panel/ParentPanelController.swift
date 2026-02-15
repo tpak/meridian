@@ -1,10 +1,10 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import CoreLocation
 import Combine
 import CoreLoggerKit
 import CoreModelKit
-import EventKit
 
 struct PanelConstants {
     static let modernSliderPointsInADay = 96
@@ -25,10 +25,6 @@ class ParentPanelController: NSWindowController {
 
     var datasource: TimezoneDataSource?
 
-    private var notePopover: NotesPopover?
-
-    private(set) var sharingHandler: PanelSharingHandler?
-
     var dataStore: DataStoring = DataStore.shared()
 
     private lazy var oneWindow: OneWindowController? = {
@@ -41,8 +37,6 @@ class ParentPanelController: NSWindowController {
     @IBOutlet var stackView: NSStackView!
 
     @IBOutlet var scrollViewHeight: NSLayoutConstraint!
-
-    @IBOutlet var sharingButton: NSButton!
 
     @IBOutlet var shutdownButton: NSButton!
 
@@ -61,11 +55,6 @@ class ParentPanelController: NSWindowController {
     @IBOutlet var goBackwardsButton: NSButton!
     @IBOutlet var goForwardButton: NSButton!
     @IBOutlet var resetModernSliderButton: NSButton!
-
-    // Upcoming Events
-    @IBOutlet var upcomingEventCollectionView: NSCollectionView!
-    @IBOutlet var upcomingEventContainerView: NSView!
-    public var upcomingEventsDataSource: UpcomingEventsDataSource?
 
     var defaultPreferences: [Data] {
         return dataStore.timezones()
@@ -115,13 +104,10 @@ class ParentPanelController: NSWindowController {
         mainTableView.enclosingScrollView?.hasVerticalScroller = false
         mainTableView.style = .plain
 
-        // Setup images
-        let sharedThemer = Themer.shared()
-        shutdownButton.image = sharedThemer.shutdownImage()
-        preferencesButton.image = sharedThemer.preferenceImage()
-        pinButton.image = sharedThemer.pinImage()
-        sharingButton.image = sharedThemer.sharingImage()
-        sharingButton.alternateImage = sharedThemer.sharingImageAlternate()
+        // Setup images using system symbols
+        shutdownButton.image = NSImage(systemSymbolName: "power", accessibilityDescription: "Quit")!
+        preferencesButton.image = NSImage(systemSymbolName: "gearshape", accessibilityDescription: "Settings")!
+        pinButton.image = NSImage(systemSymbolName: "pin", accessibilityDescription: "Pin")!
 
         // Setup KVO observers for user default changes
         setupObservers()
@@ -135,32 +121,10 @@ class ParentPanelController: NSWindowController {
         stackView.arrangedSubviews.last?.toolTip = "Debug Mode"
 #endif
 
-        // Setup notifications
-        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in self?.themeChanged() }
-            .store(in: &cancellables)
-
         NotificationCenter.default.publisher(for: NSNotification.Name.NSSystemTimeZoneDidChange)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in self?.systemTimezoneDidChange() }
             .store(in: &cancellables)
-
-        NotificationCenter.default.publisher(for: DataStore.didSyncFromExternalSourceNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
-                self?.mainTableView.reloadData()
-                self?.setScrollViewConstraint()
-            }
-            .store(in: &cancellables)
-
-        // Setup upcoming events view
-        upcomingEventContainerView.setAccessibility("UpcomingEventView")
-        determineUpcomingViewVisibility()
-        setupUpcomingEventViewCollectionViewIfNeccesary()
-
-        // Setup colors based on the curren theme
-        themeChanged()
 
         // UI adjustments based on user preferences
         if dataStore.timezones().isEmpty || dataStore.shouldDisplay(.futureSlider) == false {
@@ -174,18 +138,13 @@ class ParentPanelController: NSWindowController {
                     modernContainerView.isHidden = true
                 }
             } else if value.intValue == 0 {
-                // Floating Window doesn't support modern slider yet!
                 if modernContainerView != nil {
                     modernContainerView.isHidden = false
                 }
             }
         }
 
-        // Setup sharing handler
-        sharingHandler = PanelSharingHandler(store: dataStore, datasource: datasource)
-
         // More UI adjustments
-        sharingButton.sendAction(on: .leftMouseDown)
         adjustFutureSliderBasedOnPreferences()
         setupModernSliderIfNeccessary()
         if roundedDateView != nil {
@@ -197,15 +156,11 @@ class ParentPanelController: NSWindowController {
         roundedDateView.wantsLayer = true
         roundedDateView.layer?.cornerRadius = 12.0
         roundedDateView.layer?.masksToBounds = false
-        roundedDateView.layer?.backgroundColor = Themer.shared().textBackgroundColor().cgColor
+        roundedDateView.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
     }
 
     @objc func systemTimezoneDidChange() {
         OperationQueue.main.addOperation {
-            /*
-             let locationController = LocationController.sharedController()
-             locationController.determineAndRequestLocationAuthorization()*/
-
             self.updateHomeObject(with: TimeZone.autoupdatingCurrent.identifier,
                                   coordinates: nil)
         }
@@ -247,56 +202,9 @@ class ParentPanelController: NSWindowController {
         }
     }
 
-    func determineUpcomingViewVisibility() {
-        let showUpcomingEventView = dataStore.shouldDisplay(ViewType.upcomingEventView)
-
-        if showUpcomingEventView == false {
-            upcomingEventContainerView?.isHidden = true
-        } else {
-            upcomingEventContainerView?.isHidden = false
-            setupUpcomingEventView()
-            NotificationCenter.default.publisher(for: NSNotification.Name.EKEventStoreChanged)
-                .receive(on: RunLoop.main)
-                .sink { [weak self] _ in self?.fetchCalendarEvents() }
-                .store(in: &cancellables)
-        }
-    }
-
     private func adjustFutureSliderBasedOnPreferences() {
         setTimezoneDatasourceSlider(sliderValue: 0)
         updateTableContent()
-    }
-
-    private func setupUpcomingEventView() {
-        let eventCenter = EventCenter.sharedCenter()
-
-        if eventCenter.calendarAccessGranted() {
-            // Nice. Events will be retrieved when we open the panel
-        } else if eventCenter.calendarAccessNotDetermined() {
-            upcomingEventCollectionView.reloadData()
-        } else {
-            removeUpcomingEventView()
-        }
-
-        themeChanged()
-    }
-
-    @objc func themeChanged() {
-        let sharedThemer = Themer.shared()
-
-        if upcomingEventContainerView?.isHidden == false {
-            upcomingEventContainerView?.layer?.backgroundColor = NSColor.clear.cgColor
-        }
-
-        shutdownButton.image = sharedThemer.shutdownImage()
-        preferencesButton.image = sharedThemer.preferenceImage()
-        pinButton.image = sharedThemer.pinImage()
-        sharingButton.image = sharedThemer.sharingImage()
-        sharingButton.alternateImage = sharedThemer.sharingImageAlternate()
-
-        if roundedDateView != nil {
-            roundedDateView.layer?.backgroundColor = Themer.shared().textBackgroundColor().cgColor
-        }
     }
 
     override func windowDidLoad() {
@@ -394,14 +302,8 @@ class ParentPanelController: NSWindowController {
             }
         }
 
-        if dataStore.shouldDisplay(ViewType.upcomingEventView) {
-            if scrollViewHeight.constant > (screenHeight() - 160) {
-                scrollViewHeight.constant = (screenHeight() - 160)
-            }
-        } else {
-            if scrollViewHeight.constant > (screenHeight() - 100) {
-                scrollViewHeight.constant = (screenHeight() - 100)
-            }
+        if scrollViewHeight.constant > (screenHeight() - 100) {
+            scrollViewHeight.constant = (screenHeight() - 100)
         }
 
         if dataStore.shouldDisplay(.futureSlider) {
@@ -432,7 +334,6 @@ class ParentPanelController: NSWindowController {
         mainTableView.dataSource = datasource
         mainTableView.delegate = datasource
         mainTableView.panelDelegate = datasource
-        sharingHandler?.updateDatasource(datasource)
 
         updateDatasource(with: convertedTimezones)
 
@@ -462,7 +363,7 @@ class ParentPanelController: NSWindowController {
     }
 
     @IBAction func openPreferences(_: NSButton) {
-        updatePopoverDisplayState() // Popover's class has access to all timezones. Need to close the popover, so that we don't have two copies of selections
+        updatePopoverDisplayState()
         openPreferencesWindow()
     }
 
@@ -481,7 +382,7 @@ class ParentPanelController: NSWindowController {
         Logger.log(object: nil, for: "Deleted Timezone Through Swipe")
     }
 
-    private lazy var menubarTitleHandler = MenubarTitleProvider(with: dataStore, eventStore: EventCenter.sharedCenter())
+    private lazy var menubarTitleHandler = MenubarTitleProvider(with: dataStore)
 
     private static let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: NSFont.monospacedDigitSystemFont(ofSize: 13.0, weight: NSFont.Weight.regular),
                                                                     NSAttributedString.Key.baselineOffset: 0.1]
@@ -489,7 +390,7 @@ class ParentPanelController: NSWindowController {
     @objc func updateTime() {
         let menubarCount = dataStore.menubarTimezones()?.count ?? 0
 
-        if menubarCount >= 1 || dataStore.shouldDisplay(.showMeetingInMenubar) == true {
+        if menubarCount >= 1 {
             if let status = (NSApplication.shared.delegate as? AppDelegate)?.statusItemForPanel() {
                 if dataStore.shouldDisplay(.menubarCompactMode) {
                     status.updateCompactMenubar()
@@ -530,7 +431,9 @@ class ParentPanelController: NSWindowController {
                 }
 
                 cellView.currentLocationIndicator.isHidden = !model.isSystemTimezone
-                cellView.sunriseImage.image = model.isSunriseOrSunset ? Themer.shared().sunriseImage() : Themer.shared().sunsetImage()
+                cellView.sunriseImage.image = model.isSunriseOrSunset
+                    ? NSImage(systemSymbolName: "sunrise.fill", accessibilityDescription: "Sunrise")!
+                    : NSImage(systemSymbolName: "sunset.fill", accessibilityDescription: "Sunset")!
                 cellView.sunriseImage.contentTintColor = model.isSunriseOrSunset ? NSColor.systemYellow : NSColor.systemOrange
                 if let note = model.note, !note.isEmpty {
                     cellView.noteLabel.stringValue = note
@@ -556,34 +459,16 @@ class ParentPanelController: NSWindowController {
 
         var correctRow = row
 
-        target.image = Themer.shared().extraOptionsHighlightedImage()
+        target.image = NSImage(systemSymbolName: "ellipsis.circle.fill", accessibilityDescription: "Options")!
 
         popover.animates = true
-
-        if notePopover == nil {
-            notePopover = NotesPopover(nibName: NSNib.Name.notesPopover, bundle: nil)
-            popover.behavior = .applicationDefined
-            popover.delegate = self
-        }
 
         // Found a case where row number was 8 but we had only 2 timezones
         if correctRow >= defaults.count {
             correctRow = defaults.count - 1
         }
 
-        let current = defaults[correctRow]
-
-        if let model = TimezoneData.customObject(from: current) {
-            notePopover?.setDataSource(data: model)
-            notePopover?.setRow(row: correctRow)
-            notePopover?.set(timezones: defaults)
-
-            popover.contentViewController = notePopover
-            notePopover?.set(with: popover)
-            return true
-        }
-
-        return false
+        return true
     }
 
     func dismissRowActions() {
@@ -598,140 +483,9 @@ class ParentPanelController: NSWindowController {
         oneWindow?.openGeneralPane()
     }
 
-    @IBAction func dismissNextEventLabel(_: NSButton) {
-        let eventCenter = EventCenter.sharedCenter()
-        let now = Date()
-        if let events = eventCenter.eventsForDate[NSCalendar.autoupdatingCurrent.startOfDay(for: now)], events.isEmpty == false {
-            if let upcomingEvent = eventCenter.nextOccuring(events), let meetingLink = upcomingEvent.meetingURL {
-                NSWorkspace.shared.open(meetingLink)
-            }
-        } else {
-            removeUpcomingEventView()
-        }
-    }
-
-    func removeUpcomingEventView() {
-        OperationQueue.main.addOperation {
-            if self.upcomingEventCollectionView != nil, let eventContainer = self.upcomingEventContainerView {
-                if self.stackView.arrangedSubviews.contains(eventContainer), eventContainer.isHidden == false {
-                    eventContainer.isHidden = true
-                    UserDefaults.standard.set("NO", forKey: UserDefaultKeys.showUpcomingEventView)
-                    Logger.log(object: ["Removed": "YES"], for: "Removed Upcoming Event View")
-                }
-            }
-        }
-    }
-
-    @IBAction func calendarButtonAction(_ sender: NSButton) {
-        if sender.title == NSLocalizedString("Click here to start.",
-                                             comment: "Button Title for no Calendar access") {
-            showPermissionsWindow()
-        } else {
-            retrieveCalendarEvents()
-        }
-    }
-
-    private func showPermissionsWindow() {
-        oneWindow?.openPermissionsPane()
-        NSApp.activate(ignoringOtherApps: true)
-    }
-
-    func retrieveCalendarEvents() {
-            PerfLogger.startMarker("Retrieve Calendar Events")
-
-        let eventCenter = EventCenter.sharedCenter()
-
-        if eventCenter.calendarAccessGranted() {
-            fetchCalendarEvents()
-        } else if eventCenter.calendarAccessNotDetermined() {
-            /* Wait till we get the thumbs up. */
-        } else {
-            removeUpcomingEventView()
-        }
-
-            PerfLogger.endMarker("Retrieve Calendar Events")
-    }
-
-    @IBAction func shareAction(_ sender: NSButton) {
-        let copyAllTimes = sharingHandler?.retrieveAllTimes() ?? ""
-        let pasteboard = NSPasteboard.general
-        pasteboard.declareTypes([.string], owner: nil)
-        pasteboard.setString(copyAllTimes, forType: .string)
-
-        self.window?.contentView?.makeToast("Copied to Clipboard".localized())
-    }
-
-    @IBAction func convertToFloatingWindow(_: NSButton) {
-        guard let sharedDelegate = NSApplication.shared.delegate as? AppDelegate
-        else {
-            Logger.info("Data was unexpectedly nil")
-            return
-        }
-
-        let showAppInForeground = dataStore.shouldDisplay(ViewType.showAppInForeground)
-
-        let inverseSelection = showAppInForeground ? NSNumber(value: 0) : NSNumber(value: 1)
-
-        UserDefaults.standard.set(inverseSelection, forKey: UserDefaultKeys.showAppInForeground)
-
-        close()
-
-        if inverseSelection.isEqual(to: NSNumber(value: 1)) {
-            sharedDelegate.setupFloatingWindow(false)
-        } else {
-            sharedDelegate.setupFloatingWindow(true)
-            updateDefaultPreferences()
-        }
-
-        let mode = inverseSelection.isEqual(to: NSNumber(value: 1)) ? "Floating Mode" : "Menubar Mode"
-
-        Logger.log(object: ["displayMode": mode], for: "Meridian Mode")
-    }
-
-    func showUpcomingEventView() {
-        OperationQueue.main.addOperation {
-            if let upcomingView = self.upcomingEventContainerView, upcomingView.isHidden {
-                self.upcomingEventContainerView?.isHidden = false
-                UserDefaults.standard.set("YES", forKey: UserDefaultKeys.showUpcomingEventView)
-                Logger.log(object: ["Shown": "YES"], for: "Added Upcoming Event View")
-                self.themeChanged()
-            }
-        }
-    }
-
-    private func fetchCalendarEvents() {
-            PerfLogger.startMarker("Fetch Calendar Events")
-
-        let eventCenter = EventCenter.sharedCenter()
-        let now = Date()
-
-        if let events = eventCenter.eventsForDate[NSCalendar.autoupdatingCurrent.startOfDay(for: now)], events.isEmpty == false {
-            OperationQueue.main.addOperation {
-                if self.upcomingEventCollectionView != nil,
-                   let upcomingEvents = eventCenter.upcomingEventsForDay(events) {
-                    self.upcomingEventsDataSource?.updateEventsDataSource(upcomingEvents)
-                    self.upcomingEventCollectionView.reloadData()
-                    return
-                }
-
-                    PerfLogger.endMarker("Fetch Calendar Events")
-            }
-        } else {
-            if upcomingEventCollectionView != nil {
-                upcomingEventsDataSource?.updateEventsDataSource([])
-                upcomingEventCollectionView.reloadData()
-                return
-            }
-                PerfLogger.endMarker("Fetch Calendar Events")
-        }
-    }
-
     // If the popover is displayed, close it
     // Called when preferences are going to be displayed!
     func updatePopoverDisplayState() {
-        if notePopover != nil, let isShown = notePopover?.popover?.isShown, isShown {
-            notePopover?.popover?.close()
-        }
         additionalOptionsPopover = nil
     }
 
@@ -746,24 +500,13 @@ class ParentPanelController: NSWindowController {
     }
 
     @objc func reportIssue() {
-        guard let url = URL(string: "https://github.com/nickhumbir/clocker/issues") else { return }
+        guard let url = URL(string: AboutUsConstants.GitHubIssuesURL) else { return }
         NSWorkspace.shared.open(url)
 
         if let countryCode = Locale.autoupdatingCurrent.region?.identifier {
             let custom: [String: Any] = ["Country": countryCode]
             Logger.log(object: custom, for: "Report Issue Opened")
         }
-    }
-
-    @objc func openCrowdin() {
-        guard let localizationURL = URL(string: AboutUsConstants.CrowdInLocalizationLink),
-              let languageCode = Locale.preferredLanguages.first else { return }
-
-        NSWorkspace.shared.open(localizationURL)
-
-        // Log this
-        let custom: [String: Any] = ["Language": languageCode]
-        Logger.log(object: custom, for: "Opened Localization Link")
     }
 
     @objc func rate() {

@@ -214,6 +214,9 @@ class ClockerUnitTests: XCTestCase {
 
         let timezoneObject = TimezoneData(with: onlyTimezone)
         timezoneObject.selectionType = .timezone
+        // Timezone entries with coordinates now support sunrise/sunset
+        timezoneObject.latitude = nil
+        timezoneObject.longitude = nil
         let timezoneOperations = TimezoneDataOperations(with: timezoneObject, store: DataStore.shared())
 
         XCTAssertTrue(timezoneOperations.formattedSunriseTime(with: 0) == "")

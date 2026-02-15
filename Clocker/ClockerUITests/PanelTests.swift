@@ -4,6 +4,40 @@ import XCTest
 
 let CLUITestingLaunchArgument = "isUITesting"
 
+extension String {
+    func localizedString() -> String {
+        return NSLocalizedString(self, comment: "")
+    }
+}
+
+extension XCUIElement {
+    func reset(text: String) {
+        guard let stringValue = value as? String else {
+            XCTFail("Tried to clear and enter text into a non string value")
+            return
+        }
+
+        if let hasKeyboardFocus = value(forKey: "hasKeyboardFocus") as? Bool, hasKeyboardFocus == false {
+            click()
+        }
+
+        for _ in 0 ..< stringValue.count {
+            typeKey(XCUIKeyboardKey.delete, modifierFlags: XCUIElement.KeyModifierFlags())
+        }
+
+        guard let newStringValue = value as? String else {
+            XCTFail("Tried to clear and enter text into a non string value")
+            return
+        }
+
+        for _ in 0 ..< newStringValue.count {
+            typeKey(XCUIKeyboardKey.forwardDelete, modifierFlags: XCUIElement.KeyModifierFlags())
+        }
+
+        typeText(text)
+    }
+}
+
 class PanelTests: XCTestCase {
     var app: XCUIApplication!
 

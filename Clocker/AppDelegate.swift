@@ -1,29 +1,18 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import CoreLocation
 import CoreLoggerKit
 import CoreModelKit
 
+@main
 open class AppDelegate: NSObject, NSApplicationDelegate {
-    private lazy var floatingWindow = FloatingWindowController.shared()
     internal lazy var panelController = PanelController(windowNibName: .panel)
     private var statusBarHandler: StatusItemHandler!
-    private let versionUpdateHandler = VersionUpdateHandler()
-
 
     public func applicationDidFinishLaunching(_: Notification) {
         AppDefaults.initialize(with: DataStore.shared(), defaults: UserDefaults.standard)
-
-        // Check if we can show the onboarding flow!
-        showOnboardingFlowIfEligible()
-
-        #if RELEASE
-            checkIfRunFromApplicationsFolder()
-        #endif
-    }
-
-    public func applicationWillFinishLaunching(_: Notification) {
-        // iVersion removed; update checks happen via VersionUpdateHandler in continueUsually()
+        continueUsually()
     }
 
     public func applicationDockMenu(_: NSApplication) -> NSMenu? {
@@ -42,14 +31,7 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func openPreferencesWindow() {
-        let displayMode = DataStore.shared().shouldDisplay(.showAppInForeground)
-
-        if displayMode {
-            let floatingWindow = FloatingWindowController.shared()
-            floatingWindow.openPreferences(NSButton())
-        } else {
-            panelController.openPreferences(NSButton())
-        }
+        panelController.openPreferences(NSButton())
     }
 
     @objc func hideFromDock() {
@@ -57,30 +39,7 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(.accessory)
     }
 
-    private var controller: OnboardingController?
-
-    private func showOnboardingFlowIfEligible() {
-        let isTestInProgress = ProcessInfo.processInfo.arguments.contains(UserDefaultKeys.onboardingTestsLaunchArgument)
-        let shouldLaunchOnboarding =
-        (DataStore.shared().retrieve(key: UserDefaultKeys.showOnboardingFlow) == nil
-                && DataStore.shared().timezones().isEmpty)
-            || isTestInProgress
-
-        if shouldLaunchOnboarding {
-            let onboardingStoryboard = NSStoryboard(name: NSStoryboard.Name("Onboarding"), bundle: nil)
-            controller = onboardingStoryboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("onboardingFlow")) as? OnboardingController
-            controller?.launch()
-        } else {
-            continueUsually()
-        }
-    }
-
     func continueUsually() {
-        // Cleanup onboarding controller after its done!
-        if controller != nil {
-            controller = nil
-        }
-
         // Check if another instance of the app is already running. If so, then stop this one.
         checkIfAppIsAlreadyOpen()
 
@@ -91,19 +50,27 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
 
         assignShortcut()
 
-        let defaults = UserDefaults.standard
-
         setActivationPolicy()
 
-        // Set the display mode default as panel!
-        if let displayMode = defaults.object(forKey: UserDefaultKeys.showAppInForeground) as? NSNumber, displayMode.intValue == 1 {
-            showFloatingWindow()
-        } else if let displayMode = defaults.object(forKey: UserDefaultKeys.showAppInForeground) as? Int, displayMode == 1 {
-            showFloatingWindow()
-        }
+        // Backfill coordinates for timezone entries that lack them (needed for sunrise/sunset)
+        backfillMissingCoordinates()
+    }
 
-        // Check for app updates via GitHub Releases
-        versionUpdateHandler.checkForUpdatesIfNeeded()
+    private func backfillMissingCoordinates() {
+        let store = DataStore.shared()
+        let timezones = store.timezones()
+
+        for data in timezones {
+            guard let tz = TimezoneData.customObject(from: data),
+                  tz.selectionType == .timezone,
+                  tz.latitude == nil || tz.longitude == nil,
+                  let timezoneID = tz.timezoneID
+            else { continue }
+
+            Task { @MainActor in
+                await TimezoneAdditionHandler.backfillCoordinates(for: timezoneID, in: store)
+            }
+        }
     }
 
     // Should we have a dock icon or just stay in the menubar?
@@ -133,30 +100,6 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    private func showAlert(message: String, informativeText: String, buttonTitle: String) {
-        NSApplication.shared.activate(ignoringOtherApps: true)
-        let alert = NSAlert()
-        alert.messageText = message
-        alert.informativeText = informativeText
-        alert.addButton(withTitle: buttonTitle)
-        alert.runModal()
-    }
-
-
-    private func retrieveLatestLocation() {
-        let locationController = LocationController(withStore: DataStore.shared())
-        locationController.determineAndRequestLocationAuthorization()
-    }
-
-    private func showFloatingWindow() {
-        // Display the Floating Window!
-        floatingWindow.showWindow(nil)
-        floatingWindow.updateTableContent()
-        floatingWindow.startWindowTimer()
-
-        NSApp.activate(ignoringOtherApps: true)
-    }
-
     private func assignShortcut() {
         GlobalShortcutMonitor.shared.action = { [weak self] in
             guard let button = self?.statusBarHandler.statusItem.button else { return }
@@ -166,53 +109,11 @@ open class AppDelegate: NSObject, NSApplicationDelegate {
         GlobalShortcutMonitor.shared.register()
     }
 
-    private func checkIfRunFromApplicationsFolder() {
-        if let shortCircuit = UserDefaults.standard.object(forKey: "AllowOutsideApplicationsFolder") as? Bool, shortCircuit == true {
-            return
-        }
-
-        let bundlePath = Bundle.main.bundlePath
-        let applicationDirectory = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.applicationDirectory,
-                                                                       FileManager.SearchPathDomainMask.localDomainMask,
-                                                                       true)
-        for appDir in applicationDirectory {
-            if bundlePath.hasPrefix(appDir) {
-                return
-            }
-        }
-
-        let informativeText = """
-        Clocker must be run from the Applications folder in order to work properly.
-        Please quit Clocker, move it to the Applications folder, and relaunch.
-        Current folder: \(applicationDirectory)"
-        """
-
-        // Clocker is installed out of Applications directory
-        // This breaks start at login! Time to show an alert and terminate
-        showAlert(message: "Move Clocker to the Applications folder",
-                  informativeText: informativeText,
-                  buttonTitle: "Quit")
-
-        // Terminate
-        NSApp.terminate(nil)
-    }
-
     @IBAction open func togglePanel(_ sender: NSButton) {
         Logger.info("Toggle Panel called with sender state \(sender.state.rawValue)")
-        let displayMode = UserDefaults.standard.integer(forKey: UserDefaultKeys.showAppInForeground)
-
-        if displayMode == 1 {
-            // No need to call NSApp.activate here since `showFloatingWindow` takes care of this
-            showFloatingWindow()
-        } else {
-            panelController.showWindow(nil)
-            panelController.setActivePanel(newValue: sender.state == .on)
-            NSApp.activate(ignoringOtherApps: true)
-        }
-    }
-
-    open func setupFloatingWindow(_ hide: Bool) {
-        hide ? floatingWindow.window?.close() : showFloatingWindow()
+        panelController.showWindow(nil)
+        panelController.setActivePanel(newValue: sender.state == .on)
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     func statusItemForPanel() -> StatusItemHandler {

@@ -1,7 +1,6 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
-import Combine
 
 class CenteredTabViewController: NSTabViewController {
     override func viewDidLoad() {
@@ -17,24 +16,9 @@ class CenteredTabViewController: NSTabViewController {
 }
 
 class OneWindowController: NSWindowController {
-    private var cancellables = Set<AnyCancellable>()
-
     override func windowDidLoad() {
         super.windowDidLoad()
         setup()
-
-        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
-                NSAnimationContext.runAnimationGroup { context in
-                    context.duration = 1
-                    context.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
-                    self?.window?.animator().backgroundColor = Themer.shared().mainBackgroundColor()
-                }
-
-                self?.setupToolbarImages()
-            }
-            .store(in: &cancellables)
     }
 
     private func setup() {
@@ -44,7 +28,7 @@ class OneWindowController: NSWindowController {
 
     private func setupWindow() {
         window?.titlebarAppearsTransparent = true
-        window?.backgroundColor = Themer.shared().mainBackgroundColor()
+        window?.backgroundColor = NSColor.windowBackgroundColor
         window?.identifier = NSUserInterfaceItemIdentifier("Preferences")
     }
 
@@ -53,33 +37,21 @@ class OneWindowController: NSWindowController {
             return
         }
 
-        let themer = Themer.shared()
-        var identifierTOImageMapping: [String: NSImage] = ["Appearance Tab": themer.appearanceTabImage(),
-                                                           "Calendar Tab": themer.calendarTabImage(),
-                                                           "Permissions Tab": themer.privacyTabImage()]
-
-        if let prefsTabImage = themer.generalTabImage() {
-            identifierTOImageMapping["Preferences Tab"] = prefsTabImage
-        }
-
-        if let aboutTabImage = themer.aboutTabImage() {
-            identifierTOImageMapping["About Tab"] = aboutTabImage
-        }
+        let identifierToImageMapping: [String: NSImage] = [
+            "Preferences Tab": NSImage(systemSymbolName: "gearshape", accessibilityDescription: nil) ?? NSImage(),
+            "Appearance Tab": NSImage(systemSymbolName: "paintbrush", accessibilityDescription: nil) ?? NSImage(),
+            "About Tab": NSImage(systemSymbolName: "info.circle", accessibilityDescription: nil) ?? NSImage()
+        ]
 
         tabViewController.tabViewItems.forEach { tabViewItem in
             let identity = (tabViewItem.identifier as? String) ?? ""
-            if identifierTOImageMapping[identity] != nil {
-                tabViewItem.image = identifierTOImageMapping[identity]
+            if let image = identifierToImageMapping[identity] {
+                tabViewItem.image = image
             }
         }
     }
 
     // MARK: Public
-
-    func openPermissionsPane() {
-        openPreferenceTab(at: 3)
-        NSApp.activate(ignoringOtherApps: true)
-    }
 
     // Action mapped to the + button in the PanelController. We should always open the General Pane when the + button is clicked.
     func openGeneralPane() {

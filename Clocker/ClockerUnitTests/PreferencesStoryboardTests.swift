@@ -36,13 +36,13 @@ class PreferencesStoryboardTests: XCTestCase {
                       "contentViewController should be CenteredTabViewController, got \(type(of: wc?.contentViewController as Any))")
     }
 
-    func testTabViewControllerHasFiveTabs() {
+    func testTabViewControllerHasThreeTabs() {
         let storyboard = NSStoryboard(name: "Preferences", bundle: Bundle(for: OneWindowController.self))
         let wc = storyboard.instantiateInitialController() as? OneWindowController
         let tabVC = wc?.contentViewController as? CenteredTabViewController
         XCTAssertNotNil(tabVC, "Tab view controller should not be nil")
-        XCTAssertEqual(tabVC?.tabViewItems.count, 5,
-                       "Should have 5 tab items, got \(tabVC?.tabViewItems.count ?? 0)")
+        XCTAssertEqual(tabVC?.tabViewItems.count, 3,
+                       "Should have 3 tab items, got \(tabVC?.tabViewItems.count ?? 0)")
     }
 
     func testFirstTabIsPreferencesViewController() {

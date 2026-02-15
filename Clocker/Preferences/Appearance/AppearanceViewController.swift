@@ -1,7 +1,6 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
-import Combine
 import CoreLoggerKit
 import CoreModelKit
 
@@ -17,10 +16,6 @@ class AppearanceViewController: ParentViewController {
     @IBOutlet var includePlaceNameControl: NSSegmentedControl!
     @IBOutlet var appearanceTab: NSTabView!
     @IBOutlet var appDisplayControl: NSSegmentedControl!
-    @IBOutlet var syncLabel: NSTextField!
-    @IBOutlet var syncSegementedControl: NSSegmentedControl!
-
-    private var cancellables = Set<AnyCancellable>()
 
     private var previewTimezones: [TimezoneData] = []
 
@@ -68,16 +63,6 @@ class AppearanceViewController: ParentViewController {
 
         setup()
 
-        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
-                self?.setup()
-                self?.animateBackgroundColorChange()
-                self?.view.needsDisplay = true
-                self?.previewPanelTableView.reloadData()
-            }
-            .store(in: &cancellables)
-
         previewTimezones = [TimezoneData(with: ["customLabel": "San Francisco",
                                                 "formattedAddress": "San Francisco",
                                                 "place_id": "TestIdentifier",
@@ -100,14 +85,6 @@ class AppearanceViewController: ParentViewController {
         previewPanelTableView.enclosingScrollView?.layer?.cornerRadius = 12
     }
 
-    private func animateBackgroundColorChange() {
-        let colorAnimation = CABasicAnimation(keyPath: "backgroundColor")
-        colorAnimation.duration = 0.25
-        colorAnimation.fromValue = previousBackgroundColor.cgColor
-        colorAnimation.toValue = Themer.shared().mainBackgroundColor().cgColor
-        view.layer?.add(colorAnimation, forKey: "backgroundColor")
-    }
-
     override func viewWillAppear() {
         super.viewWillAppear()
 
@@ -126,10 +103,6 @@ class AppearanceViewController: ParentViewController {
         // True is Menubar Only and False is Menubar + Dock
         let appDisplayOptions = dataStore.shouldDisplay(.appDisplayOptions)
         appDisplayControl.setSelected(true, forSegment: appDisplayOptions ? 0 : 1)
-
-        // Set the Sync value from NSUbiqutousKeyValueStore
-        let syncEnabled = NSUbiquitousKeyValueStore.default.bool(forKey: UserDefaultKeys.enableSyncKey)
-        syncSegementedControl.setSelected(true, forSegment: syncEnabled ? 0 : 1)
     }
 
     @IBOutlet var timeFormatLabel: NSTextField!
@@ -157,7 +130,6 @@ class AppearanceViewController: ParentViewController {
         showSliderLabel.stringValue = "Time Scroller".localized()
         showSunriseLabel.stringValue = "Show Sunrise/Sunset".localized()
         largerTextLabel.stringValue = "Larger Text".localized()
-        syncLabel.stringValue = "Enable iCloud Sync".localized()
         futureSliderRangeLabel.stringValue = "Future Slider Range".localized()
         includeDateLabel.stringValue = "Include Date".localized()
         includeDayLabel.stringValue = "Include Day".localized()
@@ -168,20 +140,20 @@ class AppearanceViewController: ParentViewController {
 
         [timeFormatLabel, panelTheme,
          dayDisplayOptionsLabel, showSliderLabel,
-         showSunriseLabel, largerTextLabel, syncLabel, futureSliderRangeLabel,
+         showSunriseLabel, largerTextLabel, futureSliderRangeLabel,
          includeDayLabel, includeDateLabel, includePlaceLabel, appDisplayLabel, menubarModeLabel,
          previewLabel, miscelleaneousLabel].forEach {
-            $0?.textColor = Themer.shared().mainTextColor()
+            $0?.textColor = NSColor.labelColor
         }
 
-        previewPanelTableView.backgroundColor = Themer.shared().mainBackgroundColor()
+        previewPanelTableView.backgroundColor = NSColor.windowBackgroundColor
     }
 
     @IBAction func timeFormatSelectionChanged(_ sender: NSPopUpButton) {
         let selection = NSNumber(value: sender.indexOfSelectedItem)
 
         UserDefaults.standard.set(selection, forKey: UserDefaultKeys.selectedTimeZoneFormatKey)
-        refresh(panel: true, floating: true)
+        refresh(panel: true)
 
         if let selectedFormat = sender.selectedItem?.title,
            selectedFormat.contains("ss") {
@@ -194,26 +166,16 @@ class AppearanceViewController: ParentViewController {
         previewPanelTableView.reloadData()
     }
 
-    private var previousBackgroundColor = NSColor.white
-
     @IBAction func themeChanged(_ sender: NSPopUpButton) {
-        previousBackgroundColor = Themer.shared().mainBackgroundColor()
-
         let selectedMenuItem = sender.indexOfSelectedItem
-        Themer.shared().set(theme: selectedMenuItem)
 
-        refresh(panel: false, floating: true)
+        refresh(panel: false)
 
         guard let panelController = PanelController.panel() else {
             return
         }
 
         panelController.refreshBackgroundView()
-
-        panelController.shutdownButton.image = Themer.shared().shutdownImage()
-        panelController.preferencesButton.image = Themer.shared().preferenceImage()
-        panelController.pinButton.image = Themer.shared().pinImage()
-        panelController.sharingButton.image = Themer.shared().sharingImage()
 
         let defaultTimezones = panelController.defaultPreferences
         if defaultTimezones.isEmpty {
@@ -252,17 +214,18 @@ class AppearanceViewController: ParentViewController {
     @IBAction func changeRelativeDayDisplay(_ sender: NSSegmentedControl) {
         Logger.log(object: ["dayPreference": loggingStringForRelativeDisplaySelection(sender.selectedSegment)], for: "RelativeDate")
 
-        refresh(panel: true, floating: true)
+        refresh(panel: true)
 
         previewPanelTableView.reloadData()
     }
 
     @IBAction func showFutureSlider(_: Any) {
-        refresh(panel: false, floating: true)
+        refresh(panel: false)
     }
 
     @IBAction func showSunriseSunset(_ sender: NSSegmentedControl) {
         Logger.log(object: ["Is It Displayed": sender.selectedSegment == 0 ? "YES" : "NO"], for: "Sunrise Sunset")
+        refresh(panel: true)
         previewPanelTableView.reloadData()
     }
 
@@ -276,9 +239,9 @@ class AppearanceViewController: ParentViewController {
         }
     }
 
-    private func refresh(panel: Bool, floating: Bool) {
+    private func refresh(panel: Bool) {
         OperationQueue.main.addOperation {
-            if panel, self.dataStore.shouldDisplay(ViewType.showAppInForeground) == false {
+            if panel {
                 guard let panelController = PanelController.panel() else { return }
 
                 let futureSliderBounds = panelController.modernSlider.bounds
@@ -287,20 +250,6 @@ class AppearanceViewController: ParentViewController {
                 panelController.updateDefaultPreferences()
                 panelController.updateTableContent()
                 panelController.setupMenubarTimer()
-            }
-
-            if floating, self.dataStore.shouldDisplay(ViewType.showAppInForeground) {
-                if self.dataStore.shouldDisplay(ViewType.showAppInForeground) {
-                    let floatingWindow = FloatingWindowController.shared()
-                    floatingWindow.updateTableContent()
-                    if let slider = floatingWindow.modernSlider {
-                        slider.setNeedsDisplay(floatingWindow.modernSlider.bounds)
-                    }
-
-                    if !panel {
-                        floatingWindow.updatePanelColor()
-                    }
-                }
             }
         }
     }
@@ -346,11 +295,6 @@ class AppearanceViewController: ParentViewController {
     @IBAction func fontSliderChanged(_: Any) {
         previewPanelTableView.reloadData()
     }
-
-    @IBAction func toggleSync(_ sender: NSSegmentedControl) {
-        NSUbiquitousKeyValueStore.default.set(sender.selectedSegment == 0, forKey: UserDefaultKeys.enableSyncKey)
-        dataStore.setupSyncNotification()
-    }
 }
 
 extension AppearanceViewController: NSTableViewDataSource, NSTableViewDelegate {
@@ -372,7 +316,9 @@ extension AppearanceViewController: NSTableViewDataSource, NSTableViewDelegate {
         let operation = TimezoneDataOperations(with: currentModel, store: dataStore)
 
         cellView.sunriseSetTime.stringValue = operation.formattedSunriseTime(with: 0)
-        cellView.sunriseImage.image = currentModel.isSunriseOrSunset ? Themer.shared().sunriseImage() : Themer.shared().sunsetImage()
+        cellView.sunriseImage.image = currentModel.isSunriseOrSunset
+            ? NSImage(systemSymbolName: "sunrise.fill", accessibilityDescription: "Sunrise")
+            : NSImage(systemSymbolName: "sunset.fill", accessibilityDescription: "Sunset")
         cellView.relativeDate.stringValue = operation.date(with: 0, displayType: .panel)
         cellView.rowNumber = row
         cellView.customName.stringValue = currentModel.formattedTimezoneLabel()

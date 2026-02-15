@@ -18,6 +18,6 @@ class ParentViewController: NSViewController {
 class ParentView: NSView {
     override func updateLayer() {
         super.updateLayer()
-        layer?.backgroundColor = Themer.shared().mainBackgroundColor().cgColor
+        layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
     }
 }

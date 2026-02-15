@@ -1,6 +1,7 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
+import CoreLocation
 import CoreLoggerKit
 import CoreModelKit
 
@@ -36,16 +37,6 @@ class TimezoneAdditionHandler: NSObject {
         }
     }
 
-    private lazy var geocodingKey: String = {
-        guard let apiKey = Bundle.main.infoDictionary?["GeocodingKey"] as? String,
-              !apiKey.isEmpty
-        else {
-            Logger.info("Unable to find the API key")
-            return ""
-        }
-        return apiKey
-    }()
-
     init(host: TimezoneAdditionHost, dataStore: DataStoring = DataStore.shared()) {
         self.host = host
         self.dataStore = dataStore
@@ -75,41 +66,35 @@ class TimezoneAdditionHandler: NSObject {
 
         Logger.info(host.placeholderLabel.placeholderString ?? "")
 
-        guard let searchURL = generateSearchURL() else {
-            presentError("Unable to construct search URL.")
-            return
-        }
-
         searchTask = Task { @MainActor in
             do {
-                let data = try await NetworkManager.data(from: searchURL)
+                let placemark = try await NetworkManager.geocodeAddress(searchString)
 
-                guard let searchResults: SearchResult = data.decode() else {
-                    Logger.info("Data was unexpectedly nil")
-                    return
-                }
-
-                if searchResults.status == ResultStatus.zeroResults {
-                    Logger.info("Zero Results returned")
+                guard let location = placemark.location else {
                     findLocalSearchResultsForTimezones()
                     let noResults = host.searchResultsDataSource.timezoneFilteredArray.isEmpty
                     host.placeholderLabel.placeholderString = noResults
-                        ? "No results! 😔 Try entering the exact name." : UserDefaultKeys.emptyString
-                    reloadSearchResults()
-                    isActivityInProgress = false
-                    return
-                } else if searchResults.status == ResultStatus.requestDenied && searchResults.results.isEmpty {
-                    Logger.info("Request denied!")
-                    findLocalSearchResultsForTimezones()
-                    let noResults = host.searchResultsDataSource.timezoneFilteredArray.isEmpty
-                    host.placeholderLabel.placeholderString = noResults
-                        ? "Update Clocker to get a faster experience 😃" : UserDefaultKeys.emptyString
+                        ? "No results! Try entering the exact name." : UserDefaultKeys.emptyString
                     reloadSearchResults()
                     isActivityInProgress = false
                     return
                 }
 
-                appendResultsToFilteredArray(searchResults.results)
+                let name = placemark.formattedAddress
+                let timezoneID = placemark.timeZone?.identifier ?? ""
+
+                let totalPackage: [String: Any] = [
+                    "latitude": location.coordinate.latitude,
+                    "longitude": location.coordinate.longitude,
+                    UserDefaultKeys.timezoneName: name,
+                    UserDefaultKeys.customLabel: name,
+                    UserDefaultKeys.timezoneID: timezoneID,
+                    UserDefaultKeys.placeIdentifier: placemark.isoCountryCode ?? ""
+                ]
+
+                let timezoneData = TimezoneData(with: totalPackage)
+                host.searchResultsDataSource.setFilteredArrayValue([timezoneData])
+
                 findLocalSearchResultsForTimezones()
                 prepareUIForPresentingResults()
             } catch {
@@ -128,26 +113,10 @@ class TimezoneAdditionHandler: NSObject {
         TimezoneSearchService.searchLocalTimezones(host.searchField.stringValue, in: host.searchResultsDataSource)
     }
 
-    private func generateSearchURL() -> URL? {
-        guard let host = host else { return nil }
-        let userPreferredLanguage = Locale.preferredLanguages.first ?? "en-US"
-
-        var searchString = host.searchField.stringValue
-        let words = searchString.components(separatedBy: CharacterSet.whitespacesAndNewlines)
-        searchString = words.joined(separator: UserDefaultKeys.emptyString)
-
-        return NetworkManager.geocodeURL(for: searchString, key: geocodingKey, language: userPreferredLanguage)
-    }
-
     private func presentError(_ errorMessage: String) {
         guard let host = host else { return }
         host.placeholderLabel.placeholderString = errorMessage == PreferencesConstants.offlineErrorMessage ? PreferencesConstants.noInternetConnectivityError : PreferencesConstants.tryAgainMessage
         isActivityInProgress = false
-    }
-
-    private func appendResultsToFilteredArray(_ results: [SearchResult.Result]) {
-        guard let host = host else { return }
-        TimezoneSearchService.parseAndAddGeocodingResults(results, to: host.searchResultsDataSource)
     }
 
     private func prepareUIForPresentingResults() {
@@ -186,30 +155,23 @@ class TimezoneAdditionHandler: NSObject {
         host.placeholderLabel.placeholderString = "Retrieving timezone data"
         host.availableTimezoneTableView.isHidden = true
 
-        let timeStamp = Date().timeIntervalSince1970
-
-        guard let url = NetworkManager.timezoneURL(for: latitude, longitude: longitude, timestamp: timeStamp, key: geocodingKey) else {
-            presentError("Unable to construct timezone URL.")
-            return
-        }
-
         Task { @MainActor in
             do {
-                let json = try await NetworkManager.data(from: url)
+                let location = CLLocation(latitude: latitude, longitude: longitude)
+                let geocoder = CLGeocoder()
+                let placemarks = try await geocoder.reverseGeocodeLocation(location)
 
-                if handleEdgeCase(for: json) == true {
-                    reloadSearchResults()
-                    return
-                }
-
-                guard let timezone = json.decodeTimezone() else {
-                    host.placeholderLabel.placeholderString = PreferencesConstants.tryAgainMessage
+                guard let placemark = placemarks.first,
+                      let timezone = placemark.timeZone else {
+                    host.placeholderLabel.placeholderString = "No timezone found! Try entering an exact name."
+                    host.searchField.placeholderString = NSLocalizedString("Search Field Placeholder",
+                                                                           comment: "Search Field Placeholder")
                     isActivityInProgress = false
                     return
                 }
 
                 if host.availableTimezoneTableView.selectedRow >= 0 {
-                    installTimezone(timezone)
+                    installTimezone(timezone, for: placemark)
                 }
                 updateViewState()
             } catch {
@@ -224,7 +186,7 @@ class TimezoneAdditionHandler: NSObject {
         }
     }
 
-    private func installTimezone(_ timezone: Timezone) {
+    private func installTimezone(_ timezone: TimeZone, for placemark: CLPlacemark) {
         guard let host = host else { return }
         guard let dataObject = host.searchResultsDataSource.retrieveFilteredResultFromGoogleAPI(host.availableTimezoneTableView.selectedRow) else {
             Logger.info("Data was unexpectedly nil")
@@ -238,7 +200,7 @@ class TimezoneAdditionHandler: NSObject {
         }
 
         let newTimeZone = [
-            UserDefaultKeys.timezoneID: timezone.timeZoneId,
+            UserDefaultKeys.timezoneID: timezone.identifier,
             UserDefaultKeys.timezoneName: filteredAddress,
             UserDefaultKeys.placeIdentifier: dataObject.placeID ?? "",
             "latitude": dataObject.latitude ?? 0.0,
@@ -252,28 +214,7 @@ class TimezoneAdditionHandler: NSObject {
         let operationsObject = TimezoneDataOperations(with: timezoneObject, store: dataStore)
         operationsObject.saveObject()
 
-        Logger.log(object: ["PlaceName": filteredAddress, "Timezone": timezone.timeZoneId], for: "Filtered Address")
-    }
-
-    private func handleEdgeCase(for response: Data?) -> Bool {
-        guard let json = response, let jsonUnserialized = try? JSONSerialization.jsonObject(with: json, options: .allowFragments), let unwrapped = jsonUnserialized as? [String: Any] else {
-            setErrorPlaceholders()
-            return false
-        }
-
-        if let status = unwrapped["status"] as? String, status == ResultStatus.zeroResults {
-            setErrorPlaceholders()
-            return true
-        }
-        return false
-    }
-
-    private func setErrorPlaceholders() {
-        guard let host = host else { return }
-        host.placeholderLabel.placeholderString = "No timezone found! Try entering an exact name."
-        host.searchField.placeholderString = NSLocalizedString("Search Field Placeholder",
-                                                               comment: "Search Field Placeholder")
-        isActivityInProgress = false
+        Logger.log(object: ["PlaceName": filteredAddress, "Timezone": timezone.identifier], for: "Filtered Address")
     }
 
     private func updateViewState() {
@@ -359,12 +300,34 @@ class TimezoneAdditionHandler: NSObject {
         if host.messageLabel.stringValue.isEmpty {
             host.searchField.stringValue = UserDefaultKeys.emptyString
 
-            guard let latitude = dataObject.latitude, let longitude = dataObject.longitude else {
-                Logger.info("Data was unexpectedly nil")
-                return
-            }
+            // If the TimezoneData already has a timezoneID from CLGeocoder, install directly
+            if let timezoneID = dataObject.timezoneID, !timezoneID.isEmpty {
+                let filteredAddress = (dataObject.formattedAddress ?? "Error").filteredName()
 
-            getTimezone(for: latitude, and: longitude)
+                let newTimeZone = [
+                    UserDefaultKeys.timezoneID: timezoneID,
+                    UserDefaultKeys.timezoneName: filteredAddress,
+                    UserDefaultKeys.placeIdentifier: dataObject.placeID ?? "",
+                    "latitude": dataObject.latitude ?? 0.0,
+                    "longitude": dataObject.longitude ?? 0.0,
+                    "nextUpdate": UserDefaultKeys.emptyString,
+                    UserDefaultKeys.customLabel: filteredAddress
+                ] as [String: Any]
+
+                let timezoneObject = TimezoneData(with: newTimeZone)
+                let operationsObject = TimezoneDataOperations(with: timezoneObject, store: dataStore)
+                operationsObject.saveObject()
+
+                Logger.log(object: ["PlaceName": filteredAddress, "Timezone": timezoneID], for: "Filtered Address")
+                updateViewState()
+            } else {
+                // Fall back to reverse geocoding if no timezone ID
+                guard let latitude = dataObject.latitude, let longitude = dataObject.longitude else {
+                    Logger.info("Data was unexpectedly nil")
+                    return
+                }
+                getTimezone(for: latitude, and: longitude)
+            }
         }
     }
 
@@ -384,6 +347,12 @@ class TimezoneAdditionHandler: NSObject {
         let operationObject = TimezoneDataOperations(with: data, store: dataStore)
         operationObject.saveObject()
 
+        // Geocode coordinates for sunrise/sunset display
+        let timezoneID = metaInfo.0.name
+        Task { @MainActor in
+            await TimezoneAdditionHandler.backfillCoordinates(for: timezoneID, in: self.dataStore)
+        }
+
         host.searchResultsDataSource.cleanupFilterArray()
         host.searchResultsDataSource.timezoneFilteredArray = []
         host.placeholderLabel.placeholderString = UserDefaultKeys.emptyString
@@ -398,6 +367,38 @@ class TimezoneAdditionHandler: NSObject {
                                                                comment: "Search Field Placeholder")
         host.availableTimezoneTableView.isHidden = false
         isActivityInProgress = false
+    }
+
+    /// Geocode coordinates for a timezone entry and update the stored data.
+    /// Extracts city name from IANA timezone ID (e.g. "America/New_York" → "New York").
+    static func backfillCoordinates(for timezoneID: String, in store: DataStoring) async {
+        let components = timezoneID.split(separator: "/")
+        guard let cityComponent = components.last else { return }
+        let cityName = cityComponent.replacingOccurrences(of: "_", with: " ")
+
+        do {
+            let placemark = try await NetworkManager.geocodeAddress(cityName)
+            guard let location = placemark.location else { return }
+
+            let allTimezones = store.timezones()
+            var updated = false
+            let newTimezones: [Data] = allTimezones.compactMap { data in
+                guard let tz = TimezoneData.customObject(from: data) else { return data }
+                guard tz.timezoneID == timezoneID,
+                      tz.latitude == nil || tz.longitude == nil else { return data }
+
+                tz.latitude = location.coordinate.latitude
+                tz.longitude = location.coordinate.longitude
+                updated = true
+                return NSKeyedArchiver.clocker_archive(with: tz)
+            }
+
+            if updated {
+                store.setTimezones(newTimezones)
+            }
+        } catch {
+            Logger.info("Failed to geocode coordinates for \(timezoneID): \(error.localizedDescription)")
+        }
     }
 
     private func metadata(for selection: TimezoneMetadata) -> (NSTimeZone, TimezoneMetadata) {

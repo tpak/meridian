@@ -14,8 +14,6 @@ enum PanelContextMenu {
                                       action: #selector(ParentPanelController.rate), keyEquivalent: "")
         let sendFeedback = NSMenuItem(title: "Send Feedback...",
                                       action: #selector(ParentPanelController.reportIssue), keyEquivalent: "")
-        let localizeMeridian = NSMenuItem(title: "Localize Meridian...",
-                                           action: #selector(ParentPanelController.openCrowdin), keyEquivalent: "")
         let terminateOption = NSMenuItem(title: "Quit Meridian",
                                          action: #selector(ParentPanelController.terminateClocker), keyEquivalent: "")
 
@@ -30,7 +28,6 @@ enum PanelContextMenu {
         menu.addItem(rateMeridian)
         menu.addItem(withTitle: "FAQs", action: #selector(ParentPanelController.openFAQs), keyEquivalent: "")
         menu.addItem(sendFeedback)
-        menu.addItem(localizeMeridian)
         menu.addItem(NSMenuItem.separator())
         menu.addItem(clockerVersionInfo)
         menu.addItem(NSMenuItem.separator())

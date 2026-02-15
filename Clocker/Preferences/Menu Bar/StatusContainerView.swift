@@ -36,13 +36,12 @@ func compactWidth(for timezone: TimezoneData, with store: DataStore) -> Int {
 
 // Test with Sat 12:46 AM
 let bufferWidth: CGFloat = 9.5
-let upcomingEventBufferWidth: CGFloat = 32.5
 
 protocol StatusItemViewConforming {
     /// Mark that we need to refresh the text we're showing in the menubar
     func statusItemViewSetNeedsDisplay()
 
-    /// Status Item Views can be used to represent different information (like time in location, or an upcoming meeting). Distinguish between different status items view through this identifier
+    /// Status Item Views can be used to represent different information (like time in location). Distinguish between different status items view through this identifier
     func statusItemViewIdentifier() -> String
 }
 
@@ -74,23 +73,10 @@ class StatusContainerView: NSView {
 
     init(with timezones: [Data],
          store: DataStore,
-         showUpcomingEventView: Bool,
          bufferContainerWidth: Int) {
         self.store = store
 
         func addSubviews() {
-            if showUpcomingEventView,
-               let events = EventCenter.sharedCenter().eventsForDate[NSCalendar.autoupdatingCurrent.startOfDay(for: Date())],
-               events.isEmpty == false,
-               let upcomingEvent = EventCenter.sharedCenter().nextOccuring(events) {
-                let calculatedWidth = bestWidth(for: upcomingEvent)
-                let frame = NSRect(x: previousX, y: 0, width: calculatedWidth, height: 30)
-                let calendarItemView = UpcomingEventStatusItemView(frame: frame)
-                calendarItemView.dataObject = upcomingEvent
-                addSubview(calendarItemView)
-                previousX += calculatedWidth
-            }
-
             timezones.forEach {
                 if let timezoneObject = TimezoneData.customObject(from: $0) {
                     addTimezone(timezoneObject)
@@ -104,8 +90,8 @@ class StatusContainerView: NSView {
             NSAttributedString.Key.paragraphStyle: defaultParagraphStyle
         ]
 
-        func containerWidth(for timezones: [Data], event: EventInfo?) -> CGFloat {
-            var compressedWidth = timezones.reduce(0.0) { result, timezone -> CGFloat in
+        func containerWidth(for timezones: [Data]) -> CGFloat {
+            let compressedWidth = timezones.reduce(0.0) { result, timezone -> CGFloat in
 
                 if let timezoneObject = TimezoneData.customObject(from: timezone) {
                     let precalculatedWidth = Double(compactWidth(for: timezoneObject, with: store))
@@ -124,21 +110,12 @@ class StatusContainerView: NSView {
                 return result + CGFloat(bufferContainerWidth)
             }
 
-            if showUpcomingEventView {
-                let calculateMeetingHeaderSize = compactModeTimeFont.size(for: upcomingEvent?.event.title ?? "", width: 70, attributes: timeBasedAttributes)
-                let calculatedMeetingSubtitleSize = compactModeTimeFont.size(for: upcomingEvent?.metadataForMeeting() ?? "", width: 55, attributes: timeBasedAttributes)
-                compressedWidth += CGFloat(min(calculateMeetingHeaderSize.width, calculatedMeetingSubtitleSize.width) + bufferWidth + upcomingEventBufferWidth)
-            }
-
             let calculatedWidth = min(compressedWidth,
                                       CGFloat(timezones.count * bufferContainerWidth))
             return calculatedWidth
         }
 
-        let events = EventCenter.sharedCenter().eventsForDate[NSCalendar.autoupdatingCurrent.startOfDay(for: Date())]
-        let upcomingEvent = EventCenter.sharedCenter().nextOccuring(events ?? [])
-
-        let statusItemWidth = containerWidth(for: timezones, event: upcomingEvent)
+        let statusItemWidth = containerWidth(for: timezones)
         let frame = NSRect(x: 0, y: 0, width: statusItemWidth, height: 30)
         super.init(frame: frame)
 
@@ -183,26 +160,6 @@ class StatusContainerView: NSView {
         return Int(max(bestSize.width, bestTitleSize.width) + bufferWidth)
     }
 
-    private func bestWidth(for eventInfo: EventInfo) -> Int {
-        let textColor = NSColor.white
-
-        let timeBasedAttributes = [
-            NSAttributedString.Key.font: compactModeTimeFont,
-            NSAttributedString.Key.foregroundColor: textColor,
-            NSAttributedString.Key.backgroundColor: NSColor.clear,
-            NSAttributedString.Key.paragraphStyle: defaultParagraphStyle
-        ]
-
-        let bestSize = compactModeTimeFont.size(for: eventInfo.metadataForMeeting(),
-                                                width: 55, // Default for a location based status view
-                                                attributes: timeBasedAttributes)
-        let bestTitleSize = compactModeTimeFont.size(for: eventInfo.event.title,
-                                                     width: 70, // Little more buffer since meeting titles tend to be longer
-                                                     attributes: timeBasedAttributes)
-
-        return Int(max(bestSize.width, bestTitleSize.width) + bufferWidth)
-    }
-
     func updateTime() {
         if subviews.isEmpty {
             Logger.info("Subviews count should > 0")
@@ -233,16 +190,6 @@ class StatusContainerView: NSView {
                                           y: statusItem.frame.origin.y,
                                           width: newBestWidth,
                                           height: statusItem.frame.size.height)
-            } else if let upcomingEventView = $0 as? UpcomingEventStatusItemView, upcomingEventView.isHidden == false {
-                let newBestWidth = CGFloat(bestWidth(for: upcomingEventView.dataObject))
-
-                // Let's note if the current width is too small/correct
-                newWidth += $0.frame.size.width != newBestWidth ? newBestWidth : upcomingEventView.frame.size.width
-
-                upcomingEventView.frame = CGRect(x: upcomingEventView.frame.origin.x,
-                                          y: upcomingEventView.frame.origin.y,
-                                          width: newBestWidth,
-                                          height: upcomingEventView.frame.size.height)
             }
         }
 
