@@ -8,7 +8,7 @@ protocol TimezoneAdditionHost: AnyObject {
     var searchField: NSSearchField! { get }
     var placeholderLabel: NSTextField! { get }
     var availableTimezoneTableView: NSTableView! { get }
-    var timezonePanel: Panelr! { get }
+    var timezonePanel: CustomPanel! { get }
     var timezoneTableView: NSTableView! { get }
     var messageLabel: NSTextField! { get }
     var addTimezoneButton: NSButton! { get }

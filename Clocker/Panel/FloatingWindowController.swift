@@ -26,7 +26,7 @@ class FloatingWindowController: ParentPanelController {
         dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
 
-        NotificationCenter.default.publisher(for: Notification.Name.themeDidChange)
+        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in self?.themeChanges() }
             .store(in: &cancellables)

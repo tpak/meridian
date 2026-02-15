@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="FloatingWindowController" customModule="Clocker" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="FloatingWindowController" customModule="Meridian" customModuleProvider="target">
             <connections>
                 <outlet property="mainTableView" destination="3js-Fl-DdU" id="6Lu-oW-cuZ"/>
                 <outlet property="pinButton" destination="KWj-8n-2K0" id="FUW-0f-glB"/>
@@ -23,7 +23,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="none" frameAutosaveName="FloatingPanel" id="1gY-Kq-Pzj" customClass="Panelr" customModule="Clocker" customModuleProvider="target">
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="none" frameAutosaveName="FloatingPanel" id="1gY-Kq-Pzj" customClass="CustomPanel" customModule="Meridian" customModuleProvider="target">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES" nonactivatingPanel="YES" texturedBackground="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" ignoresCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -44,7 +44,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="429" height="265"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="80" viewBased="YES" id="3js-Fl-DdU" customClass="PanelTableView" customModule="Clocker" customModuleProvider="target">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="80" viewBased="YES" id="3js-Fl-DdU" customClass="PanelTableView" customModule="Meridian" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="429" height="265"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="1"/>
@@ -63,7 +63,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="timeZoneCell" id="UES-Eo-BEf" customClass="TimezoneCellView" customModule="Clocker" customModuleProvider="target">
+                                                        <tableCellView identifier="timeZoneCell" id="UES-Eo-BEf" customClass="TimezoneCellView" customModule="Meridian" customModuleProvider="target">
                                                             <rect key="frame" x="11" y="0.0" width="347" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -198,7 +198,7 @@
                                                                 <outlet property="time" destination="vG5-PS-a35" id="GzE-qP-aee"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="addCell" id="ort-42-Yhe" customClass="AddTableViewCell" customModule="Clocker" customModuleProvider="target">
+                                                        <tableCellView identifier="addCell" id="ort-42-Yhe" customClass="AddTableViewCell" customModule="Meridian" customModuleProvider="target">
                                                             <rect key="frame" x="11" y="81" width="347" height="100"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -265,7 +265,7 @@
                                             </subviews>
                                             <color key="backgroundColor" name="Accent Color"/>
                                         </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="MFX-8H-T4e" customClass="ThinScroller" customModule="Clocker" customModuleProvider="target">
+                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="MFX-8H-T4e" customClass="ThinScroller" customModule="Meridian" customModuleProvider="target">
                                             <rect key="frame" x="-100" y="-100" width="370" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>

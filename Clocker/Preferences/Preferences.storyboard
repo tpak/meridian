@@ -9,7 +9,7 @@
         <!--Window Controller-->
         <scene sceneID="hW4-pb-8TH">
             <objects>
-                <windowController id="RHq-9Z-auA" customClass="OneWindowController" customModule="Clocker" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController id="RHq-9Z-auA" customClass="OneWindowController" customModule="Meridian" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Settings" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Juk-wd-881">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -31,7 +31,7 @@
         <!--Centered Tab View Controller-->
         <scene sceneID="efi-cu-phe">
             <objects>
-                <tabViewController selectedTabViewItemIndex="0" tabStyle="toolbar" id="SH5-GG-x4O" customClass="CenteredTabViewController" customModule="Clocker" customModuleProvider="target" sceneMemberID="viewController">
+                <tabViewController selectedTabViewItemIndex="0" tabStyle="toolbar" id="SH5-GG-x4O" customClass="CenteredTabViewController" customModule="Meridian" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="General" identifier="Preferences Tab" image="NSPreferencesGeneral" id="KX2-eQ-kpC"/>
                         <tabViewItem label=" Appearance " identifier="Appearance Tab" image="Appearance Dynamic" id="UFb-Xx-XzY"/>
@@ -61,7 +61,7 @@
         <!--About View Controller-->
         <scene sceneID="HT8-0g-C4K">
             <objects>
-                <viewController id="oFk-9v-L8T" customClass="AboutViewController" customModule="Clocker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="oFk-9v-L8T" customClass="AboutViewController" customModule="Meridian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="HdR-qn-zua">
                         <rect key="frame" x="0.0" y="0.0" width="548" height="468"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -74,8 +74,8 @@
         <!--Calendar View Controller-->
         <scene sceneID="STz-S4-JbW">
             <objects>
-                <viewController id="YFE-hJ-t6x" customClass="CalendarViewController" customModule="Clocker" customModuleProvider="target" sceneMemberID="viewController">
-                    <customView key="view" wantsLayer="YES" id="Jf8-HS-Ag9" customClass="ParentView" customModule="Clocker" customModuleProvider="target">
+                <viewController id="YFE-hJ-t6x" customClass="CalendarViewController" customModule="Meridian" customModuleProvider="target" sceneMemberID="viewController">
+                    <customView key="view" wantsLayer="YES" id="Jf8-HS-Ag9" customClass="ParentView" customModule="Meridian" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="635" height="556"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -159,7 +159,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UjI-Ps-1YP" customClass="ClockerTextBackgroundView" customModule="Clocker" customModuleProvider="target">
+                            <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UjI-Ps-1YP" customClass="ClockerTextBackgroundView" customModule="Meridian" customModuleProvider="target">
                                 <rect key="frame" x="282" y="333" width="333" height="70"/>
                                 <subviews>
                                     <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="nr6-Fw-1cb">
@@ -248,7 +248,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TBT-nr-2Yr" customClass="ClockerTextBackgroundView" customModule="Clocker" customModuleProvider="target">
+                            <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TBT-nr-2Yr" customClass="ClockerTextBackgroundView" customModule="Meridian" customModuleProvider="target">
                                 <rect key="frame" x="282" y="225" width="333" height="60"/>
                                 <subviews>
                                     <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="IXx-xe-JuJ">
@@ -293,7 +293,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="sourceCellView" misplaced="YES" id="yOO-gI-yD1" customClass="SourceTableViewCell" customModule="Clocker" customModuleProvider="target">
+                                                        <tableCellView identifier="sourceCellView" misplaced="YES" id="yOO-gI-yD1" customClass="SourceTableViewCell" customModule="Meridian" customModuleProvider="target">
                                                             <rect key="frame" x="1" y="1" width="270" height="33"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -316,7 +316,7 @@
                                                                 <outlet property="sourceName" destination="AIA-oD-PWu" id="bwq-tI-yar"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="calendarCellView" misplaced="YES" id="Guw-Ai-ICX" customClass="CalendarTableViewCell" customModule="Clocker" customModuleProvider="target">
+                                                        <tableCellView identifier="calendarCellView" misplaced="YES" id="Guw-Ai-ICX" customClass="CalendarTableViewCell" customModule="Meridian" customModuleProvider="target">
                                                             <rect key="frame" x="1" y="36" width="270" height="33"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -371,7 +371,7 @@
                                     <rect key="frame" x="-100" y="-100" width="219" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="1lL-VM-dm3" customClass="ThinScroller" customModule="Clocker" customModuleProvider="target">
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="1lL-VM-dm3" customClass="ThinScroller" customModule="Meridian" customModuleProvider="target">
                                     <rect key="frame" x="325" y="1" width="14" height="180"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -484,7 +484,7 @@
         <!--Permissions-->
         <scene sceneID="9VZ-mh-Oh7">
             <objects>
-                <viewController title="Permissions" id="Qra-N0-cog" customClass="PermissionsViewController" customModule="Clocker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Permissions" id="Qra-N0-cog" customClass="PermissionsViewController" customModule="Meridian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="wKJ-It-DR8">
                         <rect key="frame" x="0.0" y="0.0" width="508" height="402"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -497,8 +497,8 @@
         <!--Appearance-->
         <scene sceneID="C6j-xv-fqV">
             <objects>
-                <viewController title=" Appearance " id="1aL-zR-8L4" userLabel="Appearance" customClass="AppearanceViewController" customModule="Clocker" customModuleProvider="target" sceneMemberID="viewController">
-                    <customView key="view" wantsLayer="YES" id="7EQ-1G-xRP" customClass="ParentView" customModule="Clocker" customModuleProvider="target">
+                <viewController title=" Appearance " id="1aL-zR-8L4" userLabel="Appearance" customClass="AppearanceViewController" customModule="Meridian" customModuleProvider="target" sceneMemberID="viewController">
+                    <customView key="view" wantsLayer="YES" id="7EQ-1G-xRP" customClass="ParentView" customModule="Meridian" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="586" height="502"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -733,7 +733,7 @@
                                                                         </textFieldCell>
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
-                                                                            <tableCellView identifier="previewTimezoneCell" id="fKc-iV-VOa" customClass="TimezoneCellView" customModule="Clocker" customModuleProvider="target">
+                                                                            <tableCellView identifier="previewTimezoneCell" id="fKc-iV-VOa" customClass="TimezoneCellView" customModule="Meridian" customModuleProvider="target">
                                                                                 <rect key="frame" x="1" y="1" width="409" height="111"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
@@ -1231,7 +1231,7 @@
         <!-- Preferences -->
         <scene sceneID="udr-95-hTV">
             <objects>
-                <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hasShadow="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="alertPanel" frameAutosaveName="" id="YHn-dh-3ug" customClass="Panelr" customModule="Clocker" customModuleProvider="target">
+                <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hasShadow="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="alertPanel" frameAutosaveName="" id="YHn-dh-3ug" customClass="CustomPanel" customModule="Meridian" customModuleProvider="target">
                     <windowStyleMask key="styleMask" closable="YES" miniaturizable="YES" nonactivatingPanel="YES"/>
                     <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                     <rect key="contentRect" x="120" y="64" width="345" height="320"/>
@@ -1324,7 +1324,7 @@ DQ
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="headerCell" misplaced="YES" id="Z5e-p9-6o6" customClass="HeaderTableViewCell" customModule="Clocker" customModuleProvider="target">
+                                                        <tableCellView identifier="headerCell" misplaced="YES" id="Z5e-p9-6o6" customClass="HeaderTableViewCell" customModule="Meridian" customModuleProvider="target">
                                                             <rect key="frame" x="11" y="1" width="234" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1347,7 +1347,7 @@ DQ
                                                                 <outlet property="headerField" destination="n47-YT-XCF" id="Y4I-Fz-NUA"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="resultCell" misplaced="YES" id="JKD-C2-vcz" customClass="SearchResultTableViewCell" customModule="Clocker" customModuleProvider="target">
+                                                        <tableCellView identifier="resultCell" misplaced="YES" id="JKD-C2-vcz" customClass="SearchResultTableViewCell" customModule="Meridian" customModuleProvider="target">
                                                             <rect key="frame" x="11" y="33" width="234" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1390,7 +1390,7 @@ DQ
                                     <rect key="frame" x="0.0" y="208" width="329" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="cBF-ds-h2q" customClass="ThinScroller" customModule="Clocker" customModuleProvider="target">
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="cBF-ds-h2q" customClass="ThinScroller" customModule="Meridian" customModuleProvider="target">
                                     <rect key="frame" x="305" y="0.0" width="15" height="9"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1439,8 +1439,8 @@ DQ
                     </view>
                 </window>
                 <customObject id="Udi-3T-gMi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController title=" Preferences " id="ZT5-cA-xLj" customClass="PreferencesViewController" customModule="Clocker" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" id="DlQ-34-TgP" customClass="ParentView" customModule="Clocker" customModuleProvider="target">
+                <viewController title=" Preferences " id="ZT5-cA-xLj" customClass="PreferencesViewController" customModule="Meridian" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" wantsLayer="YES" id="DlQ-34-TgP" customClass="ParentView" customModule="Meridian" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="633" height="514"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -1569,7 +1569,7 @@ DQ
                                                     <rect key="frame" x="-100" y="-100" width="618" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
-                                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="lG5-VB-UOe" customClass="ThinScroller" customModule="Clocker" customModuleProvider="target">
+                                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="lG5-VB-UOe" customClass="ThinScroller" customModule="Meridian" customModuleProvider="target">
                                                     <rect key="frame" x="603" y="25" width="15" height="387"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
@@ -1635,7 +1635,7 @@ CA
                                                     <binding destination="3tb-nb-dV1" name="value" keyPath="values.startAtLogin" id="b3h-OK-4dO"/>
                                                 </connections>
                                             </button>
-                                            <customView focusRingType="none" appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="PbD-dt-goz" customClass="ShortcutRecorderButton">
+                                            <customView focusRingType="none" appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="PbD-dt-goz" customClass="ShortcutRecorderButton" customModule="Meridian" customModuleProvider="target">
                                                 <rect key="frame" x="426" y="14" width="180" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="180" id="DIV-g6-Rul"/>

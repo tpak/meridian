@@ -4,7 +4,6 @@ import Cocoa
 import CoreModelKit
 
 extension NSNotification.Name {
-    static let themeDidChange = NSNotification.Name("ThemeDidChangeNotification")
     static let customLabelChanged = NSNotification.Name("CLCustomLabelChangedNotification")
     static let calendarAccessGranted = NSNotification.Name("CalendarAccessStatus")
     static let interfaceStyleDidChange = NSNotification.Name("AppleInterfaceThemeChangedNotification")
