@@ -23,7 +23,7 @@ class StatusItemHandler: NSObject {
         return statusItem
     }()
 
-    private lazy var menubarTitleHandler = MenubarTitleProvider(with: self.store, eventStore: EventCenter.sharedCenter())
+    private lazy var menubarTitleHandler = MenubarTitleProvider(with: self.store)
 
     private var statusContainerView: StatusContainerView?
 
@@ -80,7 +80,7 @@ class StatusItemHandler: NSObject {
 
         let shouldTextBeDisplayed = store.menubarTimezones()?.isEmpty ?? true
 
-        if !shouldTextBeDisplayed || store.shouldDisplay(.showMeetingInMenubar) {
+        if !shouldTextBeDisplayed {
             if store.shouldDisplay(.menubarCompactMode) {
                 menubarState = .compactText
             } else {
@@ -127,7 +127,7 @@ class StatusItemHandler: NSObject {
             .store(in: &cancellables)
     }
 
-    private func constructCompactView(with upcomingEventView: Bool = false) {
+    private func constructCompactView() {
         statusItem.button?.subviews = []
         statusContainerView = nil
 
@@ -139,7 +139,6 @@ class StatusItemHandler: NSObject {
 
         statusContainerView = StatusContainerView(with: menubarTimezones,
                                                   store: store,
-                                                  showUpcomingEventView: upcomingEventView,
                                                   bufferContainerWidth: bufferCalculatedWidth())
         statusContainerView?.wantsLayer = true
         if let containerView = statusContainerView {
@@ -250,36 +249,8 @@ class StatusItemHandler: NSObject {
     }
 
     func updateCompactMenubar() {
-        let filteredEvents = EventCenter.sharedCenter().filteredEvents
-        let calendar = EventCenter.sharedCenter().autoupdatingCalendar
-        let upcomingEvent = menubarTitleHandler.checkForUpcomingEvents(filteredEvents, calendar: calendar)
-        if upcomingEvent != nil {
-            // Iterate and see if we're showing the calendar item view
-            let upcomingEventView = retrieveUpcomingEventStatusView()
-            // If not, reconstruct Status Container View with another view
-            if upcomingEventView == nil {
-                constructCompactView(with: true)
-            }
-        }
-
-        if let upcomingEventView = retrieveUpcomingEventStatusView(), upcomingEvent == nil {
-            upcomingEventView.removeFromSuperview()
-            constructCompactView() // So that Status Container View reclaims the space
-        }
         // This will internally call `statusItemViewSetNeedsDisplay` on all subviews ensuring all text in the menubar is up-to-date.
         statusContainerView?.updateTime()
-    }
-
-    private func removeUpcomingStatusItemView() {
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 0.2
-            let upcomingEventView = retrieveUpcomingEventStatusView()
-            upcomingEventView?.removeFromSuperview()
-        }) { [weak self] in
-            if let sSelf = self {
-                sSelf.constructCompactView()
-            }
-        }
     }
 
     func refresh() {
@@ -287,8 +258,6 @@ class StatusItemHandler: NSObject {
             updateCompactMenubar()
             updateMenubar()
         } else if currentState == .standardText, let title = menubarTitleHandler.titleForMenubar() {
-            // Need setting button's image to nil
-            // Especially if we have showUpcomingEvents turned to true and menubar timezones are empty
             statusItem.button?.image = nil
             let attributes = [NSAttributedString.Key.font: NSFont.monospacedDigitSystemFont(ofSize: 13.0, weight: NSFont.Weight.regular),
                               NSAttributedString.Key.baselineOffset: 0.1] as [NSAttributedString.Key: Any]
@@ -312,12 +281,9 @@ class StatusItemHandler: NSObject {
     }
 
     func invalidateTimer(showIcon show: Bool, isSyncing sync: Bool) {
-        // Check if user is not showing
-        // 1. Timezones
-        // 2. Upcoming Event
         let menubarFavourites = store.menubarTimezones() ?? []
 
-        if menubarFavourites.isEmpty, store.shouldDisplay(.showMeetingInMenubar) == false {
+        if menubarFavourites.isEmpty {
             Logger.info("Invalidating menubar timer!")
 
             invalidation()
@@ -349,12 +315,8 @@ class StatusItemHandler: NSObject {
             statusItem.button?.subviews = []
         }
 
-        if statusItem.button?.image?.name() == NSImage.Name.menubarIcon {
-            return
-        }
-
         statusItem.button?.title = UserDefaultKeys.emptyString
-        statusItem.button?.image = NSImage(named: .menubarIcon)
+        statusItem.button?.image = NSImage(systemSymbolName: "globe", accessibilityDescription: "Meridian")
         statusItem.button?.imagePosition = .imageOnly
         statusItem.button?.toolTip = "Meridian"
     }
@@ -364,11 +326,6 @@ class StatusItemHandler: NSObject {
 
         if let menubarTitle = menubarTitleHandler.titleForMenubar() {
             menubarText = menubarTitle
-        } else if store.shouldDisplay(.showMeetingInMenubar) {
-            // Don't have any meeting to show
-        } else {
-            // We have no favourites to display and no meetings to show.
-            // That means we should display our icon!
         }
 
         guard !menubarText.isEmpty else {
@@ -388,21 +345,8 @@ class StatusItemHandler: NSObject {
         menubarTimer?.invalidate()
         menubarTimer = nil
 
-        let filteredEvents = EventCenter.sharedCenter().filteredEvents
-        let calendar = EventCenter.sharedCenter().autoupdatingCalendar
-        let checkForUpcomingEvents = menubarTitleHandler.checkForUpcomingEvents(filteredEvents, calendar: calendar)
-        constructCompactView(with: checkForUpcomingEvents != nil)
+        constructCompactView()
         updateMenubar()
-    }
-
-    private func retrieveUpcomingEventStatusView() -> NSView? {
-        let upcomingEventView = statusContainerView?.subviews.first(where: { statusItemView in
-            if let upcomingEventView = statusItemView as? StatusItemViewConforming {
-                return upcomingEventView.statusItemViewIdentifier() == "upcoming_event_view"
-            }
-            return false
-        })
-        return upcomingEventView
     }
 
     private func bufferCalculatedWidth() -> Int {
@@ -418,10 +362,6 @@ class StatusItemHandler: NSObject {
 
         if store.shouldShowDateInMenubar() {
             totalWidth += 20
-        }
-
-        if store.shouldDisplay(.showMeetingInMenubar) {
-            totalWidth += 100
         }
 
         return totalWidth

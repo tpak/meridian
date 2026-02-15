@@ -18,22 +18,12 @@ struct AboutView: View {
                 .multilineTextAlignment(.center)
                 .accessibilityIdentifier("ClockerVersion")
 
-            Image("ClockerIcon-512")
+            Image(nsImage: NSApp.applicationIconImage)
                 .resizable()
                 .frame(width: 100, height: 100)
 
             Text("Feedback is always welcome:".localized())
                 .font(.custom("Avenir-Light", size: 15))
-
-            linkButton(
-                title: "Help localize Meridian in your language by clicking here!",
-                underlineRange: 43..<57,
-                font: .custom("Avenir-Light", size: 15),
-                accessibilityID: "ClockerOpenSourceText"
-            ) {
-                openURL(AboutUsConstants.CrowdInLocalizationLink, logEvent: "Opened Localization Link",
-                        metadata: ["Language": Locale.preferredLanguages.first ?? ""])
-            }
 
             linkButton(
                 title: "1. Open an issue on GitHub",

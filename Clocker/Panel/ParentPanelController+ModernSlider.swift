@@ -25,14 +25,14 @@ extension ParentPanelController {
         if modernSlider != nil {
             modernSliderLabel.alignment = .center
 
-            resetModernSliderButton.image = Themer.shared().resetModernSliderImage()
+            resetModernSliderButton.image = NSImage(systemSymbolName: "arrow.counterclockwise", accessibilityDescription: "Reset slider")
 
             if let scrollView = modernSlider.superview?.superview as? NSScrollView {
                 scrollView.scrollerStyle = NSScroller.Style.overlay
             }
 
-            goBackwardsButton.image = Themer.shared().goBackwardsImage()
-            goForwardButton.image = Themer.shared().goForwardsImage()
+            goBackwardsButton.image = NSImage(systemSymbolName: "chevron.left", accessibilityDescription: "Go backwards")
+            goForwardButton.image = NSImage(systemSymbolName: "chevron.right", accessibilityDescription: "Go forward")
 
             goForwardButton.isContinuous = true
             goBackwardsButton.isContinuous = true

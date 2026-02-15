@@ -32,7 +32,7 @@ class TimezoneCellView: NSTableCellView {
         extraOptions.setAccessibility("extraOptionButton")
         customName.setAccessibility("CustomNameLabelForCell")
         noteLabel.setAccessibility("NoteLabel")
-        currentLocationIndicator.toolTip = "This row will be updated automatically if Clocker detects a system-level timezone change!"
+        currentLocationIndicator.toolTip = "This row will be updated automatically if Meridian detects a system-level timezone change!"
     }
 
     func setTextColor(color: NSColor) {
@@ -112,14 +112,12 @@ class TimezoneCellView: NSTableCellView {
     }
 
     private func setupTheme() {
-        let themer = Themer.shared()
+        setTextColor(color: NSColor.labelColor)
 
-        setTextColor(color: themer.mainTextColor())
+        extraOptions.image = NSImage(systemSymbolName: "ellipsis.circle", accessibilityDescription: "Options")
+        extraOptions.alternateImage = NSImage(systemSymbolName: "ellipsis.circle.fill", accessibilityDescription: "Options")
 
-        extraOptions.image = themer.extraOptionsImage()
-        extraOptions.alternateImage = themer.extraOptionsHighlightedImage()
-
-        currentLocationIndicator.image = themer.currentLocationImage()
+        currentLocationIndicator.image = NSImage(systemSymbolName: "location.fill", accessibilityDescription: "Current Location")
 
         setupTextSize()
     }
@@ -159,44 +157,21 @@ class TimezoneCellView: NSTableCellView {
     }
 
     @IBAction func showExtraOptions(_ sender: NSButton) {
-        let isWindowFloating = DataStore.shared().shouldDisplay(ViewType.showAppInForeground)
-
         var searchView = superview
 
         while searchView != nil, searchView is PanelTableView == false {
             searchView = searchView?.superview
         }
 
-        guard let panelTableView = searchView as? PanelTableView,
-              let enclosingScroller = panelTableView.enclosingScrollView
-        else {
+        guard searchView is PanelTableView else {
             // We might be coming from the preview tableview!
             return
         }
 
-        let visibleRect = enclosingScroller.contentView.visibleRect
-        let range = panelTableView.rows(in: visibleRect)
-
-        let count = range.length
-        let currentRow = labs(rowNumber + 1 - count)
-        let yCoordinate = CGFloat(currentRow * 68 + 34)
-
-        let relativeRect = CGRect(x: 0,
-                                  y: yCoordinate,
-                                  width: frame.size.width,
-                                  height: frame.size.height)
-
-        if isWindowFloating == false {
-            guard let panel = PanelController.panel() else { return }
-            isPopoverDisplayed = panel.showNotesPopover(forRow: rowNumber,
-                                                        relativeTo: bounds,
-                                                        andButton: sender)
-        } else {
-            let floatingPanel = FloatingWindowController.shared()
-            isPopoverDisplayed = floatingPanel.showNotesPopover(forRow: rowNumber,
-                                                                relativeTo: superview?.convert(bounds, to: nil) ?? relativeRect,
-                                                                andButton: sender)
-        }
+        guard let panel = PanelController.panel() else { return }
+        isPopoverDisplayed = panel.showNotesPopover(forRow: rowNumber,
+                                                    relativeTo: bounds,
+                                                    andButton: sender)
 
         Logger.log(object: nil, for: "Open Extra Options")
     }

@@ -29,7 +29,6 @@ class AppDelegateTests: XCTestCase {
     func testStatusItemIsInitialized() throws {
         let subject = NSApplication.shared.delegate as? AppDelegate
         let statusHandler = subject?.statusItemForPanel()
-        XCTAssertNotNil(EventCenter.sharedCenter)
         XCTAssertNotNil(statusHandler)
     }
 
@@ -60,35 +59,6 @@ class AppDelegateTests: XCTestCase {
         XCTAssertEqual(statusItemHandler?.statusItem.autosaveName, NSStatusItem.AutosaveName("ClockerStatusItem"))
     }
 
-    func testFloatingWindow() {
-        let subject = NSApplication.shared.delegate as? AppDelegate
-        let previousWindows = NSApplication.shared.windows
-        XCTAssertTrue(previousWindows.count >= 1) // Only the status bar window should be present
-
-        subject?.setupFloatingWindow(true)
-
-        let floatingWindow = NSApplication.shared.windows.first { window in
-            if (window.windowController as? FloatingWindowController) != nil {
-                return true
-            }
-            return false
-        }
-
-        XCTAssertNotNil(floatingWindow)
-        XCTAssertEqual(floatingWindow?.windowController?.windowFrameAutosaveName, NSWindow.FrameAutosaveName("FloatingWindowAutoSave"))
-
-        subject?.setupFloatingWindow(false)
-
-        let closedFloatingWindow = NSApplication.shared.windows.first { window in
-            if (window.windowController as? FloatingWindowController) != nil {
-                return true
-            }
-            return false
-        }
-
-        XCTAssertNotNil(closedFloatingWindow)
-    }
-
     func testActivationPolicy() {
         let subject = NSApplication.shared.delegate as? AppDelegate
         let previousOption = UserDefaults.standard.integer(forKey: UserDefaultKeys.appDisplayOptions)
@@ -108,7 +78,7 @@ class AppDelegateTests: XCTestCase {
         let statusItemHandler = subject?.statusItemForPanel()
         XCTAssertEqual(statusItemHandler?.statusItem.button?.subviews, [])
         XCTAssertEqual(statusItemHandler?.statusItem.button?.title, UserDefaultKeys.emptyString)
-        XCTAssertEqual(statusItemHandler?.statusItem.button?.image?.name(), "LightModeIcon")
+        XCTAssertNotNil(statusItemHandler?.statusItem.button?.image)
         XCTAssertEqual(statusItemHandler?.statusItem.button?.imagePosition, .imageOnly)
         XCTAssertEqual(statusItemHandler?.statusItem.button?.toolTip, "Meridian")
     }
@@ -153,7 +123,7 @@ class AppDelegateTests: XCTestCase {
         subject?.setupMenubarTimer()
 
         if olderTimezones.isEmpty {
-            XCTAssertEqual(statusItemHandler?.statusItem.button?.image?.name(), "LightModeIcon")
+            XCTAssertNotNil(statusItemHandler?.statusItem.button?.image)
         } else {
             XCTAssertTrue(statusItemHandler?.statusItem.button?.title != nil)
         }

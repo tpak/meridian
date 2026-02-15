@@ -35,8 +35,6 @@
                     <tabViewItems>
                         <tabViewItem label="General" identifier="Preferences Tab" image="NSPreferencesGeneral" id="KX2-eQ-kpC"/>
                         <tabViewItem label=" Appearance " identifier="Appearance Tab" image="Appearance Dynamic" id="UFb-Xx-XzY"/>
-                        <tabViewItem label=" Calendar " identifier="Calendar Tab" image="Calendar Tab Dynamic" id="dtc-kZ-ICY"/>
-                        <tabViewItem label=" Permissions " identifier="Permissions Tab" image="Privacy" id="0LV-gD-HSJ" userLabel="Permissions"/>
                         <tabViewItem label=" About  " identifier="About Tab" image="NSInfo" id="H6X-F4-LIW"/>
                     </tabViewItems>
                     <viewControllerTransitionOptions key="transitionOptions" crossfade="YES" slideRight="YES" slideBackward="YES" allowUserInteraction="YES"/>
@@ -49,8 +47,6 @@
                         <outlet property="tabView" destination="gdR-rH-VZM" id="ico-62-kvU"/>
                         <segue destination="ZT5-cA-xLj" kind="relationship" relationship="tabItems" id="SQ1-1H-tnr"/>
                         <segue destination="1aL-zR-8L4" kind="relationship" relationship="tabItems" id="hdw-VK-o9C"/>
-                        <segue destination="YFE-hJ-t6x" kind="relationship" relationship="tabItems" id="rLs-f6-IcB"/>
-                        <segue destination="Qra-N0-cog" kind="relationship" relationship="tabItems" id="4iE-Mv-9XF"/>
                         <segue destination="oFk-9v-L8T" kind="relationship" relationship="tabItems" id="J8m-wV-WEE"/>
                     </connections>
                 </tabViewController>
@@ -70,429 +66,6 @@
                 <customObject id="Zab-fo-OUI" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="760" y="244"/>
-        </scene>
-        <!--Calendar View Controller-->
-        <scene sceneID="STz-S4-JbW">
-            <objects>
-                <viewController id="YFE-hJ-t6x" customClass="CalendarViewController" customModule="Meridian" customModuleProvider="target" sceneMemberID="viewController">
-                    <customView key="view" wantsLayer="YES" id="Jf8-HS-Ag9" customClass="ParentView" customModule="Meridian" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="635" height="556"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <subviews>
-                            <segmentedControl toolTip="Select a time-format!" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rgT-lC-Gae">
-                                <rect key="frame" x="280" y="477" width="79" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="75" id="LqO-6o-qzs"/>
-                                </constraints>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="ffD-Qn-ufN">
-                                    <font key="font" size="13" name="Avenir-Light"/>
-                                    <segments>
-                                        <segment label="Yes" width="35"/>
-                                        <segment label="No" toolTip="Set the time format you want to see in the timezone panel!" width="35" tag="1"/>
-                                    </segments>
-                                </segmentedCell>
-                                <connections>
-                                    <action selector="showUpcomingEventView:" target="YFE-hJ-t6x" id="dI8-ga-oFo"/>
-                                </connections>
-                            </segmentedControl>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="175" translatesAutoresizingMaskIntoConstraints="NO" id="8pM-Qz-i7L">
-                                <rect key="frame" x="216" y="518" width="204" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Ehk-nq-SDb"/>
-                                    <constraint firstAttribute="height" constant="18" id="T68-2D-SgY"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Upcoming Event View Options" id="eYA-I8-AO0">
-                                    <font key="font" size="12" name="Avenir-Heavy"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="c5D-oS-eI6">
-                                <rect key="frame" x="98" y="478" width="179" height="22"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="TIn-bg-KaM"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="175" id="ssE-l2-zxr"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show Upcoming Event View" id="MkG-QZ-yHT">
-                                    <font key="font" size="13" name="Avenir-Light"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <segmentedControl toolTip="Select a time-format!" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kxb-GU-bkz">
-                                <rect key="frame" x="280" y="444" width="79" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="75" id="uxI-bW-5Fb"/>
-                                </constraints>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Vk8-u3-yOY">
-                                    <font key="font" size="13" name="Avenir-Light"/>
-                                    <segments>
-                                        <segment label="Yes" width="35"/>
-                                        <segment label="No" toolTip="Set the time format you want to see in the timezone panel!" width="35" tag="1"/>
-                                    </segments>
-                                </segmentedCell>
-                                <connections>
-                                    <binding destination="PeE-54-lLL" name="selectedIndex" keyPath="values.showAllDayEventsInUpcomingView" id="2ZW-0n-7GX"/>
-                                </connections>
-                            </segmentedControl>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="azz-uL-7Sr">
-                                <rect key="frame" x="23" y="445" width="254" height="22"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="bSy-E0-J8q"/>
-                                    <constraint firstAttribute="height" constant="22" id="yj3-r7-f6n"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show All Day Meetings" id="d3x-uf-F7b">
-                                    <font key="font" size="13" name="Avenir-Light"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="x5i-r6-8yw">
-                                <rect key="frame" x="-7" y="409" width="284" height="22"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="UFQ-b4-O4M"/>
-                                    <constraint firstAttribute="width" constant="280" id="cjA-59-VDy"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show Next Meeting Title in Menubar" id="6Ek-dJ-8lE">
-                                    <font key="font" size="13" name="Avenir-Light"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UjI-Ps-1YP" customClass="ClockerTextBackgroundView" customModule="Meridian" customModuleProvider="target">
-                                <rect key="frame" x="282" y="333" width="333" height="70"/>
-                                <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="nr6-Fw-1cb">
-                                        <rect key="frame" x="8" y="13" width="317" height="45"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="nKQ-6v-Ka2">
-                                            <font key="font" size="11" name="Avenir-Book"/>
-                                            <string key="title">When selected, your upcoming meeting title will appear in the menubar 30m before it starts. All Day Events won't be shown in the menubar!</string>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="nr6-Fw-1cb" firstAttribute="leading" secondItem="UjI-Ps-1YP" secondAttribute="leading" constant="10" id="1ru-EN-FPA"/>
-                                    <constraint firstAttribute="trailing" secondItem="nr6-Fw-1cb" secondAttribute="trailing" constant="10" id="XZD-cm-d7z"/>
-                                    <constraint firstItem="nr6-Fw-1cb" firstAttribute="centerY" secondItem="UjI-Ps-1YP" secondAttribute="centerY" id="nlp-p6-QLj"/>
-                                    <constraint firstItem="nr6-Fw-1cb" firstAttribute="centerX" secondItem="UjI-Ps-1YP" secondAttribute="centerX" id="tsq-fG-5fP"/>
-                                    <constraint firstAttribute="height" constant="70" id="u86-7P-rR7"/>
-                                </constraints>
-                            </customView>
-                            <segmentedControl toolTip="Select a time-format!" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="buu-OA-tPg">
-                                <rect key="frame" x="280" y="410" width="79" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="75" id="k9H-x5-Ty2"/>
-                                </constraints>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="R2F-Fc-UOS">
-                                    <font key="font" size="13" name="Avenir-Light"/>
-                                    <segments>
-                                        <segment label="Yes" width="35"/>
-                                        <segment label="No" toolTip="Set the time format you want to see in the timezone panel!" width="35" tag="1"/>
-                                    </segments>
-                                </segmentedCell>
-                                <connections>
-                                    <action selector="showNextMeetingAction:" target="YFE-hJ-t6x" id="7Ct-ac-nN7"/>
-                                    <binding destination="PeE-54-lLL" name="selectedIndex" keyPath="values.showMeetingInfoInMenubar" id="imw-RF-CHC"/>
-                                </connections>
-                            </segmentedControl>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="94u-Ea-XeF">
-                                <rect key="frame" x="23" y="294" width="254" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="9q1-rv-VAH"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="uL4-ca-MBV"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Truncate menubar text longer than" id="VVw-Rr-mRA">
-                                    <font key="font" size="13" name="Avenir-Light"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="fnD-KO-35B">
-                                <rect key="frame" x="23" y="195" width="254" height="22"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="Oxe-gR-mXs"/>
-                                    <constraint firstAttribute="width" constant="250" id="PMY-9P-Dfn"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show events from" id="gKF-v0-tx6">
-                                    <font key="font" size="13" name="Avenir-Light"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QvL-RL-y11">
-                                <rect key="frame" x="282" y="300" width="96" height="22"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="96" id="B2N-PU-1jD"/>
-                                    <constraint firstAttribute="height" constant="22" id="Mdr-i8-lrC"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" placeholderString="30" drawsBackground="YES" id="Nxt-iP-Oqc">
-                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="adm-F9-Pjn">
-                                        <real key="minimum" value="1"/>
-                                        <real key="maximum" value="60"/>
-                                    </numberFormatter>
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <binding destination="PeE-54-lLL" name="value" keyPath="values.truncateTextLength" id="5XP-t7-bjQ"/>
-                                </connections>
-                            </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="noH-ER-AVN">
-                                <rect key="frame" x="386" y="305" width="231" height="18"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="characters" id="5sM-ex-lWc">
-                                    <font key="font" size="13" name="Avenir-Light"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TBT-nr-2Yr" customClass="ClockerTextBackgroundView" customModule="Meridian" customModuleProvider="target">
-                                <rect key="frame" x="282" y="225" width="333" height="60"/>
-                                <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="IXx-xe-JuJ">
-                                        <rect key="frame" x="8" y="15" width="317" height="30"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="If meeting title is &quot;Meeting with Neel&quot; and truncate length is set to 5, text in menubar will appear as &quot;Meeti...&quot;" id="c3u-06-0Up">
-                                            <font key="font" size="11" name="Avenir-Book"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="QEV-zp-3PF"/>
-                                    <constraint firstItem="IXx-xe-JuJ" firstAttribute="leading" secondItem="TBT-nr-2Yr" secondAttribute="leading" constant="10" id="Qks-ez-0xy"/>
-                                    <constraint firstItem="IXx-xe-JuJ" firstAttribute="centerY" secondItem="TBT-nr-2Yr" secondAttribute="centerY" id="ShJ-Oq-sjj"/>
-                                    <constraint firstAttribute="trailing" secondItem="IXx-xe-JuJ" secondAttribute="trailing" constant="10" id="eMQ-KG-G0r"/>
-                                    <constraint firstItem="IXx-xe-JuJ" firstAttribute="centerX" secondItem="TBT-nr-2Yr" secondAttribute="centerX" id="tyv-bT-s4b"/>
-                                </constraints>
-                            </customView>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="35" horizontalPageScroll="10" verticalLineScroll="35" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VPC-SO-wjL">
-                                <rect key="frame" x="282" y="35" width="333" height="182"/>
-                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="Vp7-Ne-2S6">
-                                    <rect key="frame" x="1" y="1" width="331" height="180"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="33" viewBased="YES" id="zKF-N6-rlF">
-                                            <rect key="frame" x="0.0" y="0.0" width="331" height="180"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <size key="intercellSpacing" width="3" height="2"/>
-                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
-                                            <tableColumns>
-                                                <tableColumn width="261" minWidth="40" maxWidth="1000" id="nkY-HS-phl">
-                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                    </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="6lO-fB-vGK">
-                                                        <font key="font" metaFont="system"/>
-                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                    <prototypeCellViews>
-                                                        <tableCellView identifier="sourceCellView" misplaced="YES" id="yOO-gI-yD1" customClass="SourceTableViewCell" customModule="Meridian" customModuleProvider="target">
-                                                            <rect key="frame" x="1" y="1" width="270" height="33"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <subviews>
-                                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="AIA-oD-PWu">
-                                                                    <rect key="frame" x="8" y="0.0" width="83" height="18"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Source Name" id="Xvw-Wi-cgc">
-                                                                        <font key="font" size="13" name="Avenir-Roman"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                    </textFieldCell>
-                                                                </textField>
-                                                            </subviews>
-                                                            <constraints>
-                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="AIA-oD-PWu" secondAttribute="trailing" constant="10" id="1Dt-Lk-zc0"/>
-                                                                <constraint firstItem="AIA-oD-PWu" firstAttribute="leading" secondItem="yOO-gI-yD1" secondAttribute="leading" constant="10" id="cZF-EK-bTf"/>
-                                                                <constraint firstAttribute="bottom" secondItem="AIA-oD-PWu" secondAttribute="bottom" id="mZw-sN-tCT"/>
-                                                                <constraint firstItem="AIA-oD-PWu" firstAttribute="top" secondItem="yOO-gI-yD1" secondAttribute="top" id="zrQ-sV-XjK"/>
-                                                            </constraints>
-                                                            <connections>
-                                                                <outlet property="sourceName" destination="AIA-oD-PWu" id="bwq-tI-yar"/>
-                                                            </connections>
-                                                        </tableCellView>
-                                                        <tableCellView identifier="calendarCellView" misplaced="YES" id="Guw-Ai-ICX" customClass="CalendarTableViewCell" customModule="Meridian" customModuleProvider="target">
-                                                            <rect key="frame" x="1" y="36" width="270" height="33"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <subviews>
-                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4c9-Nn-Umd">
-                                                                    <rect key="frame" x="8" y="-2" width="24" height="18"/>
-                                                                    <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Cnq-mh-HKV">
-                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="14" id="DbW-X1-fbD"/>
-                                                                        <constraint firstAttribute="width" constant="20" id="OFf-zG-EYp"/>
-                                                                    </constraints>
-                                                                </button>
-                                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="7Nh-d9-gZN">
-                                                                    <rect key="frame" x="33" y="2" width="234" height="18"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Calendar Name" id="OnD-CV-OfP">
-                                                                        <font key="font" size="13" name="Avenir-Roman"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                    </textFieldCell>
-                                                                </textField>
-                                                            </subviews>
-                                                            <constraints>
-                                                                <constraint firstItem="7Nh-d9-gZN" firstAttribute="leading" secondItem="4c9-Nn-Umd" secondAttribute="trailing" constant="5" id="2wl-dx-Ent"/>
-                                                                <constraint firstAttribute="trailing" secondItem="7Nh-d9-gZN" secondAttribute="trailing" constant="5" id="6Li-9n-UCG"/>
-                                                                <constraint firstAttribute="bottom" secondItem="7Nh-d9-gZN" secondAttribute="bottom" constant="2" id="WtG-jh-KDa"/>
-                                                                <constraint firstItem="7Nh-d9-gZN" firstAttribute="top" secondItem="4c9-Nn-Umd" secondAttribute="top" constant="-6" id="bo5-PG-5Sp"/>
-                                                                <constraint firstItem="4c9-Nn-Umd" firstAttribute="centerY" secondItem="Guw-Ai-ICX" secondAttribute="centerY" id="rN4-1K-hpR"/>
-                                                                <constraint firstItem="4c9-Nn-Umd" firstAttribute="leading" secondItem="Guw-Ai-ICX" secondAttribute="leading" constant="10" id="yo3-Ft-fuF"/>
-                                                            </constraints>
-                                                            <connections>
-                                                                <outlet property="calendarName" destination="7Nh-d9-gZN" id="q06-Dq-tHT"/>
-                                                                <outlet property="calendarSelected" destination="4c9-Nn-Umd" id="dmq-Wp-1fW"/>
-                                                            </connections>
-                                                        </tableCellView>
-                                                    </prototypeCellViews>
-                                                </tableColumn>
-                                            </tableColumns>
-                                            <connections>
-                                                <outlet property="dataSource" destination="YFE-hJ-t6x" id="i2U-o3-4e6"/>
-                                                <outlet property="delegate" destination="YFE-hJ-t6x" id="6uT-Wy-mDs"/>
-                                            </connections>
-                                        </tableView>
-                                    </subviews>
-                                    <nil key="backgroundColor"/>
-                                </clipView>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="182" id="1EX-Ze-5ef"/>
-                                </constraints>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="hKT-An-zgA">
-                                    <rect key="frame" x="-100" y="-100" width="219" height="16"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="1lL-VM-dm3" customClass="ThinScroller" customModule="Meridian" customModuleProvider="target">
-                                    <rect key="frame" x="325" y="1" width="14" height="180"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                            </scrollView>
-                            <visualEffectView hidden="YES" focusRingType="none" blendingMode="behindWindow" material="light" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="oi9-oL-3xm">
-                                <rect key="frame" x="0.0" y="0.0" width="635" height="556"/>
-                                <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="cFE-vs-t29">
-                                        <rect key="frame" x="8" y="260" width="619" height="36"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="yCv-aC-v6u">
-                                            <font key="font" size="13" name="Avenir-Book"/>
-                                            <string key="title">Clocker is more useful when it can display events from your calendars. You can change this setting in System Preferences › Security &amp; Privacy › Privacy.</string>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <accessibility identifier="InfoField"/>
-                                    </textField>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TcF-sC-Hhc">
-                                        <rect key="frame" x="248" y="232" width="140" height="20"/>
-                                        <buttonCell key="cell" type="bevel" title="Grant Access" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="koK-h8-kqW">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" size="13" name="Avenir-Medium"/>
-                                        </buttonCell>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="140" id="Gae-O3-FJV"/>
-                                            <constraint firstAttribute="height" constant="20" id="Xnk-pB-ujO"/>
-                                        </constraints>
-                                        <connections>
-                                            <action selector="grantAccess:" target="YFE-hJ-t6x" id="amM-iw-aUv"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="cFE-vs-t29" firstAttribute="centerX" secondItem="oi9-oL-3xm" secondAttribute="centerX" id="3Wi-pD-QMV"/>
-                                    <constraint firstItem="TcF-sC-Hhc" firstAttribute="centerX" secondItem="oi9-oL-3xm" secondAttribute="centerX" id="Qvw-NE-o5K"/>
-                                    <constraint firstItem="cFE-vs-t29" firstAttribute="leading" secondItem="oi9-oL-3xm" secondAttribute="leading" constant="10" id="Rzh-46-izT"/>
-                                    <constraint firstAttribute="trailing" secondItem="cFE-vs-t29" secondAttribute="trailing" constant="10" id="hbW-0v-8cI"/>
-                                    <constraint firstItem="TcF-sC-Hhc" firstAttribute="top" secondItem="cFE-vs-t29" secondAttribute="bottom" constant="8" id="iyY-oL-Q8T"/>
-                                    <constraint firstItem="cFE-vs-t29" firstAttribute="centerY" secondItem="oi9-oL-3xm" secondAttribute="centerY" id="jck-4r-Oc7"/>
-                                </constraints>
-                            </visualEffectView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="QvL-RL-y11" firstAttribute="leading" secondItem="UjI-Ps-1YP" secondAttribute="leading" id="0MR-Mx-az1"/>
-                            <constraint firstItem="noH-ER-AVN" firstAttribute="leading" secondItem="QvL-RL-y11" secondAttribute="trailing" constant="10" id="1fU-jq-GBH"/>
-                            <constraint firstItem="QvL-RL-y11" firstAttribute="top" secondItem="UjI-Ps-1YP" secondAttribute="bottom" constant="11" id="2GG-az-tPi"/>
-                            <constraint firstAttribute="bottom" secondItem="oi9-oL-3xm" secondAttribute="bottom" id="5T9-dR-5g6"/>
-                            <constraint firstItem="VPC-SO-wjL" firstAttribute="leading" secondItem="TBT-nr-2Yr" secondAttribute="leading" id="64d-dQ-rWg"/>
-                            <constraint firstItem="UjI-Ps-1YP" firstAttribute="leading" secondItem="buu-OA-tPg" secondAttribute="leading" id="6h5-QU-sVd"/>
-                            <constraint firstItem="8pM-Qz-i7L" firstAttribute="centerX" secondItem="Jf8-HS-Ag9" secondAttribute="centerX" id="7Ql-ES-ifg"/>
-                            <constraint firstItem="x5i-r6-8yw" firstAttribute="trailing" secondItem="azz-uL-7Sr" secondAttribute="trailing" id="7Tu-UD-fe7"/>
-                            <constraint firstItem="VPC-SO-wjL" firstAttribute="top" secondItem="QvL-RL-y11" secondAttribute="bottom" constant="83" id="B0V-hG-f9X"/>
-                            <constraint firstItem="fnD-KO-35B" firstAttribute="top" secondItem="TBT-nr-2Yr" secondAttribute="bottom" constant="8" id="C9P-nV-2Tc"/>
-                            <constraint firstItem="TBT-nr-2Yr" firstAttribute="trailing" secondItem="VPC-SO-wjL" secondAttribute="trailing" id="EIk-HD-AgQ"/>
-                            <constraint firstAttribute="trailing" secondItem="noH-ER-AVN" secondAttribute="trailing" constant="20" id="Fte-wI-oQK"/>
-                            <constraint firstItem="oi9-oL-3xm" firstAttribute="top" secondItem="Jf8-HS-Ag9" secondAttribute="top" id="H1B-na-hu9"/>
-                            <constraint firstItem="UjI-Ps-1YP" firstAttribute="top" secondItem="buu-OA-tPg" secondAttribute="bottom" constant="8" id="HAg-bS-Cyx"/>
-                            <constraint firstAttribute="trailing" secondItem="oi9-oL-3xm" secondAttribute="trailing" id="J5k-WP-Ga0"/>
-                            <constraint firstItem="kxb-GU-bkz" firstAttribute="centerY" secondItem="azz-uL-7Sr" secondAttribute="centerY" id="N20-Hw-WUK"/>
-                            <constraint firstAttribute="trailing" secondItem="UjI-Ps-1YP" secondAttribute="trailing" constant="20" id="OIw-v6-xAt"/>
-                            <constraint firstItem="94u-Ea-XeF" firstAttribute="trailing" secondItem="x5i-r6-8yw" secondAttribute="trailing" id="OR4-fQ-j9f"/>
-                            <constraint firstItem="94u-Ea-XeF" firstAttribute="top" secondItem="UjI-Ps-1YP" secondAttribute="bottom" constant="9" id="RtA-Od-21P"/>
-                            <constraint firstItem="TBT-nr-2Yr" firstAttribute="top" secondItem="QvL-RL-y11" secondAttribute="bottom" constant="15" id="RuH-Ch-oI2"/>
-                            <constraint firstItem="TBT-nr-2Yr" firstAttribute="leading" secondItem="QvL-RL-y11" secondAttribute="leading" id="X2A-LJ-Cge"/>
-                            <constraint firstItem="azz-uL-7Sr" firstAttribute="top" secondItem="c5D-oS-eI6" secondAttribute="bottom" constant="11" id="YyJ-g7-na6"/>
-                            <constraint firstItem="fnD-KO-35B" firstAttribute="trailing" secondItem="94u-Ea-XeF" secondAttribute="trailing" id="ZNn-hr-5fZ"/>
-                            <constraint firstItem="c5D-oS-eI6" firstAttribute="leading" secondItem="Jf8-HS-Ag9" secondAttribute="leading" constant="100" id="bMt-N1-IvI"/>
-                            <constraint firstItem="kxb-GU-bkz" firstAttribute="leading" secondItem="rgT-lC-Gae" secondAttribute="leading" id="bx2-0Q-Squ"/>
-                            <constraint firstItem="8pM-Qz-i7L" firstAttribute="top" secondItem="Jf8-HS-Ag9" secondAttribute="top" constant="20" id="emE-aZ-jP4"/>
-                            <constraint firstItem="buu-OA-tPg" firstAttribute="leading" secondItem="kxb-GU-bkz" secondAttribute="leading" id="fmx-MP-yVF"/>
-                            <constraint firstItem="azz-uL-7Sr" firstAttribute="trailing" secondItem="c5D-oS-eI6" secondAttribute="trailing" id="h2M-QJ-ZOL"/>
-                            <constraint firstAttribute="trailing" secondItem="VPC-SO-wjL" secondAttribute="trailing" constant="20" id="h5N-Go-dVG"/>
-                            <constraint firstItem="oi9-oL-3xm" firstAttribute="leading" secondItem="Jf8-HS-Ag9" secondAttribute="leading" id="hc9-YE-zVF"/>
-                            <constraint firstItem="rgT-lC-Gae" firstAttribute="centerY" secondItem="c5D-oS-eI6" secondAttribute="centerY" id="iVx-ci-vTx"/>
-                            <constraint firstItem="buu-OA-tPg" firstAttribute="top" secondItem="kxb-GU-bkz" secondAttribute="bottom" constant="12" id="oJN-Ne-Vpp"/>
-                            <constraint firstItem="c5D-oS-eI6" firstAttribute="top" secondItem="8pM-Qz-i7L" secondAttribute="bottom" constant="18" id="sJo-c6-ZPb"/>
-                            <constraint firstItem="VPC-SO-wjL" firstAttribute="top" secondItem="fnD-KO-35B" secondAttribute="top" id="smg-N2-UbJ"/>
-                            <constraint firstItem="x5i-r6-8yw" firstAttribute="top" secondItem="azz-uL-7Sr" secondAttribute="bottom" constant="14" id="tsy-G4-34W"/>
-                            <constraint firstItem="rgT-lC-Gae" firstAttribute="leading" secondItem="c5D-oS-eI6" secondAttribute="trailing" constant="7" id="u5I-y0-YlS"/>
-                            <constraint firstItem="noH-ER-AVN" firstAttribute="top" secondItem="UjI-Ps-1YP" secondAttribute="bottom" constant="10" id="ugh-9C-thh"/>
-                        </constraints>
-                    </customView>
-                    <connections>
-                        <outlet property="allDayMeetingsLabel" destination="azz-uL-7Sr" id="ght-HE-Vcg"/>
-                        <outlet property="allDaysSegmentedControl" destination="kxb-GU-bkz" id="ig9-tn-lXl"/>
-                        <outlet property="backgroundView" destination="TBT-nr-2Yr" id="4PP-di-N2p"/>
-                        <outlet property="calendarsTableView" destination="zKF-N6-rlF" id="RSJ-JP-zce"/>
-                        <outlet property="charactersField" destination="noH-ER-AVN" id="w8T-e3-2oF"/>
-                        <outlet property="grantAccessButton" destination="TcF-sC-Hhc" id="uR8-vP-d95"/>
-                        <outlet property="headerLabel" destination="8pM-Qz-i7L" id="ErA-8a-7av"/>
-                        <outlet property="informationField" destination="cFE-vs-t29" id="8vQ-nC-GxG"/>
-                        <outlet property="nextMeetingAccessoryLabel" destination="nr6-Fw-1cb" id="DQs-Gf-Ydw"/>
-                        <outlet property="nextMeetingBackgroundView" destination="UjI-Ps-1YP" id="V5u-P9-7Z1"/>
-                        <outlet property="noAccessView" destination="oi9-oL-3xm" id="NDF-wG-mT5"/>
-                        <outlet property="showEventsFromLabel" destination="fnD-KO-35B" id="WAd-Tg-vZq"/>
-                        <outlet property="showNextMeetingInMenubarControl" destination="buu-OA-tPg" id="YVo-PJ-dbR"/>
-                        <outlet property="showNextMeetingLabel" destination="x5i-r6-8yw" id="1tz-B5-bxG"/>
-                        <outlet property="showSegmentedControl" destination="rgT-lC-Gae" id="BQb-Dm-RWZ"/>
-                        <outlet property="truncateAccessoryLabel" destination="IXx-xe-JuJ" id="K0V-Et-EiN"/>
-                        <outlet property="truncateTextField" destination="QvL-RL-y11" id="Jqj-Sy-bkR"/>
-                        <outlet property="truncateTextLabel" destination="94u-Ea-XeF" id="KQR-tK-kDM"/>
-                        <outlet property="upcomingEventView" destination="c5D-oS-eI6" id="N8W-ha-UKC"/>
-                    </connections>
-                </viewController>
-                <customObject id="C2F-OS-twj" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <userDefaultsController id="PeE-54-lLL"/>
-            </objects>
-            <point key="canvasLocation" x="-406.5" y="622"/>
-        </scene>
-        <!--Permissions-->
-        <scene sceneID="9VZ-mh-Oh7">
-            <objects>
-                <viewController title="Permissions" id="Qra-N0-cog" customClass="PermissionsViewController" customModule="Meridian" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="wKJ-It-DR8">
-                        <rect key="frame" x="0.0" y="0.0" width="508" height="402"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </view>
-                </viewController>
-                <customObject id="GXn-ft-n8X" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="645" y="-314"/>
         </scene>
         <!--Appearance-->
         <scene sceneID="C6j-xv-fqV">
@@ -523,7 +96,6 @@
                                                         <gridRow id="vjb-Ch-BZs"/>
                                                         <gridRow id="ad4-FM-AWq"/>
                                                         <gridRow id="fbk-ef-Req"/>
-                                                        <gridRow id="B74-Mt-1h8"/>
                                                     </rows>
                                                     <columns>
                                                         <gridColumn xPlacement="trailing" id="ARE-A4-4k4"/>
@@ -677,34 +249,6 @@
                                                                     <binding destination="Gpv-Gr-MxZ" name="value" keyPath="values.userFontSize" id="Dzw-Zc-qN5"/>
                                                                 </connections>
                                                             </slider>
-                                                        </gridCell>
-                                                        <gridCell row="B74-Mt-1h8" column="ARE-A4-4k4" id="PbY-PK-2xB">
-                                                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="120" translatesAutoresizingMaskIntoConstraints="NO" id="kkn-L8-yOj">
-                                                                <rect key="frame" x="9" y="2" width="204" height="18"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="eD6-Fv-2tz"/>
-                                                                </constraints>
-                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Enable iCloud Sync" id="MDa-w4-4Xw">
-                                                                    <font key="font" size="13" name="Avenir-Light"/>
-                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                </textFieldCell>
-                                                            </textField>
-                                                        </gridCell>
-                                                        <gridCell row="B74-Mt-1h8" column="YBI-pK-gPQ" id="kVc-I2-8Kp">
-                                                            <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ncK-Q6-ag9">
-                                                                <rect key="frame" x="229" y="-1" width="81" height="24"/>
-                                                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="bio-ov-phY">
-                                                                    <font key="font" size="12" name="Avenir-Light"/>
-                                                                    <segments>
-                                                                        <segment label="Yes" width="36"/>
-                                                                        <segment label="No" width="36" selected="YES" tag="1"/>
-                                                                    </segments>
-                                                                </segmentedCell>
-                                                                <connections>
-                                                                    <action selector="toggleSync:" target="1aL-zR-8L4" id="4Mg-ie-F7U"/>
-                                                                </connections>
-                                                            </segmentedControl>
                                                         </gridCell>
                                                     </gridCells>
                                                 </gridView>
@@ -1215,9 +759,7 @@
                         <outlet property="showSliderLabel" destination="8Jv-Cf-blJ" id="UHb-hK-VVl"/>
                         <outlet property="showSunriseLabel" destination="4lt-X6-3uU" id="tez-s5-RzL"/>
                         <outlet property="sliderDayRangePopup" destination="8Nx-Xq-XDU" id="PBM-yB-Yo1"/>
-                        <outlet property="syncLabel" destination="kkn-L8-yOj" id="egW-Df-fnH"/>
-                        <outlet property="syncSegementedControl" destination="ncK-Q6-ag9" id="8oT-zA-Ms5"/>
-                        <outlet property="theme" destination="89w-KN-GJ6" id="SAL-Sh-eqp"/>
+<outlet property="theme" destination="89w-KN-GJ6" id="SAL-Sh-eqp"/>
                         <outlet property="timeFormat" destination="iiG-Xu-4id" id="oM3-1Y-fAF"/>
                         <outlet property="timeFormatLabel" destination="wtO-uL-QBf" id="udS-d6-Tep"/>
                         <outlet property="visualEffectView" destination="Wj2-aw-ZDm" id="TZy-V2-JFS"/>
@@ -1736,14 +1278,12 @@ CA
     <resources>
         <image name="Add Icon" width="700" height="700"/>
         <image name="Appearance Dynamic" width="350" height="350"/>
-        <image name="Calendar Tab Dynamic" width="350" height="350"/>
         <image name="ClockerIcon-512" width="1024" height="1024"/>
         <image name="CurrentLocation" width="350" height="350"/>
         <image name="Extra" width="700" height="700"/>
         <image name="NSDescendingSortIndicator" width="9" height="9"/>
         <image name="NSInfo" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
-        <image name="Privacy" width="350" height="350"/>
         <image name="Remove" width="700" height="700"/>
     </resources>
 </document>

@@ -65,8 +65,6 @@ class PanelController: ParentPanelController {
 
         updateDefaultPreferences()
 
-        setupUpcomingEventViewCollectionViewIfNeccesary()
-
         if dataStore.timezones().isEmpty || dataStore.shouldDisplay(.futureSlider) == false {
             modernContainerView.isHidden = true
         } else if let value = dataStore.retrieve(key: UserDefaultKeys.displayFutureSliderKey) as? NSNumber, modernContainerView != nil {
@@ -96,12 +94,7 @@ class PanelController: ParentPanelController {
 
         startWindowTimer()
 
-        if dataStore.shouldDisplay(ViewType.upcomingEventView) {
-            retrieveCalendarEvents()
-        } else {
-            removeUpcomingEventView()
-            super.setScrollViewConstraint()
-        }
+        super.setScrollViewConstraint()
 
         // This is done to make the UI look updated.
         mainTableView.reloadData()
@@ -166,7 +159,6 @@ class PanelController: ParentPanelController {
               let showDayInMenu = dataStore.retrieve(key: UserDefaultKeys.showDayInMenu) as? NSNumber,
               let showDateInMenu = dataStore.retrieve(key: UserDefaultKeys.showDateInMenu) as? NSNumber,
               let showPlaceInMenu = dataStore.retrieve(key: UserDefaultKeys.showPlaceInMenu) as? NSNumber,
-              let showUpcomingEventView = dataStore.retrieve(key: UserDefaultKeys.showUpcomingEventView) as? String,
               let country = Locale.autoupdatingCurrent.region?.identifier
         else {
             return
@@ -190,9 +182,7 @@ class PanelController: ParentPanelController {
             "Show Day in Menu": showDayInMenu.isEqual(to: NSNumber(value: 0)) ? "Yes" : "No",
             "Show Date in Menu": showDateInMenu.isEqual(to: NSNumber(value: 0)) ? "Yes" : "No",
             "Show Place in Menu": showPlaceInMenu.isEqual(to: NSNumber(value: 0)) ? "Yes" : "No",
-            "Show Upcoming Event View": showUpcomingEventView == "YES" ? "Yes" : "No",
             "Country": country,
-            "Calendar Access Provided": EventCenter.sharedCenter().calendarAccessGranted() ? "Yes" : "No",
             "Number of Timezones": preferences.count
         ]
 
@@ -233,7 +223,7 @@ class PanelController: ParentPanelController {
     private func stopMenubarTimerIfNeccesary() {
         let count = dataStore.menubarTimezones()?.count ?? 0
 
-        if count >= 1 || dataStore.shouldDisplay(.showMeetingInMenubar) {
+        if count >= 1 {
             if let delegate = NSApplication.shared.delegate as? AppDelegate {
                 Logger.info("We will be invalidating the menubar timer as we want the parent timer to take care of both panel and menubar ")
 
@@ -253,7 +243,7 @@ class PanelController: ParentPanelController {
     func minimize() {
         let delegate = NSApplication.shared.delegate as? AppDelegate
         let count = DataStore.shared().menubarTimezones()?.count ?? 0
-        if count >= 1 || DataStore.shared().shouldDisplay(.showMeetingInMenubar) == true {
+        if count >= 1 {
             if let handler = delegate?.statusItemForPanel(), let timer = handler.menubarTimer, !timer.isValid {
                 delegate?.setupMenubarTimer()
             }
@@ -303,11 +293,11 @@ class PanelController: ParentPanelController {
             return false
         }
 
-        target.image = Themer.shared().extraOptionsHighlightedImage()
+        target.image = NSImage(systemSymbolName: "ellipsis.circle.fill", accessibilityDescription: "Options")
 
         if popover.isShown, row == previousPopoverRow {
             popover.close()
-            target.image = Themer.shared().extraOptionsImage()
+            target.image = NSImage(systemSymbolName: "ellipsis.circle", accessibilityDescription: "Options")
             previousPopoverRow = -1
             return false
         }

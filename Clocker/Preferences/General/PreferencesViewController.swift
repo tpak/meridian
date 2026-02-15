@@ -4,7 +4,6 @@ import Cocoa
 import Combine
 import CoreLoggerKit
 import CoreModelKit
-import StartupKit
 
 struct PreferencesConstants {
     static let noTimezoneSelectedErrorMessage = NSLocalizedString("No Timezone Selected",
@@ -71,23 +70,11 @@ class PreferencesViewController: ParentViewController {
             .sink { [weak self] _ in self?.refreshTimezoneTableView() }
             .store(in: &cancellables)
 
-        NotificationCenter.default.publisher(for: DataStore.didSyncFromExternalSourceNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in self?.refreshTimezoneTableView() }
-            .store(in: &cancellables)
-
-        NotificationCenter.default.publisher(for: .themeDidChangeNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in self?.setup() }
-            .store(in: &cancellables)
-
         refreshTimezoneTableView()
 
         setup()
 
         setupShortcutObserver()
-
-        darkModeChanges()
 
         searchField.placeholderString = "Enter city, state, country or timezone name"
 
@@ -100,11 +87,6 @@ class PreferencesViewController: ParentViewController {
         availableTimezoneTableView.delegate = searchResultsDataSource
 
         timezoneAdditionHandler = TimezoneAdditionHandler(host: self, dataStore: dataStore)
-    }
-
-    private func darkModeChanges() {
-        addTimezoneButton.image = Themer.shared().addImage()
-        deleteButton.image = Themer.shared().remove()
     }
 
     private func setupLocalizedText() {
@@ -135,19 +117,9 @@ class PreferencesViewController: ParentViewController {
     }
 
     private func refresh() {
-        if dataStore.shouldDisplay(ViewType.showAppInForeground) {
-            updateFloatingWindow()
-        } else {
-            guard let panel = PanelController.panel() else { return }
-            panel.updateDefaultPreferences()
-            panel.updateTableContent()
-        }
-    }
-
-    private func updateFloatingWindow() {
-        let current = FloatingWindowController.shared()
-        current.updateDefaultPreferences()
-        current.updateTableContent()
+        guard let panel = PanelController.panel() else { return }
+        panel.updateDefaultPreferences()
+        panel.updateTableContent()
     }
 
     private func build(_ shouldSelectLastRow: Bool = false) {
@@ -212,24 +184,22 @@ class PreferencesViewController: ParentViewController {
     }
 
     private func setupColor() {
-        let themer = Themer.shared()
-
-        startAtLoginLabel.textColor = Themer.shared().mainTextColor()
+        startAtLoginLabel.textColor = NSColor.labelColor
 
         [timezoneNameSortButton, labelSortButton, timezoneSortButton].forEach {
             $0?.attributedTitle = NSAttributedString(string: $0?.title ?? UserDefaultKeys.emptyString, attributes: [
-                NSAttributedString.Key.foregroundColor: Themer.shared().mainTextColor(),
+                NSAttributedString.Key.foregroundColor: NSColor.labelColor,
                 NSAttributedString.Key.font: NSFont(name: "Avenir-Light", size: 13) ?? NSFont.systemFont(ofSize: 13)
             ])
         }
 
-        timezoneTableView.backgroundColor = Themer.shared().mainBackgroundColor()
-        availableTimezoneTableView.backgroundColor = Themer.shared().textBackgroundColor()
-        timezonePanel.backgroundColor = Themer.shared().textBackgroundColor()
+        timezoneTableView.backgroundColor = NSColor.windowBackgroundColor
+        availableTimezoneTableView.backgroundColor = NSColor.textBackgroundColor
+        timezonePanel.backgroundColor = NSColor.textBackgroundColor
         timezonePanel.contentView?.wantsLayer = true
-        timezonePanel.contentView?.layer?.backgroundColor = Themer.shared().textBackgroundColor().cgColor
-        addTimezoneButton.image = themer.addImage()
-        deleteButton.image = themer.remove()
+        timezonePanel.contentView?.layer?.backgroundColor = NSColor.textBackgroundColor.cgColor
+        addTimezoneButton.image = NSImage(systemSymbolName: "plus", accessibilityDescription: "Add")
+        deleteButton.image = NSImage(systemSymbolName: "minus", accessibilityDescription: "Remove")
     }
 
     private func setupShortcutObserver() {
@@ -287,8 +257,7 @@ extension PreferencesViewController: NSTableViewDataSource, NSTableViewDelegate 
 
         if let appDelegate = NSApplication.shared.delegate as? AppDelegate,
            let menubarFavourites = dataStore.menubarTimezones(),
-           menubarFavourites.isEmpty,
-           dataStore.shouldDisplay(.showMeetingInMenubar) == false {
+           menubarFavourites.isEmpty {
             appDelegate.invalidateMenubarTimer(true)
         }
 
@@ -316,7 +285,7 @@ extension PreferencesViewController: NSTableViewDataSource, NSTableViewDelegate 
         NSApplication.shared.activate(ignoringOtherApps: true)
 
         let infoText = """
-        Multiple timezones occupy space and if macOS determines Clocker is occupying too much space, it'll hide Clocker entirely!
+        Multiple timezones occupy space and if macOS determines Meridian is occupying too much space, it'll hide Meridian entirely!
         Enable Menubar Compact Mode to fit in more timezones in less space.
         """
 

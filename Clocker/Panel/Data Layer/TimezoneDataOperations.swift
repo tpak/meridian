@@ -385,7 +385,7 @@ extension TimezoneDataOperations {
     func formattedSunriseTime(with sliderValue: Int) -> String {
         /* We have to call this everytime so that we get an updated value everytime! */
 
-        if dataObject.selectionType == .timezone || (dataObject.latitude == nil || dataObject.longitude == nil) {
+        if dataObject.latitude == nil || dataObject.longitude == nil {
             return UserDefaultKeys.emptyString
         }
 

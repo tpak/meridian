@@ -1,15 +1,9 @@
 // Copyright © 2015 Abhishek Banthia
 
 import Cocoa
-import SystemConfiguration
+import CoreLocation
 
 class NetworkManager: NSObject {
-    static let parsingError: NSError = {
-        let userInfoDictionary: [String: Any] = [NSLocalizedDescriptionKey: "Parsing Error"]
-        let error = NSError(domain: "APIError", code: 102, userInfo: userInfoDictionary)
-        return error
-    }()
-
     static let internalServerError: NSError = {
         let localizedError = """
         There was a problem retrieving your information. Please try again later.
@@ -77,108 +71,18 @@ extension NetworkManager {
         return try await data(from: url)
     }
 
-    // MARK: - Legacy Callback Methods
+    // MARK: - Geocoding
 
-    @discardableResult
-    class func task(with path: String, completionHandler: @escaping (_ response: Data?, _ error: NSError?) -> Void) -> URLSessionDataTask? {
-        guard let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: encodedPath)
-        else {
-            completionHandler(nil, unableToGenerateURL)
-            return nil
+    /// Geocode an address string using Apple's CLGeocoder.
+    /// - Parameter address: The address string to geocode
+    /// - Returns: The first matching CLPlacemark
+    /// - Throws: NSError if no results are found or geocoding fails
+    static func geocodeAddress(_ address: String) async throws -> CLPlacemark {
+        let geocoder = CLGeocoder()
+        let placemarks = try await geocoder.geocodeAddressString(address)
+        guard let placemark = placemarks.first else {
+            throw NSError(domain: "NetworkManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "No results found"])
         }
-
-        return task(with: url, completionHandler: completionHandler)
-    }
-
-    @discardableResult
-    class func task(with url: URL, completionHandler: @escaping (_ response: Data?, _ error: NSError?) -> Void) -> URLSessionDataTask? {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 20
-
-        let session = URLSession(configuration: configuration)
-
-        var request = URLRequest(url: url)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-        let dataTask = session.dataTask(with: request) { data, urlResponse, error in
-
-            // Check if we're running a network UI test
-            if ProcessInfo.processInfo.arguments.contains("mockTimezoneDown") {
-                completionHandler(nil, internalServerError)
-                return
-            }
-
-            guard error == nil, let httpURLResponse = urlResponse as? HTTPURLResponse, let json = data else {
-                completionHandler(nil, internalServerError)
-                return
-            }
-
-            if httpURLResponse.statusCode != 200 {
-                completionHandler(nil, internalServerError)
-                return
-            }
-
-            completionHandler(json, nil)
-        }
-
-        dataTask.resume()
-
-        return dataTask
-    }
-
-    /// Builds a Google Maps Geocoding API URL using URLComponents to safely encode query parameters.
-    static func geocodeURL(for address: String, key: String, language: String) -> URL? {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "maps.googleapis.com"
-        components.path = "/maps/api/geocode/json"
-        components.queryItems = [
-            URLQueryItem(name: "address", value: address),
-            URLQueryItem(name: "key", value: key),
-            URLQueryItem(name: "language", value: language)
-        ]
-        return components.url
-    }
-
-    /// Builds a Google Maps Timezone API URL using URLComponents to safely encode query parameters.
-    static func timezoneURL(for latitude: Double, longitude: Double, timestamp: TimeInterval, key: String) -> URL? {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "maps.googleapis.com"
-        components.path = "/maps/api/timezone/json"
-        components.queryItems = [
-            URLQueryItem(name: "location", value: "\(latitude),\(longitude)"),
-            URLQueryItem(name: "timestamp", value: "\(timestamp)"),
-            URLQueryItem(name: "key", value: key)
-        ]
-        return components.url
-    }
-
-    class func isConnected() -> Bool {
-        // For tests
-        if ProcessInfo.processInfo.arguments.contains("mockNetworkDown") {
-            return false
-        }
-
-        var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
-        zeroAddress.sin_family = sa_family_t(AF_INET)
-
-        guard let reachability = withUnsafePointer(to: &zeroAddress, {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
-                SCNetworkReachabilityCreateWithAddress(nil, $0)
-            }
-        }) else {
-            return false
-        }
-
-        var flags: SCNetworkReachabilityFlags = []
-        if !SCNetworkReachabilityGetFlags(reachability, &flags) {
-            return false
-        }
-
-        return flags.contains(.reachable) && !flags.contains(.connectionRequired)
+        return placemark
     }
 }

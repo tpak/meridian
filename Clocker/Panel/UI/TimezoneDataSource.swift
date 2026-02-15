@@ -58,7 +58,9 @@ extension TimezoneDataSource: NSTableViewDataSource, NSTableViewDelegate {
         let operation = TimezoneDataOperations(with: currentModel, store: dataStore)
 
         cellView.sunriseSetTime.stringValue = operation.formattedSunriseTime(with: sliderValue)
-        cellView.sunriseImage.image = currentModel.isSunriseOrSunset ? Themer.shared().sunriseImage() : Themer.shared().sunsetImage()
+        cellView.sunriseImage.image = currentModel.isSunriseOrSunset
+            ? NSImage(systemSymbolName: "sunrise.fill", accessibilityDescription: "Sunrise")
+            : NSImage(systemSymbolName: "sunset.fill", accessibilityDescription: "Sunset")
         cellView.sunriseImage.contentTintColor = currentModel.isSunriseOrSunset ? NSColor.systemYellow : NSColor.systemOrange
         cellView.relativeDate.stringValue = operation.date(with: sliderValue, displayType: .panel)
         cellView.rowNumber = row
@@ -128,8 +130,6 @@ extension TimezoneDataSource: NSTableViewDataSource, NSTableViewDelegate {
             return []
         }
 
-        let windowController = FloatingWindowController.shared()
-
         if edge == .trailing {
             let swipeToDelete = NSTableViewRowAction(style: .destructive,
                                                      title: "Delete",
@@ -144,16 +144,11 @@ extension TimezoneDataSource: NSTableViewDataSource, NSTableViewDelegate {
 
                 tableView.removeRows(at: indexSet, withAnimation: NSTableView.AnimationOptions())
 
-                if self.dataStore.shouldDisplay(ViewType.showAppInForeground) {
-                    windowController.deleteTimezone(at: row)
-                } else {
-                    guard let panelController = PanelController.panel() else { return }
-                    panelController.deleteTimezone(at: row)
-                }
-
+                guard let panelController = PanelController.panel() else { return }
+                panelController.deleteTimezone(at: row)
             })
 
-            swipeToDelete.image = Themer.shared().filledTrashImage()
+            swipeToDelete.image = NSImage(systemSymbolName: "trash.fill", accessibilityDescription: "Delete")
 
             return [swipeToDelete]
         }
@@ -165,27 +160,20 @@ extension TimezoneDataSource: NSTableViewDataSource, NSTableViewDelegate {
         NSApplication.shared.activate(ignoringOtherApps: true)
 
         let alert = NSAlert()
-        alert.messageText = "Confirm deleting the home row? 😅"
-        alert.informativeText = "This row is automatically updated when Clocker detects a system timezone change. Are you sure you want to delete this?"
+        alert.messageText = "Confirm deleting the home row?"
+        alert.informativeText = "This row is automatically updated when Meridian detects a system timezone change. Are you sure you want to delete this?"
         alert.addButton(withTitle: "Yes")
         alert.addButton(withTitle: "No")
 
         let response = alert.runModal()
         if response.rawValue == 1000 {
-            OperationQueue.main.addOperation { [weak self] in
-                guard let sSelf = self else { return }
-
+            OperationQueue.main.addOperation {
                 let indexSet = IndexSet(integer: row)
 
                 tableView.removeRows(at: indexSet, withAnimation: NSTableView.AnimationOptions.slideUp)
 
-                if sSelf.dataStore.shouldDisplay(ViewType.showAppInForeground) {
-                    let windowController = FloatingWindowController.shared()
-                    windowController.deleteTimezone(at: row)
-                } else {
-                    guard let panelController = PanelController.panel() else { return }
-                    panelController.deleteTimezone(at: row)
-                }
+                guard let panelController = PanelController.panel() else { return }
+                panelController.deleteTimezone(at: row)
             }
         }
     }
@@ -231,11 +219,6 @@ extension TimezoneCellView {
 
         sunriseSetTime.isHidden = !shouldDisplay
         sunriseImage.isHidden = !shouldDisplay
-
-        // If it's a timezone and not a place, we can't determine the sunrise/sunset time; hide the sunrise image
-        if model.selectionType == .timezone, model.latitude == nil, model.longitude == nil {
-            sunriseImage.isHidden = true
-        }
 
         setupLayout()
     }

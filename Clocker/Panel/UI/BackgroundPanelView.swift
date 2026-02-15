@@ -46,7 +46,7 @@ class BackgroundPanelView: NSView {
                                     controlPoint2: NSPoint(x: BackgroundPanelConstants.kArrowHeight, y: BackgroundPanelConstants.kArrowHeight))
         }
 
-        Themer.shared().mainBackgroundColor().setFill()
+        NSColor.windowBackgroundColor.setFill()
 
         rectPath.lineWidth = 2 * BackgroundPanelConstants.kBorderWidth
         rectPath.stroke()

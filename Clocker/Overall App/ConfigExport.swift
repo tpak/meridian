@@ -7,7 +7,6 @@ import Foundation
 struct ConfigExport {
     private func generateJSON(from store: DataStore) {
         let selectedKeys: Set<String> = Set([
-            UserDefaultKeys.showOnboardingFlow,
             UserDefaultKeys.selectedTimeZoneFormatKey,
             UserDefaultKeys.themeKey,
             UserDefaultKeys.showDayInMenu,
@@ -18,12 +17,8 @@ struct ConfigExport {
             UserDefaultKeys.showAppInForeground,
             UserDefaultKeys.sunriseSunsetTime,
             UserDefaultKeys.userFontSizePreference,
-            UserDefaultKeys.showUpcomingEventView,
-            UserDefaultKeys.showAllDayEventsInUpcomingView,
-            UserDefaultKeys.showMeetingInMenubar,
             UserDefaultKeys.truncateTextLength,
             UserDefaultKeys.futureSliderRange,
-            UserDefaultKeys.selectedCalendars,
             UserDefaultKeys.appDisplayOptions,
             UserDefaultKeys.longStatusBarWarningMessage,
             UserDefaultKeys.menubarCompactMode,

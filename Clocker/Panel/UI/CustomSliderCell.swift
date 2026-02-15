@@ -33,7 +33,7 @@ class CustomSliderCell: NSSliderCell {
                                   xRadius: barRadius,
                                   yRadius: barRadius)
 
-        Themer.shared().sliderRightColor().setFill()
+        NSColor.controlAccentColor.setFill()
         active.fill()
     }
 
