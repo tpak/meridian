@@ -1,4 +1,15 @@
-# Meridian
+<p align="center">
+  <img src="icon.png" width="128" height="128" alt="Meridian">
+</p>
+
+<h1 align="center">Meridian</h1>
+
+<p align="center">
+  <a href="https://github.com/tpak/meridian/actions/workflows/ci.yml"><img src="https://github.com/tpak/meridian/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/tpak/meridian/actions/workflows/codeql.yml"><img src="https://github.com/tpak/meridian/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
+  <a href="https://github.com/tpak/meridian/blob/main/.swiftlint.yml"><img src="https://img.shields.io/badge/SwiftLint-configured-brightgreen" alt="SwiftLint"></a>
+  <a href="https://github.com/tpak/meridian/blob/main/LICENSE"><img src="https://img.shields.io/github/license/tpak/meridian" alt="License"></a>
+</p>
 
 A macOS menu bar world clock. Track time across zones for your team, friends, and family.
 
