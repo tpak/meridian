@@ -87,7 +87,11 @@ extension TimezoneDataOperations {
         let shouldDateBeShown = store.shouldShowDateInMenubar()
         if shouldDateBeShown, shouldLabelBeShownAlongWithTime {
             let date = Date().formatter(with: "MMM d", timeZone: dataObject.timezone())
-            subtitle.isEmpty ? subtitle.append("\(date)") : subtitle.append(" \(date)")
+            if subtitle.isEmpty {
+                subtitle.append("\(date)")
+            } else {
+                subtitle.append(" \(date)")
+            }
         }
 
         return subtitle.isEmpty ? dataObject.formattedTimezoneLabel() : subtitle
@@ -107,10 +111,18 @@ extension TimezoneDataOperations {
         let shouldDateBeShown = store.shouldShowDateInMenubar()
         if shouldDateBeShown, shouldLabelsNotBeShownAlongWithTime {
             let date = Date().formatter(with: "MMM d", timeZone: dataObject.timezone())
-            subtitle.isEmpty ? subtitle.append("\(date)") : subtitle.append(" \(date)")
+            if subtitle.isEmpty {
+                subtitle.append("\(date)")
+            } else {
+                subtitle.append(" \(date)")
+            }
         }
 
-        subtitle.isEmpty ? subtitle.append(time(with: 0)) : subtitle.append(" \(time(with: 0))")
+        if subtitle.isEmpty {
+            subtitle.append(time(with: 0))
+        } else {
+            subtitle.append(" \(time(with: 0))")
+        }
 
         return subtitle
     }
@@ -126,15 +138,14 @@ extension TimezoneDataOperations {
 
         if shouldCityBeShown {
             if let address = dataObject.formattedAddress, address.isEmpty == false {
-                if let label = dataObject.customLabel {
-                    label.isEmpty == false ? menuTitle.append(label) : menuTitle.append(address)
+                if let label = dataObject.customLabel, !label.isEmpty {
+                    menuTitle.append(label)
                 } else {
                     menuTitle.append(address)
                 }
-
             } else {
-                if let label = dataObject.customLabel {
-                    label.isEmpty == false ? menuTitle.append(label) : menuTitle.append(dataObject.timezone())
+                if let label = dataObject.customLabel, !label.isEmpty {
+                    menuTitle.append(label)
                 } else {
                     menuTitle.append(dataObject.timezone())
                 }
@@ -165,7 +176,11 @@ extension TimezoneDataOperations {
             }
         }
 
-        menuTitle.isEmpty == false ? menuTitle.append(" \(time(with: 0))") : menuTitle.append(time(with: 0))
+        if menuTitle.isEmpty {
+            menuTitle.append(time(with: 0))
+        } else {
+            menuTitle.append(" \(time(with: 0))")
+        }
 
         return menuTitle
     }
@@ -309,7 +324,9 @@ extension TimezoneDataOperations {
             }
 
             let minuteDifference = calculateTimeDifference(with: local as NSDate, timezoneDate: timezoneDate as NSDate)
-            minuteDifference == 0 ? replaceAgo.append("") : replaceAgo.append("\(minuteDifference)m")
+            if minuteDifference != 0 {
+                replaceAgo.append("\(minuteDifference)m")
+            }
             return replaceAgo.lowercased()
         }
 
@@ -330,7 +347,9 @@ extension TimezoneDataOperations {
 
         let minuteDifference = calculateTimeDifference(with: local as NSDate, timezoneDate: timezoneDate as NSDate)
 
-        minuteDifference == 0 ? replaceAgo.append("") : replaceAgo.append("\(minuteDifference)m")
+        if minuteDifference != 0 {
+            replaceAgo.append("\(minuteDifference)m")
+        }
         return replaceAgo.lowercased()
     }
 
@@ -418,7 +437,11 @@ extension TimezoneDataOperations {
         guard let encodedObject = NSKeyedArchiver.clocker_archive(with: dataObject as Any) else {
             return
         }
-        index == -1 ? defaults.append(encodedObject) : defaults.insert(encodedObject, at: index)
+        if index == -1 {
+            defaults.append(encodedObject)
+        } else {
+            defaults.insert(encodedObject, at: index)
+        }
         store.setTimezones(defaults)
     }
 }

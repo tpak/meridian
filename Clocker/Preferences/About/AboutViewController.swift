@@ -23,7 +23,7 @@ class AboutViewController: ParentViewController {
             hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             hostingView.topAnchor.constraint(equalTo: view.topAnchor),
-            hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }

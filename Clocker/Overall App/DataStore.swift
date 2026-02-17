@@ -35,11 +35,11 @@ class DataStore: NSObject, DataStoring {
     private var userDefaults: UserDefaults!
     private var cachedTimezones: [Data]
     private var cachedMenubarTimezones: [Data]
-    private static let timeFormatsWithSuffix: Set<NSNumber> = Set([NSNumber(integerLiteral: 0),
-                                                                   NSNumber(integerLiteral: 3),
-                                                                   NSNumber(integerLiteral: 4),
-                                                                   NSNumber(integerLiteral: 6),
-                                                                   NSNumber(integerLiteral: 7)])
+    private static let timeFormatsWithSuffix: Set<NSNumber> = Set([NSNumber(value: 0),
+                                                                   NSNumber(value: 3),
+                                                                   NSNumber(value: 4),
+                                                                   NSNumber(value: 6),
+                                                                   NSNumber(value: 7)])
 
     class func shared() -> DataStore {
         return sharedStore
@@ -113,7 +113,7 @@ class DataStore: NSObject, DataStoring {
     }
 
     func timezoneFormat() -> NSNumber {
-        return userDefaults.object(forKey: UserDefaultKeys.selectedTimeZoneFormatKey) as? NSNumber ?? NSNumber(integerLiteral: 0)
+        return userDefaults.object(forKey: UserDefaultKeys.selectedTimeZoneFormatKey) as? NSNumber ?? NSNumber(value: 0)
     }
 
     func isBufferRequiredForTwelveHourFormats() -> Bool {

@@ -38,7 +38,7 @@ class StatusItemHandler: NSObject {
     // Current State might be set twice when the user first launches an app.
     // First, when StatusItemHandler() is instantiated in AppDelegate
     // Second, when AppDelegate.fetchLocalTimezone() is called triggering a customLabel didSet.
-    // TODO: Make sure it's set just once.
+    // The debounced UserDefaults observer coalesces these into a single update.
     private var currentState: MenubarState = .standardText {
         didSet {
             // Do some cleanup

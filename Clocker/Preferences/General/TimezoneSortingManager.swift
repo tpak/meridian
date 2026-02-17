@@ -36,8 +36,8 @@ class TimezoneSortingManager {
         }
 
         let image = ascending
-            ? NSImage(named: NSImage.Name("NSDescendingSortIndicator"))
-            : NSImage(named: NSImage.Name("NSAscendingSortIndicator"))
+            ? NSImage(systemSymbolName: "chevron.down", accessibilityDescription: "Descending")
+            : NSImage(systemSymbolName: "chevron.up", accessibilityDescription: "Ascending")
 
         // Toggle direction for next call
         switch type {
@@ -60,43 +60,43 @@ class TimezoneSortingManager {
             }
 
             if identifier == "formattedAddress" {
-                let a = object1.formattedAddress ?? ""
-                let b = object2.formattedAddress ?? ""
-                return ascending ? a > b : a < b
+                let addr1 = object1.formattedAddress ?? ""
+                let addr2 = object2.formattedAddress ?? ""
+                return ascending ? addr1 > addr2 : addr1 < addr2
             } else {
-                let a = object1.customLabel ?? ""
-                let b = object2.customLabel ?? ""
-                return ascending ? a > b : a < b
+                let label1 = object1.customLabel ?? ""
+                let label2 = object2.customLabel ?? ""
+                return ascending ? label1 > label2 : label1 < label2
             }
         }
 
         let image = ascending
-            ? NSImage(named: NSImage.Name("NSDescendingSortIndicator"))
-            : NSImage(named: NSImage.Name("NSAscendingSortIndicator"))
+            ? NSImage(systemSymbolName: "chevron.down", accessibilityDescription: "Descending")
+            : NSImage(systemSymbolName: "chevron.up", accessibilityDescription: "Ascending")
 
         ascending.toggle()
 
         return (sorted, image)
     }
 
-    private func compare(_ a: TimezoneData, _ b: TimezoneData, by type: SortType, ascending: Bool) -> Bool {
+    private func compare(_ lhs: TimezoneData, _ rhs: TimezoneData, by type: SortType, ascending: Bool) -> Bool {
         switch type {
         case .time:
             let system = NSTimeZone.system
-            let tz1 = NSTimeZone(name: a.timezone())
-            let tz2 = NSTimeZone(name: b.timezone())
+            let tz1 = NSTimeZone(name: lhs.timezone())
+            let tz2 = NSTimeZone(name: rhs.timezone())
             let diff1 = system.secondsFromGMT() - (tz1?.secondsFromGMT ?? 0)
             let diff2 = system.secondsFromGMT() - (tz2?.secondsFromGMT ?? 0)
             return ascending ? diff1 > diff2 : diff1 < diff2
 
         case .label:
-            let label1 = a.customLabel ?? ""
-            let label2 = b.customLabel ?? ""
+            let label1 = lhs.customLabel ?? ""
+            let label2 = rhs.customLabel ?? ""
             return ascending ? label1 > label2 : label1 < label2
 
         case .name:
-            let addr1 = a.formattedAddress ?? ""
-            let addr2 = b.formattedAddress ?? ""
+            let addr1 = lhs.formattedAddress ?? ""
+            let addr2 = rhs.formattedAddress ?? ""
             return ascending ? addr1 > addr2 : addr1 < addr2
         }
     }
