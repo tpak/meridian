@@ -35,7 +35,6 @@ final class GlobalShortcutMonitor {
             return modifierString + keyString
         }
 
-        // swiftlint:disable:next cyclomatic_complexity
         private static let keyCodeMap: [UInt16: String] = [
             0x00: "A", 0x01: "S", 0x02: "D", 0x03: "F", 0x04: "H", 0x05: "G",
             0x06: "Z", 0x07: "X", 0x08: "C", 0x09: "V", 0x0B: "B", 0x0C: "Q",

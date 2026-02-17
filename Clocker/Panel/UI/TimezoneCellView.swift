@@ -187,8 +187,6 @@ class TimezoneCellView: NSTableCellView {
             window?.contentView?.makeToast("Copied to Clipboard".localized())
 
             window?.endEditing(for: nil)
-        } else if event.clickCount == 2 {
-            // TODO: Favourite this timezone
         }
     }
 

@@ -443,7 +443,6 @@ class ParentPanelController: NSWindowController {
                     cellView.noteLabel.stringValue = UserDefaultKeys.emptyString
                 }
                 cellView.layout(with: model)
-                // TODO: Update modern slider
             }
         }
     }

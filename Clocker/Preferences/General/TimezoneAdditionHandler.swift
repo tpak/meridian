@@ -31,7 +31,11 @@ class TimezoneAdditionHandler: NSObject {
     private var isActivityInProgress = false {
         didSet {
             guard let host = host else { return }
-            isActivityInProgress ? host.progressIndicator.startAnimation(nil) : host.progressIndicator.stopAnimation(nil)
+            if isActivityInProgress {
+                host.progressIndicator.startAnimation(nil)
+            } else {
+                host.progressIndicator.stopAnimation(nil)
+            }
             host.availableTimezoneTableView.isEnabled = !isActivityInProgress
             host.addButton.isEnabled = !isActivityInProgress
         }

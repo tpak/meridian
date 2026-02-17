@@ -366,7 +366,6 @@ extension PreferencesViewController {
         updateStatusItem()
     }
 
-    // TODO: This probably does not need to be used
     private func updateStatusItem() {
         guard let statusItem = (NSApplication.shared.delegate as? AppDelegate)?.statusItemForPanel() else {
             return

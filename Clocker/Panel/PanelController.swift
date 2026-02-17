@@ -268,7 +268,11 @@ class PanelController: ParentPanelController {
 
     func setActivePanel(newValue: Bool) {
         hasActivePanel = newValue
-        hasActivePanel ? open() : minimize()
+        if hasActivePanel {
+            open()
+        } else {
+            minimize()
+        }
     }
 
     class func panel() -> PanelController? {
@@ -341,9 +345,6 @@ class PanelController: ParentPanelController {
         // We only want to move the slider if the slider is visible.
         // If the parent view is hidden, then that doesn't automatically mean that all the childViews are also hidden
         // Hence, check if the parent view is totally hidden or not..
-        if modernSlider.isHidden {
-            // TODO: Move modern slider
-        }
     }
 }
 

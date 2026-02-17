@@ -56,21 +56,21 @@ public class TimezoneData: NSObject, NSCoding, NSSecureCoding {
     }
 
     static let values = [
-        NSNumber(integerLiteral: 0): DateFormat.twelveHour,
-        NSNumber(integerLiteral: 1): DateFormat.twentyFourHour,
+        NSNumber(value: 0): DateFormat.twelveHour,
+        NSNumber(value: 1): DateFormat.twentyFourHour,
 
         // Seconds
-        NSNumber(integerLiteral: 3): DateFormat.twelveHourWithSeconds,
-        NSNumber(integerLiteral: 4): DateFormat.twentyFourHourWithSeconds,
+        NSNumber(value: 3): DateFormat.twelveHourWithSeconds,
+        NSNumber(value: 4): DateFormat.twentyFourHourWithSeconds,
 
         // Preceding Zero
-        NSNumber(integerLiteral: 6): DateFormat.twelveHourWithZero,
-        NSNumber(integerLiteral: 7): DateFormat.twelveHourWithZeroSeconds,
+        NSNumber(value: 6): DateFormat.twelveHourWithZero,
+        NSNumber(value: 7): DateFormat.twelveHourWithZeroSeconds,
 
         // Suffix
-        NSNumber(integerLiteral: 9): DateFormat.twelveHourWithoutSuffix,
-        NSNumber(integerLiteral: 10): DateFormat.twelveHourWithoutSuffixAndSeconds,
-        NSNumber(integerLiteral: 11): DateFormat.epochTime
+        NSNumber(value: 9): DateFormat.twelveHourWithoutSuffix,
+        NSNumber(value: 10): DateFormat.twelveHourWithoutSuffixAndSeconds,
+        NSNumber(value: 11): DateFormat.epochTime
     ]
 
     public var customLabel: String?
@@ -267,7 +267,7 @@ public class TimezoneData: NSObject, NSCoding, NSSecureCoding {
         }
 
         // We subtract 1 because the timezone format in the dropdown contains 1 extra row for "Respecting global preferences"
-        let key = NSNumber(integerLiteral: overrideFormat.rawValue - 1)
+        let key = NSNumber(value: overrideFormat.rawValue - 1)
         let formatInString = TimezoneData.values[key] ?? DateFormat.twelveHour
         return formatInString.contains("ss")
     }

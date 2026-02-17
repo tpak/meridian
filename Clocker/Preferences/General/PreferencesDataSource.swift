@@ -149,9 +149,11 @@ extension PreferencesDataSource: NSTableViewDataSource {
         } else if let isFavouriteValue = object as? NSNumber {
             dataObject.isFavourite = isFavouriteValue.intValue
             insert(timezone: dataObject, at: row)
-            dataObject.isFavourite == 1 ?
-                updateDelegate?.preferenceSelectionDataSourceMarkAsFavorite(dataObject) :
+            if dataObject.isFavourite == 1 {
+                updateDelegate?.preferenceSelectionDataSourceMarkAsFavorite(dataObject)
+            } else {
                 updateDelegate?.preferenceSelectionDataSourceUnfavourite(dataObject)
+            }
             updateStatusItem()
             updateDelegate?.preferenceSelectionDataSourceRefreshTimezoneTable()
         }
@@ -199,7 +201,6 @@ extension PreferencesDataSource: NSTableViewDataSource {
         }
     }
 
-    // TODO: This probably does not need to be used
     private func updateStatusItem() {
         guard let statusItem = (NSApplication.shared.delegate as? AppDelegate)?.statusItemForPanel() else {
             return
