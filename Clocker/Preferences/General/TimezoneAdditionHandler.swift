@@ -119,7 +119,11 @@ class TimezoneAdditionHandler: NSObject {
 
     private func presentError(_ errorMessage: String) {
         guard let host = host else { return }
-        host.placeholderLabel.placeholderString = errorMessage == PreferencesConstants.offlineErrorMessage ? PreferencesConstants.noInternetConnectivityError : PreferencesConstants.tryAgainMessage
+        if errorMessage == PreferencesConstants.offlineErrorMessage {
+            host.placeholderLabel.placeholderString = PreferencesConstants.noInternetConnectivityError
+        } else {
+            host.placeholderLabel.placeholderString = PreferencesConstants.tryAgainMessage
+        }
         isActivityInProgress = false
     }
 
@@ -373,6 +377,74 @@ class TimezoneAdditionHandler: NSObject {
         isActivityInProgress = false
     }
 
+    private func metadata(for selection: TimezoneMetadata) -> (NSTimeZone, TimezoneMetadata) {
+        if selection.formattedName == "Anywhere on Earth" {
+            return (NSTimeZone(name: "GMT-1200") ?? NSTimeZone.default as NSTimeZone, selection)
+        } else if selection.formattedName == "UTC" {
+            return (NSTimeZone(name: "GMT") ?? NSTimeZone.default as NSTimeZone, selection)
+        } else {
+            return (selection.timezone, selection)
+        }
+    }
+}
+
+// MARK: - Close Panel, Filter & Selection
+
+extension TimezoneAdditionHandler {
+    func closePanel() {
+        guard let host = host else { return }
+        host.searchResultsDataSource.cleanupFilterArray()
+        host.searchResultsDataSource.timezoneFilteredArray = []
+        host.searchField.stringValue = UserDefaultKeys.emptyString
+        host.placeholderLabel.placeholderString = UserDefaultKeys.emptyString
+        host.searchField.placeholderString = NSLocalizedString("Search Field Placeholder",
+                                                               comment: "Search Field Placeholder")
+
+        reloadSearchResults()
+
+        host.timezonePanel.close()
+        isActivityInProgress = false
+        host.addTimezoneButton.state = .off
+
+        host.availableTimezoneTableView.isHidden = false
+    }
+
+    func filterArray() {
+        guard let host = host else { return }
+        host.searchResultsDataSource.cleanupFilterArray()
+
+        if host.searchField.stringValue.count > 50 {
+            isActivityInProgress = false
+            reloadSearchResults()
+            host.timezonePanel.contentView?.makeToast(PreferencesConstants.maxCharactersAllowed)
+            return
+        }
+
+        if host.searchField.stringValue.isEmpty == false {
+            searchTask?.cancel()
+            NSObject.cancelPreviousPerformRequests(withTarget: self)
+            perform(#selector(search), with: nil, afterDelay: 0.5)
+        } else {
+            resetSearchView()
+        }
+
+        reloadSearchResults()
+    }
+
+    func selectNewlyInsertedTimezone() {
+        guard let host = host else { return }
+        if host.timezoneTableView.numberOfRows > 6 {
+            host.timezoneTableView.scrollRowToVisible(host.timezoneTableView.numberOfRows - 1)
+        }
+
+        let indexSet = IndexSet(integer: IndexSet.Element(host.timezoneTableView.numberOfRows - 1))
+        host.timezoneTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+    }
+}
+
+// MARK: - Coordinate Backfill
+
+extension TimezoneAdditionHandler {
     /// Geocode coordinates for a timezone entry and update the stored data.
     /// Extracts city name from IANA timezone ID (e.g. "America/New_York" → "New York").
     static func backfillCoordinates(for timezoneID: String, in store: DataStoring) async {
@@ -403,71 +475,5 @@ class TimezoneAdditionHandler: NSObject {
         } catch {
             Logger.info("Failed to geocode coordinates for \(timezoneID): \(error.localizedDescription)")
         }
-    }
-
-    private func metadata(for selection: TimezoneMetadata) -> (NSTimeZone, TimezoneMetadata) {
-        if selection.formattedName == "Anywhere on Earth" {
-            return (NSTimeZone(name: "GMT-1200") ?? NSTimeZone.default as NSTimeZone, selection)
-        } else if selection.formattedName == "UTC" {
-            return (NSTimeZone(name: "GMT") ?? NSTimeZone.default as NSTimeZone, selection)
-        } else {
-            return (selection.timezone, selection)
-        }
-    }
-
-    // MARK: - Close Panel
-
-    func closePanel() {
-        guard let host = host else { return }
-        host.searchResultsDataSource.cleanupFilterArray()
-        host.searchResultsDataSource.timezoneFilteredArray = []
-        host.searchField.stringValue = UserDefaultKeys.emptyString
-        host.placeholderLabel.placeholderString = UserDefaultKeys.emptyString
-        host.searchField.placeholderString = NSLocalizedString("Search Field Placeholder",
-                                                               comment: "Search Field Placeholder")
-
-        reloadSearchResults()
-
-        host.timezonePanel.close()
-        isActivityInProgress = false
-        host.addTimezoneButton.state = .off
-
-        host.availableTimezoneTableView.isHidden = false
-    }
-
-    // MARK: - Filter
-
-    func filterArray() {
-        guard let host = host else { return }
-        host.searchResultsDataSource.cleanupFilterArray()
-
-        if host.searchField.stringValue.count > 50 {
-            isActivityInProgress = false
-            reloadSearchResults()
-            host.timezonePanel.contentView?.makeToast(PreferencesConstants.maxCharactersAllowed)
-            return
-        }
-
-        if host.searchField.stringValue.isEmpty == false {
-            searchTask?.cancel()
-            NSObject.cancelPreviousPerformRequests(withTarget: self)
-            perform(#selector(search), with: nil, afterDelay: 0.5)
-        } else {
-            resetSearchView()
-        }
-
-        reloadSearchResults()
-    }
-
-    // MARK: - Select Newly Inserted
-
-    func selectNewlyInsertedTimezone() {
-        guard let host = host else { return }
-        if host.timezoneTableView.numberOfRows > 6 {
-            host.timezoneTableView.scrollRowToVisible(host.timezoneTableView.numberOfRows - 1)
-        }
-
-        let indexSet = IndexSet(integer: IndexSet.Element(host.timezoneTableView.numberOfRows - 1))
-        host.timezoneTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
     }
 }
