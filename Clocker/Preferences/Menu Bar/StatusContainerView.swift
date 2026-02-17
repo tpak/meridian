@@ -41,7 +41,7 @@ protocol StatusItemViewConforming {
     /// Mark that we need to refresh the text we're showing in the menubar
     func statusItemViewSetNeedsDisplay()
 
-    /// Status Item Views can be used to represent different information (like time in location). Distinguish between different status items view through this identifier
+    /// Distinguish between different status items view through this identifier
     func statusItemViewIdentifier() -> String
 }
 
@@ -196,13 +196,12 @@ class StatusContainerView: NSView {
         if newWidth != frame.size.width, newWidth > frame.size.width + 2.0 {
             Logger.info("Correcting our width to \(newWidth) and the previous width was \(frame.size.width)")
             // NSView move animation
-            NSAnimationContext.runAnimationGroup({ context in
+            NSAnimationContext.runAnimationGroup { context in
                 context.duration = 0.2
                 context.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
                 let newFrame = CGRect(x: frame.origin.x, y: frame.origin.y, width: newWidth, height: frame.size.height)
-                // The view will animate to the new origin
                 self.animator().frame = newFrame
-            }) {}
+            }
         }
     }
 }

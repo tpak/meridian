@@ -24,8 +24,36 @@ class AppearanceViewController: ParentViewController {
 
         informationLabel.stringValue = "Favourite a timezone to enable menubar display options.".localized()
         informationLabel.textColor = NSColor.secondaryLabelColor
+        informationLabel.setAccessibilityIdentifier("InformationLabel")
 
-        let chosenFormat = dataStore.timezoneFormat().intValue
+        setupTimeFormatPopup()
+
+        sliderDayRangePopup.removeAllItems()
+        sliderDayRangePopup.addItems(withTitles: (1...7).map { $0 == 1 ? "1 day" : "\($0) days" })
+
+        setup()
+
+        previewTimezones = [TimezoneData(with: ["customLabel": "San Francisco",
+                                                "formattedAddress": "San Francisco",
+                                                "place_id": "TestIdentifier",
+                                                "timezoneID": "America/Los_Angeles",
+                                                "nextUpdate": "",
+                                                "note": "Your individual note about this location goes here!",
+                                                "latitude": "37.7749295",
+                                                "longitude": "-122.4194155"])]
+
+        appearanceTab.selectTabViewItem(at: 0)
+
+        previewPanelTableView.dataSource = self
+        previewPanelTableView.delegate = self
+        previewPanelTableView.reloadData()
+        previewPanelTableView.selectionHighlightStyle = .none
+        previewPanelTableView.enclosingScrollView?.hasVerticalScroller = false
+        previewPanelTableView.enclosingScrollView?.wantsLayer = true
+        previewPanelTableView.enclosingScrollView?.layer?.cornerRadius = 12
+    }
+
+    private func setupTimeFormatPopup() {
         let supportedTimeFormats = ["h:mm a (7:08 PM)",
                                     "HH:mm (19:08)",
                                     "-- With Seconds --",
@@ -40,49 +68,12 @@ class AppearanceViewController: ParentViewController {
                                     "Epoch Time"]
         timeFormat.removeAllItems()
         timeFormat.addItems(withTitles: supportedTimeFormats)
-
         timeFormat.item(at: 2)?.isEnabled = false
         timeFormat.item(at: 5)?.isEnabled = false
         timeFormat.item(at: 8)?.isEnabled = false
         timeFormat.autoenablesItems = false
-        timeFormat.selectItem(at: chosenFormat)
+        timeFormat.selectItem(at: dataStore.timezoneFormat().intValue)
         timeFormat.setAccessibilityIdentifier("TimeFormatPopover")
-
-        informationLabel.setAccessibilityIdentifier("InformationLabel")
-
-        sliderDayRangePopup.removeAllItems()
-        sliderDayRangePopup.addItems(withTitles: [
-            "1 day",
-            "2 days",
-            "3 days",
-            "4 days",
-            "5 days",
-            "6 days",
-            "7 days"
-        ])
-
-        setup()
-
-        previewTimezones = [TimezoneData(with: ["customLabel": "San Francisco",
-                                                "formattedAddress": "San Francisco",
-                                                "place_id": "TestIdentifier",
-                                                "timezoneID": "America/Los_Angeles",
-                                                "nextUpdate": "",
-                                                "note": "Your individual note about this location goes here!",
-                                                "latitude": "37.7749295",
-                                                "longitude": "-122.4194155"])]
-
-        // Ensure the more beautiful tab is selected
-        appearanceTab.selectTabViewItem(at: 0)
-
-        // Setup Preview Pane
-        previewPanelTableView.dataSource = self
-        previewPanelTableView.delegate = self
-        previewPanelTableView.reloadData()
-        previewPanelTableView.selectionHighlightStyle = .none
-        previewPanelTableView.enclosingScrollView?.hasVerticalScroller = false
-        previewPanelTableView.enclosingScrollView?.wantsLayer = true
-        previewPanelTableView.enclosingScrollView?.layer?.cornerRadius = 12
     }
 
     override func viewWillAppear() {
@@ -307,7 +298,8 @@ extension AppearanceViewController: NSTableViewDataSource, NSTableViewDelegate {
             return nil
         }
 
-        guard let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "previewTimezoneCell"), owner: self) as? TimezoneCellView else {
+        let cellID = NSUserInterfaceItemIdentifier(rawValue: "previewTimezoneCell")
+        guard let cellView = tableView.makeView(withIdentifier: cellID, owner: self) as? TimezoneCellView else {
             Logger.info("Unable to create tableviewcell")
             return NSView()
         }

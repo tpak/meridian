@@ -165,7 +165,8 @@ open class Repeater: Equatable {
     ///   - tolerance: tolerance of the timer, 0 is default.
     ///   - queue: queue in which the timer should be executed; if `nil` a new queue is created automatically.
     ///   - observer: observer
-    public init(interval: Interval, mode: Mode = .infinite, tolerance: DispatchTimeInterval = .nanoseconds(3), queue: DispatchQueue? = nil, observer: @escaping Observer) {
+    public init(interval: Interval, mode: Mode = .infinite, tolerance: DispatchTimeInterval = .nanoseconds(3),
+                queue: DispatchQueue? = nil, observer: @escaping Observer) {
         self.mode = mode
         self.interval = interval
         self.tolerance = tolerance

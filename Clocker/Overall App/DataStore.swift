@@ -123,19 +123,13 @@ class DataStore: NSObject, DataStoring {
     func shouldDisplay(_ type: ViewType) -> Bool {
         switch type {
         case .futureSlider:
-            guard let value = retrieve(key: UserDefaultKeys.displayFutureSliderKey) as? NSNumber else {
-                return false
-            }
-            return value != 1 // Display slider is 0 and Hide is 1.
+            return (retrieve(key: UserDefaultKeys.displayFutureSliderKey) as? NSNumber).map { $0 != 1 } ?? false
         case .twelveHour:
             return shouldDisplayHelper(UserDefaultKeys.selectedTimeZoneFormatKey)
         case .sunrise:
             return shouldDisplayHelper(UserDefaultKeys.sunriseSunsetTime)
         case .showAppInForeground:
-            guard let value = retrieve(key: UserDefaultKeys.showAppInForeground) as? NSNumber else {
-                return false
-            }
-            return value.isEqual(to: NSNumber(value: 1))
+            return (retrieve(key: UserDefaultKeys.showAppInForeground) as? NSNumber)?.isEqual(to: NSNumber(value: 1)) ?? false
         case .dateInMenubar:
             return shouldDisplayNonObjectHelper(UserDefaultKeys.showDateInMenu)
         case .placeInMenubar:
@@ -145,11 +139,7 @@ class DataStore: NSObject, DataStoring {
         case .appDisplayOptions:
             return shouldDisplayHelper(UserDefaultKeys.appDisplayOptions)
         case .menubarCompactMode:
-            guard let value = retrieve(key: UserDefaultKeys.menubarCompactMode) as? Int else {
-                return false
-            }
-
-            return value == 0
+            return (retrieve(key: UserDefaultKeys.menubarCompactMode) as? Int) == 0
         }
     }
 

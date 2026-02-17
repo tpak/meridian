@@ -309,48 +309,33 @@ extension TimezoneDataOperations {
         }
 
         if (local as NSDate).earlierDate(timezoneDate) == local {
-            var replaceAgo = UserDefaultKeys.emptyString
-            replaceAgo.append(", +")
             let agoString = timezoneDate.timeAgo(since: local, numericDates: true)
-            replaceAgo.append(agoString.replacingOccurrences(of: "ago", with: UserDefaultKeys.emptyString))
-
-            if !TimezoneDataOperations.currentLocale.contains("en") {
-                if TimezoneDataOperations.currentLocale.contains("de") {
-                    replaceAgo = replaceAgo.replacingOccurrences(of: "Vor ", with: UserDefaultKeys.emptyString)
-                    replaceAgo.append(" vor")
-                }
-
-                return replaceAgo
-            }
-
-            let minuteDifference = calculateTimeDifference(with: local as NSDate, timezoneDate: timezoneDate as NSDate)
-            if minuteDifference != 0 {
-                replaceAgo.append("\(minuteDifference)m")
-            }
-            return replaceAgo.lowercased()
+            return formatOffset(prefix: ", +", agoText: agoString, deSuffix: " vor",
+                                local: local as NSDate, timezoneDate: timezoneDate as NSDate)
         }
 
-        var replaceAgo = UserDefaultKeys.emptyString
-        replaceAgo.append(", -")
+        return formatOffset(prefix: ", -", agoText: timeDifference, deSuffix: " zurück",
+                            local: local as NSDate, timezoneDate: timezoneDate as NSDate)
+    }
 
-        let replaced = timeDifference.replacingOccurrences(of: "ago", with: UserDefaultKeys.emptyString)
-        replaceAgo.append(replaced)
+    private func formatOffset(prefix: String, agoText: String, deSuffix: String,
+                              local: NSDate, timezoneDate: NSDate) -> String {
+        var result = prefix
+        result.append(agoText.replacingOccurrences(of: "ago", with: UserDefaultKeys.emptyString))
 
         if !TimezoneDataOperations.currentLocale.contains("en") {
             if TimezoneDataOperations.currentLocale.contains("de") {
-                replaceAgo = replaceAgo.replacingOccurrences(of: "Vor ", with: UserDefaultKeys.emptyString)
-                replaceAgo.append(" zurück")
+                result = result.replacingOccurrences(of: "Vor ", with: UserDefaultKeys.emptyString)
+                result.append(deSuffix)
             }
-
-            return replaceAgo
+            return result
         }
 
-        let minuteDifference = calculateTimeDifference(with: local as NSDate, timezoneDate: timezoneDate as NSDate)
-
+        let minuteDifference = calculateTimeDifference(with: local, timezoneDate: timezoneDate)
         if minuteDifference != 0 {
-            replaceAgo.append("\(minuteDifference)m")
+            result.append("\(minuteDifference)m")
         }
-        return replaceAgo.lowercased()
+        return result.lowercased()
     }
 
     private func initializeSunriseSunset(with sliderValue: Int) {

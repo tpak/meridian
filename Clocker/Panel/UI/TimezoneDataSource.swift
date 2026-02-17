@@ -49,7 +49,8 @@ extension TimezoneDataSource: NSTableViewDataSource, NSTableViewDelegate {
             return nil
         }
 
-        guard let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "timeZoneCell"), owner: self) as? TimezoneCellView else {
+        let cellID = NSUserInterfaceItemIdentifier(rawValue: "timeZoneCell")
+        guard let cellView = tableView.makeView(withIdentifier: cellID, owner: self) as? TimezoneCellView else {
             Logger.info("Unable to create tableviewcell")
             return NSView()
         }

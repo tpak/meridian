@@ -320,6 +320,63 @@ class ParentPanelController: NSWindowController {
         }
     }
 
+    private lazy var menubarTitleHandler = MenubarTitleProvider(with: dataStore)
+
+    private static let attributes: [NSAttributedString.Key: Any] = [
+        .font: NSFont.monospacedDigitSystemFont(ofSize: 13.0, weight: .regular),
+        .baselineOffset: 0.1
+    ]
+
+    @IBAction func openPreferences(_: NSButton) {
+        updatePopoverDisplayState()
+        openPreferencesWindow()
+    }
+
+    @IBAction func showMoreOptions(_ sender: NSButton) {
+        guard let event = NSApp.currentEvent else { return }
+        let menu = PanelContextMenu.build(target: self)
+        NSMenu.popUpContextMenu(menu,
+                                with: event,
+                                for: sender)
+    }
+
+    @discardableResult
+    func showNotesPopover(forRow row: Int, relativeTo _: NSRect, andButton target: NSButton!) -> Bool {
+        let defaults = dataStore.timezones()
+
+        guard let popover = additionalOptionsPopover else {
+            Logger.info("Data was unexpectedly nil")
+            return false
+        }
+
+        var correctRow = row
+
+        target.image = NSImage(systemSymbolName: "ellipsis.circle.fill", accessibilityDescription: "Options")!
+
+        popover.animates = true
+
+        // Found a case where row number was 8 but we had only 2 timezones
+        if correctRow >= defaults.count {
+            correctRow = defaults.count - 1
+        }
+
+        return true
+    }
+
+    func dismissRowActions() {
+        mainTableView.rowActionsVisible = false
+    }
+
+    // If the popover is displayed, close it
+    // Called when preferences are going to be displayed!
+    func updatePopoverDisplayState() {
+        additionalOptionsPopover = nil
+    }
+}
+
+// MARK: - Data & Table Updates
+
+extension ParentPanelController {
     func updateDefaultPreferences() {
         PerfLogger.startMarker("Update Default Preferences")
 
@@ -362,11 +419,6 @@ class ParentPanelController: NSWindowController {
         datasource?.setSlider(value: sliderValue)
     }
 
-    @IBAction func openPreferences(_: NSButton) {
-        updatePopoverDisplayState()
-        openPreferencesWindow()
-    }
-
     func deleteTimezone(at row: Int) {
         var defaults = defaultPreferences
 
@@ -382,23 +434,22 @@ class ParentPanelController: NSWindowController {
         Logger.log(object: nil, for: "Deleted Timezone Through Swipe")
     }
 
-    private lazy var menubarTitleHandler = MenubarTitleProvider(with: dataStore)
-
-    private static let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: NSFont.monospacedDigitSystemFont(ofSize: 13.0, weight: NSFont.Weight.regular),
-                                                                    NSAttributedString.Key.baselineOffset: 0.1]
+    private func updateMenubarDisplay() {
+        guard let status = (NSApplication.shared.delegate as? AppDelegate)?.statusItemForPanel() else { return }
+        if dataStore.shouldDisplay(.menubarCompactMode) {
+            status.updateCompactMenubar()
+        } else {
+            let title = menubarTitleHandler.titleForMenubar() ?? ""
+            status.statusItem.button?.attributedTitle = NSAttributedString(
+                string: title,
+                attributes: ParentPanelController.attributes
+            )
+        }
+    }
 
     @objc func updateTime() {
-        let menubarCount = dataStore.menubarTimezones()?.count ?? 0
-
-        if menubarCount >= 1 {
-            if let status = (NSApplication.shared.delegate as? AppDelegate)?.statusItemForPanel() {
-                if dataStore.shouldDisplay(.menubarCompactMode) {
-                    status.updateCompactMenubar()
-                } else {
-                    status.statusItem.button?.attributedTitle = NSAttributedString(string: menubarTitleHandler.titleForMenubar() ?? "",
-                                                                                   attributes: ParentPanelController.attributes)
-                }
-            }
+        if (dataStore.menubarTimezones()?.count ?? 0) >= 1 {
+            updateMenubarDisplay()
         }
 
         let preferences = dataStore.timezones()
@@ -447,48 +498,17 @@ class ParentPanelController: NSWindowController {
         }
     }
 
-    @discardableResult
-    func showNotesPopover(forRow row: Int, relativeTo _: NSRect, andButton target: NSButton!) -> Bool {
-        let defaults = dataStore.timezones()
-
-        guard let popover = additionalOptionsPopover else {
-            Logger.info("Data was unexpectedly nil")
-            return false
-        }
-
-        var correctRow = row
-
-        target.image = NSImage(systemSymbolName: "ellipsis.circle.fill", accessibilityDescription: "Options")!
-
-        popover.animates = true
-
-        // Found a case where row number was 8 but we had only 2 timezones
-        if correctRow >= defaults.count {
-            correctRow = defaults.count - 1
-        }
-
-        return true
-    }
-
-    func dismissRowActions() {
-        mainTableView.rowActionsVisible = false
-    }
-
     @objc func updateTableContent() {
         mainTableView.reloadData()
     }
+}
 
+// MARK: - Actions
+
+extension ParentPanelController {
     @objc func openPreferencesWindow() {
         oneWindow?.openGeneralPane()
     }
-
-    // If the popover is displayed, close it
-    // Called when preferences are going to be displayed!
-    func updatePopoverDisplayState() {
-        additionalOptionsPopover = nil
-    }
-
-    // MARK: Date Picker + Slider
 
     func minutes(from date: Date, other: Date) -> Int {
         return Calendar.current.dateComponents([.minute], from: date, to: other).minute ?? 0
@@ -518,14 +538,6 @@ class ParentPanelController: NSWindowController {
         guard let sourceURL = URL(string: AboutUsConstants.FAQsLink) else { return }
 
         NSWorkspace.shared.open(sourceURL)
-    }
-
-    @IBAction func showMoreOptions(_ sender: NSButton) {
-        guard let event = NSApp.currentEvent else { return }
-        let menu = PanelContextMenu.build(target: self)
-        NSMenu.popUpContextMenu(menu,
-                                with: event,
-                                for: sender)
     }
 }
 
