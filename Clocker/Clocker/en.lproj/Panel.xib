@@ -22,8 +22,7 @@
                 <outlet property="scrollViewHeight" destination="dff-DX-W1o" id="vYe-lb-h9x"/>
                 <outlet property="shutdownButton" destination="1cR-pI-osG" id="ZFz-9l-yNi"/>
                 <outlet property="stackView" destination="OZA-6o-SbE" id="lIT-4b-8WZ"/>
-                <outlet property="upcomingEventCollectionView" destination="Tp2-pl-yIm" id="gLE-03-1cZ"/>
-                <outlet property="upcomingEventContainerView" destination="Akn-cR-W4G" id="1cy-z6-392"/>
+
                 <outlet property="window" destination="5" id="7"/>
             </connections>
         </customObject>
@@ -369,46 +368,6 @@
                                 </constraints>
                                 <accessibility identifier="Modern Slider Container"/>
                             </customView>
-                            <customView wantsLayer="YES" focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="Akn-cR-W4G" userLabel="Upcoming Event View">
-                                <rect key="frame" x="0.0" y="40" width="379" height="75"/>
-                                <subviews>
-                                    <scrollView wantsLayer="YES" focusRingType="none" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5BT-DM-xru">
-                                        <rect key="frame" x="0.0" y="0.0" width="379" height="75"/>
-                                        <clipView key="contentView" drawsBackground="NO" id="QHw-sR-BYe">
-                                            <rect key="frame" x="0.0" y="0.0" width="379" height="64"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <subviews>
-                                                <collectionView id="Tp2-pl-yIm">
-                                                    <rect key="frame" x="0.0" y="0.0" width="379" height="64"/>
-                                                    <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" scrollDirection="horizontal" id="g4p-GT-v9Y">
-                                                        <size key="itemSize" width="50" height="50"/>
-                                                        <edgeInsets key="sectionInset" left="10" right="5" top="0.0" bottom="0.0"/>
-                                                    </collectionViewFlowLayout>
-                                                    <color key="primaryBackgroundColor" red="0.070588235294117646" green="0.95686274509803915" blue="0.10980392156862745" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </collectionView>
-                                            </subviews>
-                                            <color key="backgroundColor" name="Accent Color"/>
-                                        </clipView>
-                                        <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="Akw-Iw-iVY" customClass="ThinScroller" customModule="Meridian" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="64" width="379" height="11"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </scroller>
-                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="MXo-gV-Bdf">
-                                            <rect key="frame" x="-100" y="-100" width="16" height="75"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </scroller>
-                                    </scrollView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="JUg-Of-bAv"/>
-                                    <constraint firstAttribute="bottom" secondItem="5BT-DM-xru" secondAttribute="bottom" id="Kq0-6J-4rc"/>
-                                    <constraint firstItem="5BT-DM-xru" firstAttribute="leading" secondItem="Akn-cR-W4G" secondAttribute="leading" id="jCJ-jE-SF5"/>
-                                    <constraint firstAttribute="trailing" secondItem="5BT-DM-xru" secondAttribute="trailing" id="rIv-zJ-6DJ"/>
-                                    <constraint firstItem="5BT-DM-xru" firstAttribute="top" secondItem="Akn-cR-W4G" secondAttribute="top" id="zo2-i3-2uS"/>
-                                </constraints>
-                                <accessibility identifier="UpcomingEventView"/>
-                            </customView>
                             <customView wantsLayer="YES" focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="B8X-sx-cjT">
                                 <rect key="frame" x="0.0" y="0.0" width="379" height="40"/>
                                 <subviews>
@@ -473,9 +432,9 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="B8X-sx-cjT" firstAttribute="leading" secondItem="OZA-6o-SbE" secondAttribute="leading" id="AUz-54-0mE"/>
-                            <constraint firstItem="Akn-cR-W4G" firstAttribute="leading" secondItem="OZA-6o-SbE" secondAttribute="leading" id="JkM-LS-gBv"/>
+
                             <constraint firstItem="4Gd-Nv-fXr" firstAttribute="top" secondItem="OZA-6o-SbE" secondAttribute="top" id="UTb-I7-5P6"/>
-                            <constraint firstAttribute="trailing" secondItem="Akn-cR-W4G" secondAttribute="trailing" id="abe-WC-DiW"/>
+
                             <constraint firstAttribute="trailing" secondItem="4Gd-Nv-fXr" secondAttribute="trailing" id="bWd-Yi-wvZ"/>
                             <constraint firstAttribute="trailing" secondItem="B8X-sx-cjT" secondAttribute="trailing" id="rNr-k6-UcF"/>
                         </constraints>
@@ -483,10 +442,8 @@
                             <integer value="1000"/>
                             <integer value="1000"/>
                             <integer value="1000"/>
-                            <integer value="1000"/>
                         </visibilityPriorities>
                         <customSpacing>
-                            <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
@@ -513,8 +470,5 @@
         <image name="Float-White" width="15" height="13"/>
         <image name="PowerIcon" width="350" height="350"/>
         <image name="PowerIcon-White" width="350" height="350"/>
-        <namedColor name="Accent Color">
-            <color red="0.092000000178813934" green="0.0" blue="0.99900001287460327" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
     </resources>
 </document>

@@ -8,9 +8,8 @@ import CoreModelKit
 class TimezoneDataOperations: NSObject {
     private let dataObject: TimezoneData
     private let store: DataStoring
-    private lazy var nsCalendar = Calendar.autoupdatingCurrent
-    private static var gregorianCalendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)
-    private static var swiftyCalendar = Calendar(identifier: .gregorian)
+    private lazy var calendar = Calendar.autoupdatingCurrent
+    private static var gregorianCalendar = Calendar(identifier: .gregorian)
     private static let currentLocale = Locale.current.identifier
 
     init(with timezone: TimezoneData, store: DataStoring) {
@@ -22,14 +21,9 @@ class TimezoneDataOperations: NSObject {
 
 extension TimezoneDataOperations {
     func time(with sliderValue: Int) -> String {
-        guard let newDate = TimezoneDataOperations.gregorianCalendar?.date(byAdding: .minute,
-                                                                           value: sliderValue,
-                                                                           to: Date(),
-                                                                           options: .matchFirst)
-        else {
-            Logger.info("Data was unexpectedly nil")
-            return UserDefaultKeys.emptyString
-        }
+        let newDate = TimezoneDataOperations.gregorianCalendar.date(byAdding: .minute,
+                                                                     value: sliderValue,
+                                                                     to: Date()) ?? Date()
 
         if dataObject.timezoneFormat(store.timezoneFormat()) == DateFormat.epochTime {
             let timezone = TimeZone(identifier: dataObject.timezone())
@@ -52,14 +46,9 @@ extension TimezoneDataOperations {
             return nil
         }
 
-        guard let newDate = TimezoneDataOperations.gregorianCalendar?.date(byAdding: .minute,
-                                                                           value: sliderValue,
-                                                                           to: Date(),
-                                                                           options: .matchFirst)
-        else {
-            Logger.info("Data was unexpectedly nil")
-            return nil
-        }
+        let newDate = TimezoneDataOperations.gregorianCalendar.date(byAdding: .minute,
+                                                                     value: sliderValue,
+                                                                     to: Date()) ?? Date()
 
         let calendar = Calendar.autoupdatingCurrent
         let numberOfDays = nextDaylightSavingsTransition.days(from: newDate, calendar: calendar)
@@ -284,7 +273,7 @@ extension TimezoneDataOperations {
     public func timeDifference() -> String {
         let localFormatter = DateFormatterManager.localizedSimpleFormatter("d MMM yyyy HH:mm:ss")
         let local = localFormatter.date(from: localeDate(with: "d MMM yyyy HH:mm:ss"))!
-        let newDate = timezoneDateByAdding(minutesToAdd: 0, TimezoneDataOperations.swiftyCalendar)
+        let newDate = timezoneDateByAdding(minutesToAdd: 0, TimezoneDataOperations.gregorianCalendar)
 
         let dateFormatter = DateFormatterManager.localizedFormatter(with: "d MMM yyyy HH:mm:ss", for: dataObject.timezone())
 
@@ -346,7 +335,7 @@ extension TimezoneDataOperations {
     }
 
     private func initializeSunriseSunset(with sliderValue: Int) {
-        let currentDate = nsCalendar.date(byAdding: .minute,
+        let currentDate = calendar.date(byAdding: .minute,
                                           value: sliderValue,
                                           to: Date())
 
@@ -378,7 +367,7 @@ extension TimezoneDataOperations {
 
         // if timeAgo < 24h => compare DateTime else compare Date only
         let upToHours: Set<Calendar.Component> = [.second, .minute, .hour]
-        let difference = nsCalendar.dateComponents(upToHours, from: earliest, to: latest as Date)
+        let difference = calendar.dateComponents(upToHours, from: earliest, to: latest as Date)
         return difference.minute!
     }
 
@@ -405,12 +394,10 @@ extension TimezoneDataOperations {
     }
 
     func todaysDate(with sliderValue: Int, locale: Locale = Locale(identifier: "en-US")) -> String {
-        let newDate = TimezoneDataOperations.gregorianCalendar?.date(byAdding: .minute,
-                                                                     value: sliderValue,
-                                                                     to: Date(),
-                                                                     options: .matchFirst)
-
-        guard let newDate = newDate else { return "" }
+        guard let newDate = TimezoneDataOperations.gregorianCalendar.date(byAdding: .minute,
+                                                                         value: sliderValue,
+                                                                         to: Date())
+        else { return "" }
         let date = newDate.formatter(with: "MMM d", timeZone: dataObject.timezone(), locale: locale)
 
         return date
