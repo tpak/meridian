@@ -401,12 +401,11 @@ class ClockerUnitTests: XCTestCase {
     func testTimeWithAllLocales() {
         let dataObject = TimezoneData(with: mumbai)
 
-        let cal = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)
+        let cal = Calendar(identifier: .gregorian)
 
-        guard let newDate = cal?.date(byAdding: .minute,
-                                      value: 0,
-                                      to: Date(),
-                                      options: .matchFirst)
+        guard let newDate = cal.date(byAdding: .minute,
+                                     value: 0,
+                                     to: Date())
         else {
             XCTFail("Unable to add dates!")
             return

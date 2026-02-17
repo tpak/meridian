@@ -27,7 +27,7 @@ class StatusItemHandler: NSObject {
 
     private var statusContainerView: StatusContainerView?
 
-    private var nsCalendar = Calendar.autoupdatingCurrent
+    private var calendar = Calendar.autoupdatingCurrent
 
     private lazy var units: Set<Calendar.Component> = Set([.era, .year, .month, .day, .hour, .minute])
 
@@ -231,7 +231,7 @@ class StatusItemHandler: NSObject {
             units.insert(.second)
         }
 
-        var components = nsCalendar.dateComponents(units, from: Date())
+        var components = calendar.dateComponents(units, from: Date())
 
         // We want to update every second only when there's a timezone present!
         if shouldDisplaySeconds, let seconds = components.second, let favourites = menubarFavourites, !favourites.isEmpty {
@@ -243,7 +243,7 @@ class StatusItemHandler: NSObject {
             return nil
         }
 
-        guard let fireDate = nsCalendar.date(from: components) else {
+        guard let fireDate = calendar.date(from: components) else {
             Logger.info("Unable to form Fire Date")
             return nil
         }

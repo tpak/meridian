@@ -97,7 +97,7 @@
 		C264A0C520B897D800CCD875 /* PreferencesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C264A0C420B897D800CCD875 /* PreferencesTest.swift */; };
 		C264A0C820B898D600CCD875 /* PanelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C264A0C720B898D600CCD875 /* PanelTests.swift */; };
 		C2CCCD8220619C4C00F2DFC2 /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCCD8120619C4C00F2DFC2 /* LocationController.swift */; };
-		C2D30A8A210245C6000BFAEE /* ReviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D30A89210245C6000BFAEE /* ReviewTests.swift */; };
+
 		C2F7821B20B70E3700B6CD07 /* AboutUsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F7821A20B70E3700B6CD07 /* AboutUsTests.swift */; };
 		DD4F7C0913C30F9F00825C6E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
 		C4A3D93099C54195A921944E /* PanelContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527EBAA6C18049AE931DDE49 /* PanelContextMenu.swift */; };
@@ -230,7 +230,7 @@
 		C2BFE3E32049F82300825BE5 /* ClockerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClockerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BFE3E72049F82300825BE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2CCCD8120619C4C00F2DFC2 /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationController.swift; path = Clocker/LocationController.swift; sourceTree = "<group>"; };
-		C2D30A89210245C6000BFAEE /* ReviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTests.swift; sourceTree = "<group>"; };
+
 		C2F7821A20B70E3700B6CD07 /* AboutUsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsTests.swift; sourceTree = "<group>"; };
 		DD4F7C0413C30F9F00825C6E /* Clocker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clocker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4F7C0813C30F9F00825C6E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -547,7 +547,7 @@
 				C2F7821A20B70E3700B6CD07 /* AboutUsTests.swift */,
 				C264A0C420B897D800CCD875 /* PreferencesTest.swift */,
 				C264A0C720B898D600CCD875 /* PanelTests.swift */,
-				C2D30A89210245C6000BFAEE /* ReviewTests.swift */,
+
 				C22F3D7F2107778A0001D5E1 /* ShortcutTests.swift */,
 			);
 			path = ClockerUITests;
@@ -789,7 +789,7 @@
 				C264A0C820B898D600CCD875 /* PanelTests.swift in Sources */,
 				C264A0C520B897D800CCD875 /* PreferencesTest.swift in Sources */,
 				C22F3D802107778A0001D5E1 /* ShortcutTests.swift in Sources */,
-				C2D30A8A210245C6000BFAEE /* ReviewTests.swift in Sources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -802,6 +802,9 @@
 
 				35C36F6F2259E185002FA5C6 /* CustomSliderCell.swift in Sources */,
 				35C36F13225961DA002FA5C6 /* Date+TimeAgo.swift in Sources */,
+				35C36F14225961DA002FA5C6 /* Integer+DateTools.swift in Sources */,
+				35C36F15225961DA002FA5C6 /* TimeChunk.swift in Sources */,
+				35C36F19225961DA002FA5C6 /* Enums.swift in Sources */,
 				35C36F452259D892002FA5C6 /* Strings.swift in Sources */,
 				357391872507277500D30819 /* TimeMarkerViewItem.swift in Sources */,
 				35C36F782259E1D0002FA5C6 /* Foundation + Additions.swift in Sources */,
@@ -809,7 +812,7 @@
 				35C36F4F2259D981002FA5C6 /* AppDefaults.swift in Sources */,
 				35C36F5D2259DD96002FA5C6 /* TimezoneDataOperations.swift in Sources */,
 				3508CC942599FFEC000E3530 /* MenubarTitleProvider.swift in Sources */,
-				35C36F14225961DA002FA5C6 /* Integer+DateTools.swift in Sources */,
+
 				35C36F792259E1D0002FA5C6 /* String + Additions.swift in Sources */,
 				35C36F422259D892002FA5C6 /* Timer.swift in Sources */,
 				35C36F772259E1D0002FA5C6 /* AppKit + Additions.swift in Sources */,
@@ -823,7 +826,7 @@
 				35C36F2C2259D6FA002FA5C6 /* PanelController.swift in Sources */,
 				35C36F10225961DA002FA5C6 /* Constants.swift in Sources */,
 				35C36FA42259EEC2002FA5C6 /* AppDelegate.swift in Sources */,
-				35C36F19225961DA002FA5C6 /* Enums.swift in Sources */,
+
 				35C36F5A2259DD8A002FA5C6 /* CustomPanel.swift in Sources */,
 				35C36F712259E185002FA5C6 /* NoTimezoneView.swift in Sources */,
 				35C36F2B2259D6FA002FA5C6 /* ParentPanelController.swift in Sources */,
@@ -850,7 +853,7 @@
 				35C36F4E2259D981002FA5C6 /* DateFormatterManager.swift in Sources */,
 				35C36EFB2259616B002FA5C6 /* Solar.swift in Sources */,
 				35C36F592259DD8A002FA5C6 /* TimezoneCellView.swift in Sources */,
-				35C36F15225961DA002FA5C6 /* TimeChunk.swift in Sources */,
+
 				35C36F482259D892002FA5C6 /* NetworkManager.swift in Sources */,
 				A1B2C3D4E5F60002SEARCH02 /* TimezoneSearchService.swift in Sources */,
 				3579765E2680208C009DDA6E /* ParentPanelController+ModernSlider.swift in Sources */,

@@ -212,7 +212,6 @@ class PreferencesViewController: ParentViewController {
         }
     }
 
-
     private func showNoTimezoneState() {
         if let zeroView = notimezoneView {
             notimezoneView?.wantsLayer = true
@@ -425,7 +424,6 @@ extension PreferencesViewController {
         refreshMainTable()
     }
 }
-
 
 // Helpers
 extension PreferencesViewController {

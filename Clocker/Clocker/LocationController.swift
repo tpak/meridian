@@ -5,7 +5,7 @@ import CoreLocation
 import CoreLoggerKit
 import CoreModelKit
 
-protocol LocationControllerDelegate: NSObject {
+protocol LocationControllerDelegate: AnyObject {
     func didChangeAuthorizationStatus()
 }
 
