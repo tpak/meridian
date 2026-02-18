@@ -14,6 +14,7 @@
 		3508CCAA259A0027000E3530 /* StatusContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3508CCA9259A0027000E3530 /* StatusContainerView.swift */; };
 		35584D1827F0B019006E3EAD /* DateFormatterManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35584D1727F0B019006E3EAD /* DateFormatterManagerTests.swift */; };
 		35584D1A27F0B64E006E3EAD /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35584D1927F0B64E006E3EAD /* AppDelegateTests.swift */; };
+		BB00000100LOCCTRL00TEST1 /* LocationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000100LOCCTRL00TEST2 /* LocationControllerTests.swift */; };
 		AA00000400000002PREFSTB1 /* PreferencesStoryboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000400000001PREFSTB2 /* PreferencesStoryboardTests.swift */; };
 		35621CFC27F66C1900926D5C /* SearchDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35621CFB27F66C1900926D5C /* SearchDataSourceTests.swift */; };
 		357391872507277500D30819 /* TimeMarkerViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357391852507277500D30819 /* TimeMarkerViewItem.swift */; };
@@ -139,6 +140,7 @@
 		3508CCA9259A0027000E3530 /* StatusContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusContainerView.swift; sourceTree = "<group>"; };
 		35584D1727F0B019006E3EAD /* DateFormatterManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManagerTests.swift; sourceTree = "<group>"; };
 		35584D1927F0B64E006E3EAD /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
+		BB00000100LOCCTRL00TEST2 /* LocationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationControllerTests.swift; sourceTree = "<group>"; };
 		AA00000400000001PREFSTB2 /* PreferencesStoryboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesStoryboardTests.swift; sourceTree = "<group>"; };
 		35621CFB27F66C1900926D5C /* SearchDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataSourceTests.swift; sourceTree = "<group>"; };
 		357391852507277500D30819 /* TimeMarkerViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeMarkerViewItem.swift; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 				9A0385BA269E3434003B5E72 /* StandardMenubarHandlerTests.swift */,
 				35584D1727F0B019006E3EAD /* DateFormatterManagerTests.swift */,
 				35584D1927F0B64E006E3EAD /* AppDelegateTests.swift */,
+				BB00000100LOCCTRL00TEST2 /* LocationControllerTests.swift */,
 				35621CFB27F66C1900926D5C /* SearchDataSourceTests.swift */,
 				A1B2C3D400000002MOCK0002 /* MockURLProtocol.swift */,
 				A1B2C3D400000004NWTEST02 /* NetworkManagerTests.swift */,
@@ -766,6 +769,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35584D1A27F0B64E006E3EAD /* AppDelegateTests.swift in Sources */,
+				BB00000100LOCCTRL00TEST1 /* LocationControllerTests.swift in Sources */,
 				9A0385BB269E3434003B5E72 /* StandardMenubarHandlerTests.swift in Sources */,
 				35621CFC27F66C1900926D5C /* SearchDataSourceTests.swift in Sources */,
 				35584D1827F0B019006E3EAD /* DateFormatterManagerTests.swift in Sources */,
