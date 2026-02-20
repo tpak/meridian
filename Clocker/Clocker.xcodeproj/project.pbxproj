@@ -108,7 +108,7 @@
 		3DEE1440C33BTZSORTINGTST /* TimezoneSortingManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEE1440C33BTZSORTINGTST2 /* TimezoneSortingManagerTests.swift */; };
 		919639F9D2F3GLOBALSHRTCUT /* GlobalShortcutMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919639F9D2F3GLOBALSHRTCU2 /* GlobalShortcutMonitorTests.swift */; };
 		4726354D81E1NWMGRASYNCTS /* NetworkManagerAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4726354D81E1NWMGRASYNCT2 /* NetworkManagerAsyncTests.swift */; };
-		AA000011MODERN00000001 /* UpcomingEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000010MODERN00000001 /* UpcomingEventView.swift */; };
+		AA000011MODERN00000001 /* ModernSliderViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000010MODERN00000001 /* ModernSliderViews.swift */; };
 		AA000013STARTU00000001 /* StartupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000012STARTU00000001 /* StartupManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -244,7 +244,7 @@
 		3DEE1440C33BTZSORTINGTST2 /* TimezoneSortingManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezoneSortingManagerTests.swift; sourceTree = "<group>"; };
 		919639F9D2F3GLOBALSHRTCU2 /* GlobalShortcutMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalShortcutMonitorTests.swift; sourceTree = "<group>"; };
 		4726354D81E1NWMGRASYNCT2 /* NetworkManagerAsyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerAsyncTests.swift; sourceTree = "<group>"; };
-		AA000010MODERN00000001 /* UpcomingEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingEventView.swift; sourceTree = "<group>"; };
+		AA000010MODERN00000001 /* ModernSliderViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernSliderViews.swift; sourceTree = "<group>"; };
 		AA000012STARTU00000001 /* StartupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -352,7 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				3548C45B26BEEF2100AFB533 /* Upcoming Events */,
-				35C36F632259DE9D002FA5C6 /* Rate Controller */,
+				35C36F632259DE9D002FA5C6 /* Modern Slider */,
 				35C36F522259DC9B002FA5C6 /* UI */,
 				35C36F512259DC85002FA5C6 /* Data Layer */,
 				35C36F502259DC7C002FA5C6 /* Notes Popover */,
@@ -418,12 +418,12 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		35C36F632259DE9D002FA5C6 /* Rate Controller */ = {
+		35C36F632259DE9D002FA5C6 /* Modern Slider */ = {
 			isa = PBXGroup;
 			children = (
-				AA000010MODERN00000001 /* UpcomingEventView.swift */,
+				AA000010MODERN00000001 /* ModernSliderViews.swift */,
 			);
-			path = "Rate Controller";
+			path = "Modern Slider";
 			sourceTree = "<group>";
 		};
 		9A2000C61BFBCEF6002BFDE8 /* Utilties */ = {
@@ -862,7 +862,7 @@
 				A1B2C3D4E5F60002SEARCH02 /* TimezoneSearchService.swift in Sources */,
 				3579765E2680208C009DDA6E /* ParentPanelController+ModernSlider.swift in Sources */,
 				C4A3D93099C54195A921944E /* PanelContextMenu.swift in Sources */,
-				AA000011MODERN00000001 /* UpcomingEventView.swift in Sources */,
+				AA000011MODERN00000001 /* ModernSliderViews.swift in Sources */,
 				AA000013STARTU00000001 /* StartupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
