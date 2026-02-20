@@ -96,7 +96,7 @@ All in `Clocker/Dependencies/`.
 
 ## Test Notes
 
-- Unit tests in `Clocker/ClockerUnitTests/` (102 tests)
+- Unit tests in `Clocker/ClockerUnitTests/` (112 tests)
 - `MockDataStore` available for DI; `MockURLProtocol` for network mocking
 - UI tests in `Clocker/ClockerUITests/` (panel interactions)
 - `@testable import Meridian` (module follows PRODUCT_NAME)
