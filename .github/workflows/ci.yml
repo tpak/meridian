@@ -29,6 +29,13 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
+      - name: Cache DerivedData
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: deriveddata-${{ runner.os }}-${{ hashFiles('Clocker/Clocker.xcodeproj/project.pbxproj', 'Clocker/CoreLoggerKit/Package.swift', 'Clocker/CoreModelKit/Package.swift') }}
+          restore-keys: |
+            deriveddata-${{ runner.os }}-
 
       - name: SwiftLint
         run: |
@@ -59,6 +66,13 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
+      - name: Cache DerivedData
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: deriveddata-${{ runner.os }}-${{ hashFiles('Clocker/Clocker.xcodeproj/project.pbxproj', 'Clocker/CoreLoggerKit/Package.swift', 'Clocker/CoreModelKit/Package.swift') }}
+          restore-keys: |
+            deriveddata-${{ runner.os }}-
 
       - name: Run Unit Tests
         run: |
@@ -70,6 +84,7 @@ jobs:
             -only-testing:ClockerUnitTests \
             -disable-concurrent-destination-testing \
             -parallel-testing-enabled NO \
+            -enableCodeCoverage YES \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGN_IDENTITY= \
@@ -83,6 +98,7 @@ jobs:
         with:
           path: TestResults/unit-tests.xcresult
           show-passed-tests: false
+          show-code-coverage: true
 
       - name: Upload Test Results
         if: always()
