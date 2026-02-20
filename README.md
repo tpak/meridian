@@ -30,17 +30,56 @@ Download the latest release from [GitHub Releases](https://github.com/tpak/merid
 
 Requires macOS 13 (Ventura) or later.
 
-## Build from Source
+## Development
+
+Requires Xcode 15+ and macOS 13 (Ventura) or later.
 
 ```bash
 git clone https://github.com/tpak/meridian.git
 cd meridian
-
-xcodebuild -project Clocker/Clocker.xcodeproj -scheme Meridian -configuration Debug build \
-  CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY=
 ```
 
-Requires Xcode 15+.
+### Build & Run
+
+```bash
+make build        # Release build
+make debug        # Debug build
+make install      # Build + copy to /Applications
+make clean        # Remove build artifacts
+```
+
+### Test & Lint
+
+```bash
+make test         # Run all 112 unit tests
+make lint         # Run SwiftLint
+```
+
+### Bump Version
+
+Version is set via `MARKETING_VERSION` in the Xcode project (3 build configurations). To bump:
+
+1. Search for `MARKETING_VERSION` in `Clocker/Clocker.xcodeproj/project.pbxproj`
+2. Update all 3 occurrences to the new version
+3. Commit, tag, and create a [GitHub Release](https://github.com/tpak/meridian/releases)
+
+### Project Structure
+
+On-disk directories use `Clocker/` (renaming would break Xcode project refs). User-facing names — product, bundle, scheme — are all "Meridian".
+
+```
+Clocker/
+├── Clocker.xcodeproj       # Xcode project (scheme: Meridian)
+├── Clocker/                # Main app source
+│   ├── Overall App/        # AppDelegate, DataStore, extensions
+│   ├── Panel/              # Menu bar panel UI + data layer
+│   ├── Preferences/        # Settings (General, Appearance, About)
+│   └── Dependencies/       # Vendored: DateTools, Solar
+├── CoreLoggerKit/          # SPM package — OSLog wrapper
+├── CoreModelKit/           # SPM package — TimezoneData model
+├── ClockerUnitTests/       # 112 unit tests
+└── ClockerUITests/         # UI tests
+```
 
 ## Contributing
 
